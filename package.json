@@ -1,0 +1,25 @@
+{
+  "name": "hapj",
+  "version": "2.0.0",
+  "description": "hapj-a simple js framework based on jquery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.hapn.cc/static/hapj.git"
+  },
+  "keywords": [
+    "hapj",
+    "js",
+    "framework"
+  ],
+  "author": "ronnie",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^2.0.0",
+    "jshint": "^2.8.0"
+  }
+}
