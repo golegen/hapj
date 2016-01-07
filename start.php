@@ -26,8 +26,7 @@ if ($demeon) {
 }
 
 
-echo "请访问：http://{$url}/example/\n";
-chdir(dirname(__DIR__));
+echo "请访问：http://{$url}/\n";
 system($cmd);
 
 function help()

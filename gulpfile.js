@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
+var jsdoc = require('gulp-jsdoc');
 
 gulp.task('default', function() {
     console.log('hello,hapj!');
@@ -11,4 +12,11 @@ gulp.task('lint', function() {
         .pipe(jshint())
         .pipe(jshint.reporter('default', { verbose: true }));
         ;
-})
+});
+
+// 文档
+gulp.task('doc', function() {
+    return gulp.src('./src/')
+        .pipe(jsdoc('./doc/'))
+        ;
+});

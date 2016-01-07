@@ -19,6 +19,8 @@
   "license": "ISC",
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-csslint": "^0.2.0",
+    "gulp-jsdoc": "^0.1.5",
     "gulp-jshint": "^2.0.0",
     "jshint": "^2.8.0"
   }
