@@ -3,6 +3,7 @@
         $('*[data-hook]').each(function () {
             var name = this.getAttribute('data-hook'),
                 option = this.getAttribute('data-hook-option'),
+                selector = this.getAttribute('data-hook-selector'),
                 self = this;
             if (option) {
                 try {
@@ -24,10 +25,10 @@
                     if (n in option) {
                         opt = option[n];
                     }
-                    callHook(self, name, opt);
+                    callHook(self, selector, name, opt);
                 });
             } else {
-                callHook(self, name, option);
+                callHook(self, selector, name, option);
             }
         });
     });
@@ -35,17 +36,21 @@
     /**
      * 调用hook
      * @param elem
+     * @param selctor 选择器
      * @param name
      * @param option
      */
-    function callHook(elem, name, option) {
+    function callHook(elem, selector, name, option) {
+        var el = $(elem);
+        if (selector) {
+            el = el.find(selector);
+        }
         if (name in $.fn) {
-            var el = $(elem);
             el[name].call(el, option);
         } else {
             var f = H.hook.get('hook.' + name);
             if (f && typeof f == 'function') {
-                f.call(null, $(elem), option);
+                f.call(null, el, option);
             }
         }
     }

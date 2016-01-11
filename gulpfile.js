@@ -24,7 +24,7 @@ gulp.task('doc', function () {
 
 // 压缩代码
 gulp.task('min', function () {
-    var jsmin = require('gulp-jsmin');
+    var uglify = require('gulp-uglify');
     var rename = require('gulp-rename');
     var del = require('del');
     var cssmin = require('gulp-cssmin');
@@ -35,7 +35,7 @@ gulp.task('min', function () {
     gulp.src('./bower_components/jquery/dist/jquery.min.js')
         .pipe(gulp.dest('./dist/jquery/'));
     gulp.src('./bower_components/jquery.lazyload/jquery.lazyload.js')
-        .pipe(jsmin())
+        .pipe(uglify())
         .pipe(rename('jquery.lazyload.min.js'))
         .pipe(gulp.dest('./dist/jquery/'));
 
@@ -62,7 +62,7 @@ gulp.task('min', function () {
         .pipe(gulp.dest('./dist/highlightjs/css/'));
 
     return gulp.src('./src/*.js')
-        .pipe(jsmin())
+        .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
         }))
