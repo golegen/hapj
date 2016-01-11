@@ -1,19 +1,30 @@
 <?php include 'include/header.phtml' ?>
-    <script src="../src/hook/hapj.hook.js"></script>
-    <script src="../src/ui/hapj.ui.sortable.js"></script>
+    <script src="/src/ui/hapj.ui.sortable.js"></script>
     <h1>hook</h1>
 
-    <div id="hookDiv" data-hjhook="foo" data-hjoption="{
+    <h2>ui hook</h2>
+
+    <ul data-hook="sortable">
+        <li>line 1</li>
+        <li>line 2</li>
+        <li>line 3</li>
+    </ul>
+    <pre><code>
+        <ul data-hook="sortable">
+            <li>line 1</li>
+            <li>line 2</li>
+            <li>line 3</li>
+        </ul></code>
+    </pre>
+
+    <h2>custom hook</h2>
+    <div id="hookDiv" data-hook="foo" data-hook-option="{
         'foo':'bar'
     }">
         dddff
     </div>
 
-    <ul data-hjhook="sortable">
-        <li>line 1</li>
-        <li>line 2</li>
-        <li>line 3</li>
-    </ul>
+
 
 
     <script>

@@ -8,7 +8,7 @@
 由于npm网址被墙，需要改成使用国内镜像：
 
 ```shell
-echo "registry = https://registry.npm.taobao.org" >> ~/.npmrc
+npm config set registry http://registry.npm.taobao.org
 ```
 
 使用npm初始化

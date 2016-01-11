@@ -1,4 +1,7 @@
 <?php
+$examples = array(
+    array('name' => 'Lazyload', 'url' => './ui/lazyload.php'),
+);
 ?>
 <!doctype html>
 <html lang="zh-cn">
@@ -11,8 +14,13 @@
 </head>
 <body>
 <div class="container">
-<h1>Hapj Example List</h1>
+    <h1>Hapj Example List</h1>
 
+    <ul>
+        <?php foreach ($examples as $ex): ?>
+        <li><a href="<?= $ex['url'] ?>"><?= $ex['name']?></a></li>
+        <?php endforeach; ?>
+    </ul>
 </div>
 </body>
 </html>

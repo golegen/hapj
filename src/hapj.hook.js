@@ -1,9 +1,21 @@
 !function (H, $) {
     $(function () {
-        $('*[data-hjhook]').each(function () {
-            var name = this.getAttribute('data-hjhook'),
-                option = eval('(' + this.getAttribute('data-hjoption') + ')'),
+        $('*[data-hook]').each(function () {
+            var name = this.getAttribute('data-hook'),
+                option = this.getAttribute('data-hook-option'),
                 self = this;
+            if (option) {
+                try {
+                    option = eval('(' + option + ')');
+                } catch (ex) {
+                    option = {};
+                }
+            } else {
+                var hookId = this.getAttribute('data-hook-id');
+                if (hookId) {
+                    option = H.conf.get('hook.' + hookId);
+                }
+            }
             var pos = name.indexOf(',');
             if (pos > 0) {
                 var arr = name.split(',');
@@ -31,7 +43,7 @@
             var el = $(elem);
             el[name].call(el, option);
         } else {
-            var f = H.hook.get(name);
+            var f = H.hook.get('hook.' + name);
             if (f && typeof f == 'function') {
                 f.call(null, $(elem), option);
             }
