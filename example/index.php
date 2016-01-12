@@ -2,6 +2,10 @@
 $examples = array(
     array('name' => 'Lazyload', 'url' => './js/ui/lazyload.php'),
     array('name' => 'Verifiable', 'url' => './js/ui/verifiable.php'),
+    array('name' => 'Lazyload', 'url' => './ui/lazyload.php'),
+    array('name' => 'floatable', 'url' => './ui/floatable.php'),
+    array('name' => 'switchable', 'url' => './ui/switchable.php'),
+    array('name' => 'progressable', 'url' => './ui/progressable.php'),
 );
 ?>
 <!doctype html>
