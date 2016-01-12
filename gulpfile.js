@@ -17,6 +17,18 @@ gulp.task('lint', function () {
     ;
 });
 
+// 生成markdown
+gulp.task('markdown', function(fb) {
+    var md = require( 'markdown' ).markdown;
+    var fs = require('fs');
+    var content = fs.readFileSync('./readme.md', 'utf-8');
+    var html = md.toHTML(content);
+    return fs.writeFile('./doc/readme.html', html, {
+        encoding: 'utf-8',
+        flag: 'w'
+    }, fb);
+});
+
 // 文档
 gulp.task('doc', function () {
     var jsdoc = require('gulp-jsdoc');
