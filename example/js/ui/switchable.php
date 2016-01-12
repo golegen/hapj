@@ -1,6 +1,6 @@
-<?php include dirname(__DIR__) . '/include/header.phtml'?>
+<?php include '../../include/header.phtml' ?>
 <h1>浮动元素定位(floatable)</h1>
-<script src="/src/ui/switchable.js"></script>
+<script src="/src/js/ui/switchable.js"></script>
 
 <style>
 body,h1,h2,h3,h4,h5,h6,hr,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0}
@@ -52,7 +52,7 @@ $imgs = array(
 			this.className = ' on';
 		},
 		target: function(ts, i) {
-			$(oUl).animate({'left':-w*i}, 300);
+		    oUl.animate({'left':-w*i}, 300);
 		}
 	});
 	$('#productfocus').find('ul').width(len*w);
@@ -63,4 +63,4 @@ $imgs = array(
 	}
 </script>
 
-<?php include dirname(__DIR__) . '/include/footer.phtml' ?>
+<?php include '../../include/footer.phtml' ?>

@@ -6,17 +6,14 @@
  * @version 1.6
  * @brief 使节点能够根据所在屏幕位置变成一个进度条的节点，根据屏幕位置来提示进度
  * @example 
-hapj(function(H){
-	H.ui('#list1').tag('li')
-	.progressable({
-		title:'h4',
-		maxWidth:1500,
-		getTitle:function(i){
-			return '第' + (i + 1) + '章';
-		},
-		offsetTop:40
-	});
-});
+	$('#list1').tag('li').progressable({
+							title:'h4',
+							maxWidth:1500,
+							getTitle:function(i){
+								return '第' + (i + 1) + '章';
+							},
+							offsetTop:40
+	                 });
  **/
 !function($, d){
 	var defaults = {
@@ -139,7 +136,7 @@ hapj(function(H){
 	function onResize(div, self, lis, offsets, height, options)
 	{
 		var startY = options.offsetTop
-		, top = self.offset().top + startY
+		, top = $(document.body).offset().top + startY
 		, min = null
 		, len = offsets.length;
 		
@@ -174,7 +171,7 @@ hapj(function(H){
 			if (lastTop != null) {
 				var _delta = min[0];
 				var index = min[1];
-				if (index < 0 || H.ui(document).offset().top == 0) {
+				if (index < 0 || $(document.body).offset().top == 0) {
 					options.onHide && options.onHide.call(null, div);
 					return;
 				}

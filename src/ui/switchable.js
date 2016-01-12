@@ -54,7 +54,7 @@
 					break;
 			}
 			if (!target) {
-				throw new Error('hapj.ui.switchable the target is not found.');
+				throw new Error('jquery.switchable the target is not found.');
 			}
 			return target;
 		}

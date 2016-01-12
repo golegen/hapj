@@ -1,6 +1,6 @@
-<?php include dirname(__DIR__) . '/include/header.phtml'?>
+<?php include '../../include/header.phtml' ?>
 <h1>浮动元素定位(floatable)</h1>
-<script src="/src/ui/floatable.js"></script>
+<script src="/src/js/ui/floatable.js"></script>
 
 <style>
 #container {
@@ -25,4 +25,4 @@
    $('#floatDiv').floatable($('#container')).right().top();
 </script>
 
-<?php include dirname(__DIR__) . '/include/footer.phtml' ?>
+<?php include '../../include/footer.phtml' ?>
