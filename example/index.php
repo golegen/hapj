@@ -1,6 +1,7 @@
 <?php
 $examples = array(
-    array('name' => 'Lazyload', 'url' => './ui/lazyload.php'),
+    array('name' => 'Lazyload', 'url' => './js/ui/lazyload.php'),
+    array('name' => 'Verifiable', 'url' => './js/ui/verifiable.php'),
 );
 ?>
 <!doctype html>
@@ -16,11 +17,14 @@ $examples = array(
 <div class="container">
     <h1>Hapj Example List</h1>
 
+    <h3>Js例子</h3>
     <ul>
         <?php foreach ($examples as $ex): ?>
         <li><a href="<?= $ex['url'] ?>"><?= $ex['name']?></a></li>
         <?php endforeach; ?>
     </ul>
+
+    <h3>Css例子</h3>
 </div>
 </body>
 </html>

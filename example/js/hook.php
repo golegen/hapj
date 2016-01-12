@@ -1,5 +1,5 @@
 <?php include 'include/header.phtml' ?>
-    <script src="/src/ui/hapj.ui.sortable.js"></script>
+    <script src="/src/ui/sortable.js"></script>
     <h1>hook</h1>
 
     <h2>ui hook</h2>
@@ -9,12 +9,12 @@
         <li>line 2</li>
         <li>line 3</li>
     </ul>
-    <pre><code>
-        <ul data-hook="sortable">
-            <li>line 1</li>
-            <li>line 2</li>
-            <li>line 3</li>
-        </ul></code>
+    <pre><code class="html">
+        &lt;ul data-hook="sortable">
+            &lt;li>line 1&lt;/li>
+            &lt;li>line 2&lt;/li>
+            &lt;li>line 3&lt;/li>
+        &lt;/ul></code>
     </pre>
 
     <h2>custom hook</h2>
@@ -24,9 +24,6 @@
         dddff
     </div>
 
-
-
-
     <script>
         jQuery.fn.foo1 = function(opt) {
             console.log(this);
@@ -35,7 +32,10 @@
             console.log(elem);
         });
 
-//        $('#hookDiv').foo();
+        $.ajax({
+            url:'ui/lazyload.php',
+            data: {'a':'b'}
+        });
 
     </script>
 <?php include 'include/footer.phtml' ?>

@@ -62,3 +62,46 @@
         H.log.error({msg: msg, url: url, line: line});
     });
 })(hapj);
+
+(function ($) {
+    //jQuery.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+    //    console.log(arguments);
+    //});
+
+    var loading;
+
+    $(document).ajaxStart(function () {
+        if (!loading) {
+            loading = $('<div style="background:#369;position:absolute;height:200px;width:200px;border-radius:20px;opacity:0.5;"><div class="load4"><div class="loader"></div></div></div> ').appendTo(document.body);
+        }
+        var w = $(document).width(), h = $(document).height();
+        loading.css({
+            left: w/2 - 100,
+            top:h/2 - 100
+        });
+
+        loading.show();
+    });
+
+    $(document).ajaxComplete(function () {
+        setTimeout(function() {
+            loading.hide();
+        }, 800);
+    });
+
+    $(document).ajaxSuccess(function() {
+       console.log(arguments);
+    });
+})(jQuery);
+
+(function (H) {
+    // 表单提交
+    H.hook.set('form.submit', function (e, options) {
+        // 设置debug参数
+        var form = this, action = options.action || form.action || document.URL;
+        options.action = action;
+
+        $.ajaxable.ajaxForm(form, options);
+        return false;
+    });
+})(hapj);

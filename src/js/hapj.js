@@ -44,7 +44,6 @@ window.hapj = {
     };
 })(window.hapj);
 
-
 /**
  * Copyright (c) 2012, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn

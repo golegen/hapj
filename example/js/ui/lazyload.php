@@ -1,8 +1,9 @@
-<?php include dirname(__DIR__) . '/include/header.phtml' ?>
+<?php include '../../include/header.phtml' ?>
+    <script src="/dist/jquery/jquery.lazyload.min.js"></script>
+
     <h1>延迟加载(lazyload)</h1>
     <label class="label label-default"> 项目主页：</label>http://www.appelsiini.net/projects/lazyload<br/>
     <a href="http://www.appelsiini.net/projects/lazyload" target="_blank">官方文档</a>
-    <script src="/dist/jquery/jquery.lazyload.min.js"></script>
 
 <?php
 $imgs = array(
@@ -83,4 +84,4 @@ $('img.lazy1').lazyload({
     </ol>
 
 
-<?php include dirname(__DIR__) . '/include/footer.phtml' ?>
+<?php include '../../include/footer.phtml' ?>
