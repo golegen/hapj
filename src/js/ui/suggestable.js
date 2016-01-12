@@ -16,6 +16,8 @@ $('#suggestable').suggestable({
 
  **/
 !function($){
+	'use strict',
+	
 	var defaults = {
 		width:'auto',
 		height:0,
