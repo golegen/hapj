@@ -3,7 +3,7 @@
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-1-11
  * @version 1.6.1
- * @brief Ó³ÉäÏÂÀ­¿òµ½¿É¶¨ÖÆµÄÏÂÀ­×é¼ş
+ * @brief æ˜ å°„ä¸‹æ‹‰æ¡†åˆ°å¯å®šåˆ¶çš„ä¸‹æ‹‰ç»„ä»¶
  **/
 !function($, Me, undefined){
     'use strict';
@@ -11,37 +11,37 @@
         selectedClassName:'on',
         showEvent:'click',
         pack:null,
-        hideDelayTime:1000,  // Òş²ØÑÓ³ÙµÄÊ±¼ä£¬Ö»ÓĞshowEventÎªmouseover»òmouseenter²ÅÓĞĞ§£¬Èç¹û¸ÃÖµĞ¡ÓÚ0£¬Ôò²»»á×Ô¶¯ÑÚ²Ø
+        hideDelayTime:1000,  // éšè—å»¶è¿Ÿçš„æ—¶é—´ï¼Œåªæœ‰showEventä¸ºmouseoveræˆ–mouseenteræ‰æœ‰æ•ˆï¼Œå¦‚æœè¯¥å€¼å°äº0ï¼Œåˆ™ä¸ä¼šè‡ªåŠ¨æ©è—
         onHide:null,
         onShow:null,
         onChange:null
     };
     /**
      * @class jQuery.fn.selectable
-     * @description Ö÷ÒªÓÃÀ´½«ÆÕÍ¨µÄÏÂÀ­¿ò×é¼ş(»òul)×ª»¯Îª¿ÉÒÔ×Ô¶¨ÒåÑùÊ½µÄÏÂÀ­¿ò×é¼ş¡£°ó¶¨µ½Ô­ÓĞÏÂÀ­¿òµÄÊÂ¼şÒ²»áÆğ×÷ÓÃ¡£
-     * @param options ÅäÖÃ²ÎÊı£¬Ä¿Ç°Ö§³ÖµÄÓĞ£º
+     * @description ä¸»è¦ç”¨æ¥å°†æ™®é€šçš„ä¸‹æ‹‰æ¡†ç»„ä»¶(æˆ–ul)è½¬åŒ–ä¸ºå¯ä»¥è‡ªå®šä¹‰æ ·å¼çš„ä¸‹æ‹‰æ¡†ç»„ä»¶ã€‚ç»‘å®šåˆ°åŸæœ‰ä¸‹æ‹‰æ¡†çš„äº‹ä»¶ä¹Ÿä¼šèµ·ä½œç”¨ã€‚
+     * @param options é…ç½®å‚æ•°ï¼Œç›®å‰æ”¯æŒçš„æœ‰ï¼š
      * <dl>
      *  <dt>selectedClassName:<em>string</em></dt>
-     *  <dd>±íÊ¾Ñ¡ÖĞÊ±µÄÑùÊ½Ãû³Æ£¬Ä¬ÈÏÎªon</dd>
+     *  <dd>è¡¨ç¤ºé€‰ä¸­æ—¶çš„æ ·å¼åç§°ï¼Œé»˜è®¤ä¸ºon</dd>
      *  <dt>showEvent:<em>string</em></dt>
-     *  <dd>ÓÃÀ´ÏÔÊ¾²Ëµ¥µÄÊÂ¼ş£¬¿ÉÑ¡ÖµÎªmouseover¡¢mouseenter¡¢click£¬Ä¬ÈÏÎªclick¡£</dd>
+     *  <dd>ç”¨æ¥æ˜¾ç¤ºèœå•çš„äº‹ä»¶ï¼Œå¯é€‰å€¼ä¸ºmouseoverã€mouseenterã€clickï¼Œé»˜è®¤ä¸ºclickã€‚</dd>
      *  <dt>pack:<em>function(o)</em></dt>
-     *  <dd>ÓÃÀ´Éè¶¨Ñ¡ÔñÑ¡ÏîºóÏÔÊ¾µÄÎÄ×Ö<br/><label>o</label>±»Ñ¡ÖĞµÄoption»ò±»Ñ¡ÖĞµÄli</dd>
+     *  <dd>ç”¨æ¥è®¾å®šé€‰æ‹©é€‰é¡¹åæ˜¾ç¤ºçš„æ–‡å­—<br/><label>o</label>è¢«é€‰ä¸­çš„optionæˆ–è¢«é€‰ä¸­çš„li</dd>
      *  <dt>hideDelayTime:<em>Int</em></dt>
-     *  <dd>Òş²ØÑÓ³ÙµÄÊ±¼ä£¬Ö»ÓĞshowEventÎªmouseover»òmouseenter²ÅÓĞĞ§£¬Èç¹û¸ÃÖµĞ¡ÓÚ0£¬Ôò²»»á×Ô¶¯ÑÚ²Ø</dd>
+     *  <dd>éšè—å»¶è¿Ÿçš„æ—¶é—´ï¼Œåªæœ‰showEventä¸ºmouseoveræˆ–mouseenteræ‰æœ‰æ•ˆï¼Œå¦‚æœè¯¥å€¼å°äº0ï¼Œåˆ™ä¸ä¼šè‡ªåŠ¨æ©è—</dd>
      *  <dt>onShow:<em>function()</em></dt>
-     *  <dd>ÏÔÊ¾Ê±µ÷ÓÃµÄÊÂ¼ş</dd>
+     *  <dd>æ˜¾ç¤ºæ—¶è°ƒç”¨çš„äº‹ä»¶</dd>
      *  <dt>onHide:<em>function()</em></dt>
-     *  <dd>Òş²ØÊ±µ÷ÓÃµÄ·½·¨</dd>
+     *  <dd>éšè—æ—¶è°ƒç”¨çš„æ–¹æ³•</dd>
      *  <dt>onChange:<em>function()</em></dt>
-     *  <dd>¸ü¸ÄÊ±µ÷ÓÃµÄ·½·¨</dd>
+     *  <dd>æ›´æ”¹æ—¶è°ƒç”¨çš„æ–¹æ³•</dd>
      * </dl>
      * @example
-     * ÏêÏ¸µÄÀı×Ó²Î¿¼<a href="../examples/selectable.html" target="_blank">Àı×Ó</a>
+     * è¯¦ç»†çš„ä¾‹å­å‚è€ƒ<a href="../examples/selectable.html" target="_blank">ä¾‹å­</a>
      &lt;select&gt;
-     &lt;option&gt;ÌõÄ¿1&lt;/option&gt;
-     &lt;option&gt;ÌõÄ¿2&lt;/option&gt;
-     &lt;option&gt;ÌõÄ¿3&lt;/option&gt;
+     &lt;option&gt;æ¡ç›®1&lt;/option&gt;
+     &lt;option&gt;æ¡ç›®2&lt;/option&gt;
+     &lt;option&gt;æ¡ç›®3&lt;/option&gt;
      &lt;/select&gt;
 
      &lt;script&gt;
@@ -49,15 +49,15 @@
 	alert('change');
 }).selectable({
 	pack:function(o) {
-		return 'ËÑË÷' + o.text;
+		return 'æœç´¢' + o.text;
 	}
 });
      &lt/script&gt;
 
      */
     $.fn.selectable = function(options){
-        //ÅĞ¶ÏÈç¹ûµ÷ÓÃµÄ±êÇ©²»ÊÇselect»òÕßulÕâ²»Ö§³Ö
-        this.each(function(k, v){//Ö§³Ö¶à¸öÍ¬Ê±µ÷ÓÃ
+        //åˆ¤æ–­å¦‚æœè°ƒç”¨çš„æ ‡ç­¾ä¸æ˜¯selectæˆ–è€…ulè¿™ä¸æ”¯æŒ
+        this.each(function(k, v){//æ”¯æŒå¤šä¸ªåŒæ—¶è°ƒç”¨
             if (v.tagName != 'UL' && v.tagName != 'SELECT') {
                 return;
             }
@@ -66,7 +66,7 @@
             var o = {};
             $.extend(o, defaults);
             s.options = $.extend(o, options || {});
-            //´ËÊ±sÎª£ºSelect {type: "ul", options: Object}  options//ÕûºÏ´©Èë²ÎÊıºÍÄ¬ÈÏ²ÎÊıÕûºÏºóµÄ¶ÔÏó
+            //æ­¤æ—¶sä¸ºï¼šSelect {type: "ul", options: Object}  options//æ•´åˆç©¿å…¥å‚æ•°å’Œé»˜è®¤å‚æ•°æ•´åˆåçš„å¯¹è±¡
             //console.log(v)
             s.init(v);
         });
@@ -75,29 +75,29 @@
 
     var Select = function() {};
     Select.prototype = {
-        init: function(elem) { //³õÊ¼»¯º¯Êı
+        init: function(elem) { //åˆå§‹åŒ–å‡½æ•°
             /*this:Select {type: "select", options: Object}
-              elem:select
-            */
+             elem:select
+             */
             this.elem = elem;
             this._options = this.type == 'ul' ? $(this.elem).find('>li') : this.elem.options;
             this.length = this._options.length;
 
-            // »ñÈ¡Ô­ÓĞselect¿Ø¼şµÄ»ù±¾ÊôĞÔ
+            // è·å–åŸæœ‰selectæ§ä»¶çš„åŸºæœ¬å±æ€§
             this.dom = $('<dl>').addClass(this.elem.className);
             this.dom.html(this.buildHtml());
 
             this.dom.insertBefore(elem);
             this.bindEvents();
             this.elem.style.display = 'none';
-            //´ËÊ±this:Select {type: "select", options: Object, elem: select, _options: HTMLOptionsCollection[4], length: 4¡­}
+            //æ­¤æ—¶this:Select {type: "select", options: Object, elem: select, _options: HTMLOptionsCollection[4], length: 4â€¦}
             if (this.type == 'select') {
-                if (this.elem.selectedIndex > -1) { //»ñÈ¡±»Ñ¡ÖĞµÄÑ¡ÏîµÄË÷Òı
+                if (this.elem.selectedIndex > -1) { //è·å–è¢«é€‰ä¸­çš„é€‰é¡¹çš„ç´¢å¼•
                     this.select(this.elem.selectedIndex);
                 }
             } else {
                 var self = this;
-                this._options.each(function(i){  //±éÀúliµÄclassµÈÓÚ±»Ñ¡ÖĞµÄclassÔòÈÃ´ËliÖ´ĞĞ±»Ñ¡ÖĞµÄº¯Êı
+                this._options.each(function(i){  //éå†liçš„classç­‰äºè¢«é€‰ä¸­çš„classåˆ™è®©æ­¤liæ‰§è¡Œè¢«é€‰ä¸­çš„å‡½æ•°
                     if (this.className == self.options.selectedClassName) {
                         self.select(i);
                     }
@@ -105,7 +105,7 @@
             }
         },
         length:0,
-        buildHtml: function() { //»ñÈ¡ÏÂÀ­ÁĞ±íÖĞµÄÎÄ×Ö£¬½«±êÇ©Ìæµô
+        buildHtml: function() { //è·å–ä¸‹æ‹‰åˆ—è¡¨ä¸­çš„æ–‡å­—ï¼Œå°†æ ‡ç­¾æ›¿æ‰
             var ret = [], lh = '';
             if (this.length > 8) {
                 lh = ' style="height:150px;overflow:auto;overflow-x:hidden;"';
@@ -121,7 +121,7 @@
         bindEvents: function(){
             console.log(this.options.showEvent)
             var self = this, sevent = this.options.showEvent, inMe = false;
-            // °ó¶¨dtÊÂ¼ş
+            // ç»‘å®šdtäº‹ä»¶
             this.dom.find('dt').on(sevent, function(e) {
                 if(inMe===false){
                     inMe = true;
@@ -152,13 +152,13 @@
                     }, self.options.hideDelayTime);
                 });
             }
-            $(document).click(function() {//µã»÷documentÒş²ØÁĞ±í
+            $(document).click(function() {//ç‚¹å‡»documentéšè—åˆ—è¡¨
                 inMe = false;
                 self.dom.find('dd').fadeOut('fast');
                 self.options.onHide && self.options.onHide();
             });
 
-            // °ó¶¨ddÊÂ¼ş
+            // ç»‘å®šddäº‹ä»¶
             this.dom.on('click', 'li', function(e) {
                 inMe = false;
                 self.select(e.target.getAttribute('index'));
@@ -181,7 +181,7 @@
                 e.target.className = '';
             });
         },
-        select: function(i) { //Ñ¡ÔñÊÂ¼ş
+        select: function(i) { //é€‰æ‹©äº‹ä»¶
             var option = this._options[i], txt;
             if (this.type == 'select') {
                 this.elem.selectedIndex = i;
@@ -193,7 +193,7 @@
             }
             this.dom.find('dt > label').html(txt);
 
-            if (this.type == 'select') {  //Èç¹ûÊÇÏÂÀ­ÁĞ±íÔòÈÃÆä´¥·¢changeÊÂ¼ş
+            if (this.type == 'select') {  //å¦‚æœæ˜¯ä¸‹æ‹‰åˆ—è¡¨åˆ™è®©å…¶è§¦å‘changeäº‹ä»¶
                 $(this.elem).trigger('change');
             } else {
                 this.options.onChange && this.options.onChange(txt);
