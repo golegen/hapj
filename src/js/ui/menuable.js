@@ -16,6 +16,8 @@
  });
  **/
 !function($, Me, undefined){
+	'use strict',
+	
 	var elemQueue = [],
 	_d = document, 
 	_w = window,
