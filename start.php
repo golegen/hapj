@@ -18,16 +18,29 @@ ob_start();
 $ip = system("ifconfig|grep '192.168.'|awk '{print $2}'|awk -F ':' '{print $2}'");
 ob_end_clean();
 
-$url = "{$ip}:{$port}";
 
-$cmd = 'php -S '.$url;
-if ($demeon) {
-    $cmd .= ' &';
+
+$num = 0;
+while(true) {
+    $url = "{$ip}:{$port}";
+
+    $cmd = 'php -S '.$url;
+    if ($demeon) {
+        $cmd .= ' &';
+    }
+    echo "请访问：http://{$url}/\r";
+
+    system($cmd, $code);
+
+    if ($code === 0) {
+        break;
+    }
+    $num++;
+    if ($num > 5) {
+        break;
+    }
+    $port++;
 }
-
-
-echo "请访问：http://{$url}/\n";
-system($cmd);
 
 function help()
 {

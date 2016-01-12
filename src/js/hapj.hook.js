@@ -1,4 +1,6 @@
-!function (H, $) {
+(function (H, $) {
+    'use strict';
+
     $(function () {
         $('*[data-hook]').each(function () {
             var name = this.getAttribute('data-hook'),
@@ -7,7 +9,9 @@
                 self = this;
             if (option) {
                 try {
+                    /* jshint ignore:start */
                     option = eval('(' + option + ')');
+                    /* jshint ignore:end */
                 } catch (ex) {
                     option = {};
                 }
@@ -54,9 +58,10 @@
             }
         }
     }
-}(hapj, jQuery);
+})(hapj, jQuery);
 
 (function (H) {
+    'use strict';
     // 设置一个错误的钩子
     H.hook.set('hapj.error', function (msg, url, line) {
         H.log.error({msg: msg, url: url, line: line});
@@ -64,6 +69,7 @@
 })(hapj);
 
 (function ($) {
+    'use strict';
     //jQuery.ajaxPrefilter(function(options, originalOptions, jqXHR) {
     //    console.log(arguments);
     //});
@@ -95,6 +101,7 @@
 })(jQuery);
 
 (function (H) {
+    'use strict';
     // 表单提交
     H.hook.set('form.submit', function (e, options) {
         // 设置debug参数

@@ -1,5 +1,8 @@
 var gulp = require('gulp');
-
+var jsSrc = [
+    './src/js/*.js',
+    './src/js/ui/*.js'
+];
 
 gulp.task('default', function () {
     console.log('hello,hapj!');
@@ -8,17 +11,27 @@ gulp.task('default', function () {
 // js代码编译
 gulp.task('lint', function () {
     var jshint = require('gulp-jshint');
-    return gulp.src('./src/*.js')
+    return gulp.src(jsSrc)
         .pipe(jshint())
         .pipe(jshint.reporter('default', {verbose: true}));
     ;
 });
 
 // 文档
-gulp.task('doc', function () {
-    var jsdoc = require('gulp-jsdoc');
-    return gulp.src('./src/')
-        .pipe(jsdoc('./doc/'))
+gulp.task('api', function () {
+    var jsdoc = require('gulp-jsdoc-to-markdown');
+    var rename = require('gulp-rename');
+    var gutil = require('gulp-util');
+
+    return gulp.src(jsSrc)
+        .pipe(jsdoc())
+        .on('error', function(err) {
+            gutil.log(gutil.colors.red('jsdoc2md failed'), err.message);
+        })
+        .pipe(rename(function(path) {
+            path.extname = '.md';
+        }))
+        .pipe(gulp.dest('api'))
         ;
 });
 
@@ -33,52 +46,54 @@ gulp.task('min', function () {
 
     // jquery
     gulp.src('./bower_components/jquery/dist/jquery.min.js')
-        .pipe(gulp.dest('./dist/jquery/'));
+        .pipe(gulp.dest('./dist/js/jquery/'));
+
     gulp.src('./bower_components/jquery.lazyload/jquery.lazyload.js')
         .pipe(uglify())
         .pipe(rename('jquery.lazyload.min.js'))
-        .pipe(gulp.dest('./dist/jquery/'));
+        .pipe(gulp.dest('./dist/js/jquery/'));
 
     // bootstrap
     gulp.src('./bower_components/bootstrap/dist/fonts/*')
-        .pipe(gulp.dest('./dist/bootstrap/fonts/'));
+        .pipe(gulp.dest('./dist/js/bootstrap/fonts/'));
 
     gulp.src('./bower_components/bootstrap/dist/js/bootstrap.min.js')
-        .pipe(gulp.dest('./dist/bootstrap/js/'));
+        .pipe(gulp.dest('./dist/js/bootstrap/js/'));
 
     gulp.src('./bower_components/bootstrap/dist/css/bootstrap.min.css')
-        .pipe(gulp.dest('./dist/bootstrap/css/'));
+        .pipe(gulp.dest('./dist/js/bootstrap/css/'));
 
     // highlightjs
     gulp.src('./bower_components/highlightjs/highlight.pack.min.js')
         .pipe(rename('highlightjs.min.js'))
-        .pipe(gulp.dest('./dist/highlightjs/'));
+        .pipe(gulp.dest('./dist/js/highlightjs/'));
 
     gulp.src('./bower_components/highlightjs/styles/*.css')
         .pipe(cssmin())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('./dist/highlightjs/css/'));
-    gulp.src('./bower_components/highlightjs/styles/*.png')
-        .pipe(gulp.dest('./dist/highlightjs/css/'));
+        .pipe(gulp.dest('./dist/js/highlightjs/css/'));
 
-    return gulp.src('./src/*.js')
+    gulp.src('./bower_components/highlightjs/styles/*.png')
+        .pipe(gulp.dest('./dist/js/highlightjs/css/'));
+
+    return gulp.src('./src/js/*.js')
         .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(gulp.dest('./dist/hapj/'));
+        .pipe(gulp.dest('./dist/js/hapj/'));
 
 });
 
 gulp.task('concat', ['min'], function () {
     var concat = require('gulp-concat');
     return gulp.src([
-            './dist/jquery/jquery.min.js',
-            './dist/hapj/hapj.min.js',
-            './dist/hapj/hapj.hook.min.js',
-            './dist/highlightjs/highlightjs.min.js'
+            './dist/js/jquery/jquery.min.js',
+            './dist/js/hapj/hapj.min.js',
+            './dist/js/hapj/hapj.hook.min.js',
+            './dist/js/highlightjs/highlightjs.min.js'
         ])
         .pipe(concat('hapj.example.js', {newLine: ';'}))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./dist/js/'));
 });
 
