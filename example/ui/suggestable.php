@@ -23,28 +23,6 @@
 					});
 				</script>
 			</li>
-			
-			
-			<li>
-				<h2>远程</h2> 
- 				<label>城市</label><input type="text" id="txtCities"/>
-				
- 				<script>
-					$('#txtCities').suggestable({
-						items:'./cities.json',
-						onWrapperData:function(ret){
-							return ret.cities;
-						},
-						getItem:function(city) {
-							return city.name;
-						},
-						onSelect: function(city) {
-							this.value = city.name;
-						},
-						autoSearch:true
-					});
-				</script>
-			</li>
 		</ol>
 
 <?php include dirname(__DIR__) . '/include/footer.phtml' ?>
