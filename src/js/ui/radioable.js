@@ -2,10 +2,9 @@
  * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-1-11
- * @version 1.6.1
- * @description Ó³Éäµ¥Ñ¡°´Å¥µ½½çÃæÁ¼ºÃµÄÏÔÊ¾·½Ê½ Ö÷ÒªÓÃÓÚÆÀ·ÖµÈ³¡ºÏ
+ * @version1.6.1
+ * @description æ˜ å°„å•é€‰æŒ‰é’®åˆ°ç•Œé¢è‰¯å¥½çš„æ˜¾ç¤ºæ–¹å¼ä¸»è¦ç”¨äºè¯„åˆ†ç­‰åœºåˆ
  * @namespace jQuery.fn.radioable
-
  **/
 !function($, undefined){
     'use strict';
@@ -14,13 +13,13 @@
      * @typedef jQuery.fn.radioable.options
      * @access private
      * @type {Object}
-     * @description radioableµÄ³õÊ¼»¯²ÎÊı
-     * @property {string} name radio¿Ø¼şµÄnameÊôĞÔ£¬±ØÌî
-     * @property {String} defaultClass Ä¬ÈÏµÄÑùÊ½
-     * @property {String} hoverClass Êó±ê¾­¹ıÊ±µÄÑùÊ½£¬ÆäÖĞ{value}»á±»Ìæ»»³É¾­¹ıµÄradioµÄÖµ
-     * @property {String} selectedClass Ñ¡ÔñºóµÄÑùÊ½Ãû³Æ£¬ÆäÖĞ{value}»á±»Ìæ»»³É¾­¹ıµÄradioµÄÖµ
-     * @property {jQuery.fn.radioable~onChange} onChange µ±Ñ¡ÔñÖµ·¢Éú±ä»¯Ê±µÄÊÂ¼ş
-     * @property {jQuery.fn.radioable~onHover} onHover µ±Êó±ê¾­¹ıÊ±µÄÊÂ¼ş
+     * @description radioableçš„åˆå§‹åŒ–å‚æ•°
+     * @property {string} name radioæ§ä»¶çš„nameå±æ€§å¿…å¡«
+     * @property {String} defaultClassé»˜è®¤çš„æ ·å¼
+     * @property {String} hoverClass é¼ æ ‡ç»è¿‡æ—¶çš„æ ·å¼ï¼Œå…¶ä¸­{value}ä¼šè¢«æ›¿æ¢æˆç»è¿‡çš„radioçš„å€¼
+     * @property {String} selectedClass é€‰æ‹©åçš„æ ·å¼åç§°ï¼Œå…¶ä¸­{value}ä¼šè¢«æ›¿æ¢æˆç»è¿‡çš„radioçš„å€¼
+     * @property {jQuery.fn.radioable~onChange} onChange å½“é€‰æ‹©å€¼å‘ç”Ÿå˜åŒ–æ—¶çš„äº‹ä»¶
+     * @property {jQuery.fn.radioable~onHover} onHover å½“é¼ æ ‡ç»è¿‡æ—¶çš„äº‹ä»¶
      */
     var defaults = {
         name:'',
@@ -28,26 +27,26 @@
         hoverClass:'star-{value}',
         selectedClass:'star-{value}',
         /**
-         * µ±Ñ¡ÔñÖµ·¢Éú±ä»¯Ê±µÄÊÂ¼ş
-         * thisÖ¸ÕëÎª±»Ñ¡ÔñµÄradiobox
+         * å½“é€‰æ‹©å€¼å‘ç”Ÿå˜åŒ–æ—¶çš„äº‹ä»¶
+         * thisæŒ‡é’ˆä¸ºè¢«é€‰æ‹©çš„radiobox
          * @callback jQuery.fn.radioable~onChange
          * @private
-         * @param {Int} index ±»Ñ¡ÔñµÄradioµÄ´ÎĞò
-         * @param {String} text ÌáÊ¾ÎÄ×Ö ´ËÎÄ×ÖÊÇºÍradio¹ØÁªµÄlabelµÄÎÄ×Ö
+         * @param {Int}indexè¢«é€‰æ‹©çš„radioçš„æ¬¡åº
+         * @param {String}textæç¤ºæ–‡å­—æ­¤æ–‡å­—æ˜¯å’Œradioå…³è”çš„labelçš„æ–‡å­—
          */
         onChange:null,
         /**
-         * µ±Êó±ê¾­¹ıÊ±µÄÊÂ¼ş
-         * thisÖ¸ÕëÎª¾­¹ıµÄradiobox
+         * å½“é¼ æ ‡ç»è¿‡æ—¶çš„äº‹ä»¶
+         * thisæŒ‡é’ˆä¸ºç»è¿‡çš„radiobox
          * @callback jQuery.fn.radioable~onHover
          * @private
-         * @param {number} index ¾­¹ıµÄradioµÄ´ÎĞò
-         * @param {string} text ÌáÊ¾ÎÄ×Ö ´ËÎÄ×ÖÊÇºÍradio¹ØÁªµÄlabelµÄÎÄ×Ö
+         * @param {number} index ç»è¿‡çš„radioçš„æ¬¡åº
+         * @param {string} text æç¤ºæ–‡å­— æ­¤æ–‡å­—æ˜¯å’Œradioå…³è”çš„labelçš„æ–‡å­—
          */
         onHover:null
     };
 
-    //Èç¹ûcls´«ÈëµÄÊÇ×Ö·û´´Ôò½«×Ö·û´®ÖĞµÄ{value}Ìæ»»³ÉradioµÄvalueÖµ²¢·µ»Ø£¬Èç¹ûÊÇº¯ÊıÔò½«input´øÈëÖ´ĞĞº¯Êı
+    //å¦‚æœclsä¼ å…¥çš„æ˜¯å­—ç¬¦åˆ›åˆ™å°†å­—ç¬¦ä¸²ä¸­çš„{value}æ›¿æ¢æˆradioçš„valueå€¼å¹¶è¿”å›ï¼Œå¦‚æœæ˜¯å‡½æ•°åˆ™å°†inputå¸¦å…¥æ‰§è¡Œå‡½æ•°
     function getRadioClass(radio, cls) {
         if (typeof cls == 'string') {
             return cls.replace('{value}', radio.value);
@@ -58,17 +57,17 @@
     }
 
     /**
-     * ½«ÔªËØÄÚµÄradio¿Ø¼şÃÀ»¯ {@link jQuery.fn.radioable|Ïê¼û}
+     * å°†å…ƒç´ å†…çš„radioæ§ä»¶ç¾åŒ– {@link jQuery.fn.radioable|è¯¦è§}
      * @memberof jQuery
      * @function #radioable
-     * @param {jQuery.fn.radioable.options} options ²ÎÊı
+     * @param {jQuery.fn.radioable.options} options å‚æ•°
      */
 
     /**
-     * ³õÊ¼»¯º¯Êı
+     * åˆå§‹åŒ–å‡½æ•°
      * @memberof jQuery.fn.radioable
      * @function ~new
-     * @param {jQuery.fn.radioable.options} options ²ÎÊı
+     * @param {jQuery.fn.radioable.options} options å‚æ•°
      * @example
      &lt;style&gt;
      .star,.star-1,.star-2,.star-3,.star-4,.star-5{
@@ -89,19 +88,19 @@
      &lt;/style&gt;
 
      &lt;p id="radio"&gt;
-     &lt;input type="radio" name="star" value="1" id="star-1"/&gt;&lt;label for="star-1"&gt;Ò»ĞÇ¼¶&lt;/label&gt;
-     &lt;input type="radio" name="star" value="2" id="star-2"/&gt;&lt;label for="star-2"&gt;¶şĞÇ¼¶&lt;/label&gt;
-     &lt;input type="radio" name="star" value="3" id="star-3"/&gt;&lt;label for="star-3"&gt;ÈıĞÇ¼¶&lt;/label&gt;
-     &lt;input type="radio" name="star" value="4" id="star-4"/&gt;&lt;label for="star-4"&gt;ËÄĞÇ¼¶&lt;/label&gt;
-     &lt;input type="radio" name="star" value="5" id="star-5"/&gt;&lt;label for="star-5"&gt;ÎåĞÇ¼¶&lt;/label&gt;
+     &lt;input type="radio" name="star" value="1" id="star-1"/&gt;&lt;label for="star-1"&gt;ä¸€æ˜Ÿçº§&lt;/label&gt;
+     &lt;input type="radio" name="star" value="2" id="star-2"/&gt;&lt;label for="star-2"&gt;äºŒæ˜Ÿçº§&lt;/label&gt;
+     &lt;input type="radio" name="star" value="3" id="star-3"/&gt;&lt;label for="star-3"&gt;ä¸‰æ˜Ÿçº§&lt;/label&gt;
+     &lt;input type="radio" name="star" value="4" id="star-4"/&gt;&lt;label for="star-4"&gt;å››æ˜Ÿçº§&lt;/label&gt;
+     &lt;input type="radio" name="star" value="5" id="star-5"/&gt;&lt;label for="star-5"&gt;äº”æ˜Ÿçº§&lt;/label&gt;
      &lt;/p&gt;
      &lt;span id="hint"&gt;&lt;/span&gt;
 
      &lt;script&gt;
      var hint = $('#hint');
      $('#radio').radioable({
-		name:'star',    inputµÄname
-		width:250,       ±³¾°Í¼Æ¬µÄ¿í¶È
+		name:'star',    inputçš„name
+		width:250,       èƒŒæ™¯å›¾ç‰‡çš„å®½åº¦
 		onHover:function(i, t){
 			hint.html('<span style="color:#FCC">' + t + '</span>');
 		},
@@ -114,13 +113,13 @@
     $.fn.radioable = function(options){
         var self = this[0];
         var opt = $.extend($.extend({}, defaults), options || {});
-        //Èç¹ûÎ´ÌîĞ´name²ÎÊıÖ±½Ó±¨´í
+        //å¦‚æœæœªå¡«å†™nameå‚æ•°ç›´æ¥æŠ¥é”™
         if (!opt.name) {
             throw new Error('radioable.noNameSupplied');
         }
-        //ÉèÖÃÒ»¸ö¿ÕµÄjQuer¶ÔÏó
+        //è®¾ç½®ä¸€ä¸ªç©ºçš„jQuerå¯¹è±¡
         var radios = $('');
-        //Èç¹ûÈİÆ÷ÄÚµÄµ¥Ñ¡¿òµÄname·ûºÏ²ÎÊıÖĞµÄnameÔòÌí¼Óµ½radiosÖĞ
+        //å¦‚æœå®¹å™¨å†…çš„å•é€‰æ¡†çš„nameç¬¦åˆå‚æ•°ä¸­çš„nameåˆ™æ·»åŠ åˆ°radiosä¸­
         this.find('input').each(function(){
             if (this.type == 'radio' && this.name && this.name == opt.name) {
                 radios = radios.add(this);
@@ -139,17 +138,16 @@
             r.style.visibility = 'hidden';
             label.css('visibility', 'hidden');
         });
-
         var left = this.offset().left,
             width = opt.width || this.width(),
-        //¸ù¾İradiosµÄ¸öÊı¾ù·ÖÈİÆ÷
+        //æ ¹æ®radiosçš„ä¸ªæ•°å‡åˆ†å®¹å™¨
             offset = width / radios.length,
             currentCls = opt.defaultClass,
             currentIndex = -1,
             selected = false,
             selectedIndex = -1;
 
-        //ÊäÈëÒÆÈëÊ±µÄº¯Êı£¬´«ÈëÊÂ¼ş·¢ÉúµÄ×ø±ê£¬¸ù¾İ×ø±êÏà¶ÔÈİÆ÷µÄÎ»ÖÃÅĞ¶ÏËùÔÚµÄÇøÓò£¬Ìí¼Ó¸ü¸ÄÏàÓ¦µÄdlass
+        //è¾“å…¥ç§»å…¥æ—¶çš„å‡½æ•°ï¼Œä¼ å…¥äº‹ä»¶å‘ç”Ÿçš„åæ ‡ï¼Œæ ¹æ®åæ ‡ç›¸å¯¹å®¹å™¨çš„ä½ç½®åˆ¤æ–­æ‰€åœ¨çš„åŒºåŸŸï¼Œæ·»åŠ æ›´æ”¹ç›¸åº”çš„dlass
         function hoverRadio(pos) {
             var index = parseInt(pos / offset, 10),
                 delta = pos % offset;
@@ -171,7 +169,7 @@
                 }
             }
         }
-        //Ñ¡ÖĞµÄÊ±ºò¸ù¾İindexÅĞ¶Ïµã»÷µÄÊÇÄÇ¸ö¿é£¬ÔòÈÃ¶ÔÓ¦µÄµ¥Ñ¡¿òÑ¡ÖĞ
+        //é€‰ä¸­çš„æ—¶å€™æ ¹æ®indexåˆ¤æ–­ç‚¹å‡»çš„æ˜¯é‚£ä¸ªå—ï¼Œåˆ™è®©å¯¹åº”çš„å•é€‰æ¡†é€‰ä¸­
         function selectRadio() {
             if (currentIndex == -1) {
                 radios[selectedIndex].checked = false;
@@ -188,7 +186,6 @@
                 opt.onChange && opt.onChange.call(radios[currentIndex], currentIndex, radios[currentIndex].getAttribute('hintText'));
             }
         }
-
         this.on('mousemove', function(e){
             hoverRadio(e.clientX - left);
         })
@@ -212,7 +209,6 @@
                 currentCls = self.className;
             });
         self.className = opt.defaultClass;
-
         this.addClass(opt.defaultClass);
         return this;
     };

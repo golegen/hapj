@@ -8,7 +8,7 @@ $examples = array(
     array('name' => 'progressable', 'url' => './ui/progressable.php'),
     array('name' => 'radioable', 'url' => './js/ui/radioable.php'),
     array('name' => 'selectable', 'url' => './js/ui/selectable.php'),
-    array('name' => 'dialog', 'url' => './ui/dialog.php'),
+    array('name' => 'dialog', 'url' => './js/ui/dialog.php'),
 );
 ?>
 <!doctype html>
