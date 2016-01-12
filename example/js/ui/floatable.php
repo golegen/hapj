@@ -1,4 +1,7 @@
-<?php include '../../include/header.phtml' ?>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
 <h1>浮动元素定位(floatable)</h1>
 <script src="/src/js/ui/floatable.js"></script>
 

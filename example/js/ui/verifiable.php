@@ -1,4 +1,7 @@
-<?php include '../../include/header.phtml' ?>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
 <script src="/src/js/ui/verifiable.js"></script>
 <script src="/src/js/ui/ajaxable.js"></script>
 <h1>表单校验(verifiable)</h1>

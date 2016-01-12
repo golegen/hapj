@@ -1,5 +1,8 @@
-<?php include '../../include/header.phtml' ?>
-    <script src="/dist/jquery/jquery.lazyload.min.js"></script>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
+    <script src="/dist/js/jquery/jquery.lazyload.min.js"></script>
 
     <h1>延迟加载(lazyload)</h1>
     <label class="label label-default"> 项目主页：</label>http://www.appelsiini.net/projects/lazyload<br/>

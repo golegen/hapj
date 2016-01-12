@@ -1,4 +1,7 @@
-<?php include '../../include/header.phtml' ?>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
 <script src="/src/js/ui/suggestable.js"></script>
 <style>
     body{font-family:"微软雅黑";}
@@ -43,4 +46,4 @@
 	});
 </script>
 
-<?php include dirname(__DIR__) . '/include/footer.phtml' ?>
+<?php include '../../include/footer.phtml' ?>

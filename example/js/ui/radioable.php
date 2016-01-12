@@ -1,5 +1,7 @@
-<?php include '../../include/header.phtml' ?>
-
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
 <script src="../../../src/js/ui/radioable.js"></script>
 <h2>radioable插件使用方法发</h2>
 <p>该插件主要功能是将多选框转化成评分小星星。原理是隐藏原生的多选框，根据多选框的个数均分外层背景图片容器的宽度，当鼠标移入或者点击的时候，
@@ -110,4 +112,4 @@
     });
 </script>
 
-<?php include dirname(__DIR__) . '/include/footer.phtml' ?>
+<?php include '../../include/footer.phtml' ?>
