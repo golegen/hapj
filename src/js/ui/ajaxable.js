@@ -6,7 +6,7 @@
  * @description 用来实现各种元素的异步化请求
  * @namespace jQuery.fn.ajaxable
  **/
-!function ($) {
+(function ($) {
     "use strict";
 
     var _d = decodeURIComponent;
@@ -80,9 +80,13 @@
         },
         successHandler = function (data, options) {
             if (!data.err || data.err.indexOf('.ok') >= 0) {
-                options.ok && options.ok.call(this, data.data);
+                if (options.ok) {
+                    options.ok.call(this, data.data);
+                }
             } else {
-                options.error && options.error.call(this, data.err);
+                if (options.error) {
+                    options.error.call(this, data.err);
+                }
             }
         },
         /**
@@ -321,7 +325,7 @@
                                 } else {
                                     target.options[target.options.length] = new Option(v.name, v.value);
                                 }
-                            })
+                            });
                         }
                     } else {
                         if (o.dataType == 'html' && o.target) {
@@ -545,4 +549,4 @@
         return this;
     };
     $.ajaxable = ajaxable;
-}(jQuery);
+})(jQuery);

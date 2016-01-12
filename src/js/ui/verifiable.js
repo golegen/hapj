@@ -30,6 +30,8 @@ hapj(function(H){
  });
  **/
 (function (H, $, undefined) {
+    'use strict';
+
     var verifyRules = {
             addRule: function (type, verify) {
                 if (type in _vRules) {
@@ -87,10 +89,10 @@ hapj(function(H){
                         if (this.selected) {
                             values.push(this.value);
                         }
-                    })
+                    });
                 } else {
                     var eachElemArr = [];
-                    if (elem.form[elem.name].length == undefined) {
+                    if (elem.form[elem.name].length === undefined) {
                         eachElemArr.push(elem.form[elem.name]);
                     } else {
                         eachElemArr = elem.form[elem.name];
@@ -128,17 +130,25 @@ hapj(function(H){
             }
             return false;
         },
-        urlRegex = new RegExp("^((https|http|ftp|ciw)?://)"
-            + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
-            + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
-            + "|" // 允许IP和DOMAIN（域名）
-            + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
-            + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
-            + "[a-z]{2,6})" // first level domain- .com or .museum
-            + "(:[0-9]{1,4})?" // 端口- :80
-            + "((/?)|" // a slash isn't required if there is no file name
-            + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$", 'i'),
-// 简单url地址
+        urlRegex = new RegExp("^((https|http|ftp|ciw)?://)" +
+                // //ftp的user@
+            "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" +
+                // IP形式的URL- 199.194.52.184
+            "(([0-9]{1,3}\.){3}[0-9]{1,3}" +
+                // 允许IP和DOMAIN（域名）
+            "|" +
+                // 域名- www.
+            "([0-9a-z_!~*'()-]+\.)*" +
+                // 二级域名
+            "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." +
+                // first level domain- .com or .museum
+            "[a-z]{2,6})" +
+                // 端口- :80
+            "(:[0-9]{1,4})?" +
+                // a slash isn't required if there is no file name
+            "((/?)|" +
+            "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$", 'i'),
+    // 简单url地址
         sUrlRegex = /^(((https?|ciw):\/\/)|\/)[0-9a-zA-Z\_\!~\*\'\(\)\.;\?:@&=\+$,%#\-\/]*$/,
         _addRules = function () {
             verifyRules.addRules({
@@ -147,7 +157,7 @@ hapj(function(H){
                  * @param {Object} val
                  */
                 required: function (val) {
-                    return $.trim(val) != '';
+                    return $.trim(val) !== '';
                 },
                 /**
                  * 验证是否为数字
@@ -188,9 +198,9 @@ hapj(function(H){
                  * @param {String} val
                  * @param {Object} rule
                  * {
-         *         min:最小长度
-         *         max:最大长度
-         * }
+                 *  min:最小长度
+                 *  max:最大长度
+                 * }
                  */
                 chinese: function (val, rule) {
                     if (undefined === rule.min) {
@@ -206,11 +216,11 @@ hapj(function(H){
                  * @param {String} val
                  * @param {Object} rule
                  * {
-         *         minAge: 最小年龄
-         *         maxAge: 最大年龄
-         *         sex: ['male', 'female'] male 男性 female 女性
-         *         province: 省份名称，如北京、天津等
-         * }
+                 *  minAge: 最小年龄
+                 *  maxAge: 最大年龄
+                 *  sex: ['male', 'female'] male 男性 female 女性
+                 *  province: 省份名称，如北京、天津等
+                 * }
                  */
                 ID: function (val, rule) {
                     if (!val) return false;
@@ -291,7 +301,7 @@ hapj(function(H){
                     // 检查性别
                     if (rule.sex) {
                         var tag = val.substr(len == 15 ? len - 1 : len - 2, 1);
-                        if (tag % 2 == 0) {
+                        if (tag % 2 === 0) {
                             if (rule.sex != 'female') {
                                 return false;
                             }
@@ -431,17 +441,14 @@ hapj(function(H){
                                 return false;
                             }
                             return val <= rule.max && val >= rule.min;
-                            break;
                         case 'length':
                             return val.length <= rule.max && val.length >= rule.min;
-                            break;
                         case 'number':
                             if (!isNaN(val)) {
                                 return val <= rule.max && val >= rule.min;
                             } else {
                                 return false;
                             }
-                            break;
                     }
                 },
                 /**
@@ -479,13 +486,16 @@ hapj(function(H){
                             if (rule.verify) {
                                 pass = rule.verify.call(rule, data);
                             } else {
-                                pass = (data == true || data == 'true');
+                                pass = (data === true || data == 'true');
                             }
                             if (pass) {
-                                rule.success && rule.success.call();
-                            }
-                            else {
-                                rule.failure && rule.failure.call();
+                                if (rule.success) {
+                                    rule.success.call();
+                                }
+                            } else {
+                                if (rule.failure) {
+                                    rule.failure.call();
+                                }
                             }
                         },
                         cache = this.cache[rule.name];
@@ -620,7 +630,7 @@ hapj(function(H){
             return node;
         },
         _formArray = [],
-        _formCount = 0,
+        _formCount = 1,
         /**
          * 得到验证表单
          * @param {Object} form
@@ -632,7 +642,7 @@ hapj(function(H){
 
             // 检查form是否被验证过，如果验证过，则直接调出之前的
             var verfiedId = form.getAttribute('verfy-id'), vf;
-            if (undefined != verfiedId && verfiedId >= 0) {
+            if (verfiedId && verfiedId >= 0) {
                 vf = _formArray[verfiedId];
                 vf.cleanVerify();
                 return vf;
@@ -642,12 +652,12 @@ hapj(function(H){
                 return vf;
             }
 
-            if (undefined == options) {
+            if (undefined === options) {
                 return H.log.error('hapj.ui.verifiable form is not init.');
             }
 
             // 对表单进行验证
-            vf = new verifiableForm(form, options);
+            vf = new VerifiableForm(form, options);
             vf.bindSubmit();
             form.setAttribute('verfy-id', _formCount);
             _formArray[_formCount] = vf;
@@ -687,7 +697,7 @@ hapj(function(H){
                     if (vf) {
                         vf.initElements();
                     }
-                })
+                });
             },
             /**
              * 显示错误信息。
@@ -715,14 +725,14 @@ hapj(function(H){
      * @param {Object} form
      * @param {Object} options
      */
-    function verifiableForm(form, options) {
+    function VerifiableForm(form, options) {
         this.form = form;
         this.options = options;
         this.elemAttrs = {};
         this.verifyFuncs = {};
     }
 
-    verifiableForm.prototype = {
+    VerifiableForm.prototype = {
         options: null,
         errNum: 0,//判断是否为表单中第一个报错，
         errElemId: '',
@@ -764,15 +774,17 @@ hapj(function(H){
                 }
                 attr.hinter.css('display', '').html(rule.msg);
 
-                if (self.errNum == 0 && inputType != 'hidden' && inputDisplay != 'none') {
+                if (self.errNum === 0 && inputType != 'hidden' && inputDisplay != 'none') {
                     elem.focus();//焦点到第一个报错的elem
-                    attr['hinter'].css('display', '');
+                    attr.hinter.css('display', '');
                     self.errNum++;
                 }
                 if (!elem.className || elem.className.indexOf === -1) {
                     elem.className = elem.className + ' err';
                 }
-                options.failure && options.failure.call(elem, type, rule, attr.hinter);
+                if (options.failure) {
+                    options.failure.call(elem, type, rule, attr.hinter);
+                }
                 attr.status = type;
             };
 
@@ -786,13 +798,15 @@ hapj(function(H){
                 if (elem.className.indexOf !== -1) {
                     elem.className = elem.className.replace('err', '');
                 }
-                options.success && options.success.call(elem, type, rule, attr.hinter);
+                if (options.success) {
+                    options.success.call(elem, type, rule, attr.hinter);
+                }
             };
             if (true === rule.async) {
                 rule.success = success;
                 rule.failure = function () {
                     failure.call();
-                }
+                };
                 verifyRules.verify(elemValue, type, rule);
             } else {
                 ret = verifyRules.verify(elemValue, type, rule);
@@ -805,7 +819,7 @@ hapj(function(H){
 
             // 如果不是通过form进行的验证，则会调用trigger触发其他验证
             if (!rule.formSubmit && rule.trigger && rule.trigger in this.verifyFuncs) {
-                this.verifyFuncs[rule.trigger]['func'].call();
+                this.verifyFuncs[rule.trigger].func.call();
             }
 
             return ret;
@@ -835,7 +849,9 @@ hapj(function(H){
                             this.hinter.hide();
                         }
                         this.status = 'hint';
-                        self.options.hint && self.options.hint.call(el, 'hint', rules.hint, this.hinter);
+                        if (self.options.hint) {
+                            self.options.hint.call(el, 'hint', rules.hint, this.hinter);
+                        }
                     }
                 };
             this.elemAttrs[name] = attr;
@@ -867,11 +883,10 @@ hapj(function(H){
                 if (!rule.event) {
                     rule.event = 'blur';
                 }
-                if (type == 'successMsg' && rules['successMsg'] == 'hide') {
+                if (type == 'successMsg' && rules.successMsg == 'hide') {
                     rule.successMsg = true;
                 }
                 var self = this,
-
                     func = (function (el, type, rule, required) {
                         return function (e) {
                             if (self.formSubmit && e.target.nodeName != 'FORM') {
@@ -910,18 +925,20 @@ hapj(function(H){
         initElements: function () {
             // 必须有name才予以验证
             for (var i = 0, l = this.form.elements.length, el, ruleStr; i < l; i++) {
-                if (!(el = this.form.elements[i]).name  // 必须要有name属性
-                    || !(ruleStr = el.getAttribute(VERIFY_KEY)) //必须要有验证规则
-                    || !$.trim(ruleStr) // 验证规则不为空
+                if (!(el = this.form.elements[i]).name  || // 必须要有name属性
+                    !(ruleStr = el.getAttribute(VERIFY_KEY)) || //必须要有验证规则
+                    !$.trim(ruleStr) || // 验证规则不为空
 //            || el.name in this.elemAttrs // 如果已经有过，就不再继续验证
-                    || el.tmp //判断当前控件验证是否已经存在，如果存在就不再继续验证
+                    el.tmp //判断当前控件验证是否已经存在，如果存在就不再继续验证
                 ) {
                     continue;
                 }
                 el.tmp = true; //如果当前控件验证不存在则添加
                 var name = el.name, rules;
                 try {
+                    /* jshint ignore:start */
                     rules = eval('(' + ruleStr + ')');
+                    /* jshint ignore:end */
                 } catch (e) {
                     return H.log.error(e.message);
                 }
@@ -957,18 +974,18 @@ hapj(function(H){
 
                 self.cleanVerify();
                 self.errNum = 0;
-                var pass = true;
+                var pass = true, ret;
                 self.formSubmit = true;
                 for (var i in self.verifyFuncs) {
-                    var ret = self.verifyFuncs[i]['func'].call(self, e);
+                    ret = self.verifyFuncs[i].func.call(self, e);
                     if (ret === false) {
                         pass = false;
                     }
                 }
                 self.formSubmit = false;
-                self.options['_submited_'] = true; // 已经被提交
+                self.options._submited_ = true; // 已经被提交
                 if (pass) {
-                    var ret = true;
+                    ret = true;
                     if (self.options.submit) {
                         ret = self.options.submit.call(this, e, self.options);
                     } else {
@@ -977,7 +994,7 @@ hapj(function(H){
                             ret = f.call(this, e, self.options);
                         }
                     }
-                    return !(ret === false);
+                    return ret !== false;
                 }
                 return false;
             });
