@@ -2,6 +2,7 @@
 $examples = array(
     array('name' => 'Lazyload', 'url' => './js/ui/lazyload.php'),
     array('name' => 'Verifiable', 'url' => './js/ui/verifiable.php'),
+
 );
 ?>
 <!doctype html>
