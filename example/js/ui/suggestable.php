@@ -4,10 +4,8 @@ include '../../include/header.phtml';
 ?>
 <script src="/src/js/ui/suggestable.js"></script>
 <style>
-    body{font-family:"微软雅黑";}
     ul,li{list-style:none;}
     h1{font-size:30px;}
-    .codewrap{margin:20px 0;}
     button{width:120px; height:26px; line-height:24px; background:#e02020; color:#fff; border:none; font-size:14px; border-radius:3px;}
     .menu{display:none;border:solid 2px #CCC;width:200px;height:200px;}
 	.suggestion ul,.suggestion li{list-style:none;padding:0;margin:0;}

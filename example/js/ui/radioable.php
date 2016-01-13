@@ -7,7 +7,7 @@ include '../../include/header.phtml';
 <p>该插件主要功能是将多选框转化成评分小星星。原理是隐藏原生的多选框，根据多选框的个数均分外层背景图片容器的宽度，当鼠标移入或者点击的时候，
     判断事件触发的坐标在哪个对应的input中，将外层容器的类名改成对应的class，切换背景图的定位。从而展现出不同的星星</p>
 <h3>1.css写法</h3>
-<p>根据现实的星星个数，来定位position位置</p>
+<p>根据星星个数，来定位position位置</p>
 <pre>
     <code class="html">
      .star,.star-1,.star-2,.star-3,.star-4,.star-5{
