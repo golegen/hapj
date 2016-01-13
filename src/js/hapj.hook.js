@@ -1,6 +1,17 @@
+/**
+ * @namespace jQuery
+ */
+ /**
+ * @namespace jQuery.fn
+ */
+
 (function (H, $) {
     'use strict';
 
+    /**
+     * hook机制详解
+     * @example
+     */
     $(function () {
         $('*[data-hook]').each(function () {
             var name = this.getAttribute('data-hook'),

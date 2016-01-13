@@ -1,9 +1,9 @@
 /** 
- * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
- * @class jQuery.fn.floatable
- * @author dengxiaolong@jiehun.com.cn  liuxiaoyan@hunbasha.com
+ * @copyright Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
+ * @namespace jQuery.fn.floatable
+ * @author dengxiaolong@jiehun.com.cn,liuxiaoyan@hunbasha.com
  * @date 2016-01-11
- * @version 1.6
+ * @version 1.6.1
  * @description 使元素能相对另一个元素浮动起来。此代码可以使元素在整个页面居中、或浮动在页面左上角，右上角等
  * @example
 		// 设置divMenu元素处于linkMenu元素的左上角
@@ -43,9 +43,11 @@
 		return me;
 	};
 	var Me = function(){};
+
 	Me.prototype = {
 		/**
 		 * 在指定位置显示
+		 * @function jQuery.fn.floatable.to
 		 * @param {Number} left 左边距
 		 * @param {Number} top 顶边距
 		 * 
@@ -63,6 +65,7 @@
 		},
 		/**
 		 * 顶部对齐
+		 * @function jQuery.fn.floatable.top
 		 * @param {Number} offset 
 		 */
 		top:function(offset, out){
@@ -73,7 +76,9 @@
 		},
 		/**
 		 * 底部对齐
-		 * @param {Number} offset 
+		 * @function jQuery.fn.floatable.bottom
+		 * @param {number} offset
+		 * @param {number} out
 		 */
 		bottom:function(offset, out){
 			var ui = this.ui, pos = this.position, height;
@@ -91,6 +96,7 @@
 		},
 		/**
 		 * 垂直居中
+		 * @function jQuery.fn.floatable.middle
 		 * @param {Number} offset 
 		 */
 		middle:function(offset){
@@ -104,6 +110,7 @@
 		},
 		/**
 		 * 左边对齐
+		 * @function jQuery.fn.floatable.left
 		 * @param {Number} offset 
 		 */
 		left: function(offset, out) {
@@ -117,6 +124,7 @@
 		},
 		/**
 		 * 右边对齐
+		 * @function jQuery.fn.floatable.right
 		 * @param {Number} offset 
 		 */
 		right: function(offset, out) {
@@ -135,6 +143,7 @@
 		},
 		/**
 		 * 左右居中
+		 * @function jQuery.fn.floatable.center
 		 * @param {Number} offset 
 		 */
 		center: function(offset) {

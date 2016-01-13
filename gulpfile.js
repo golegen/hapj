@@ -76,7 +76,15 @@ gulp.task('doc', function () {
 
     return gulp.src(jsSrc)
         .pipe(jsdoc.parser())
-        .pipe(jsdoc.generator('./doc/'))
+        .pipe(jsdoc.generator('./doc/', {
+            path:'ink-docstrap',
+            systemName: 'HapJ前端框架文档',
+            copyright: '@hunbasha.com',
+            theme:'united',
+            inverseNav: true,
+            navType: 'horizontal',
+            linenums: true,
+        }))
         ;
 });
 
@@ -166,21 +174,21 @@ gulp.task('watch', function () {
 
 });
 
-gulp.task('less', function() {
+gulp.task('less', function () {
     var less = require('gulp-less');
 
     return gulp.src(
         './src/css/**/*.less'
         )
         .pipe(less())
-        .pipe(rename(function(path) {
+        .pipe(rename(function (path) {
             path.extname = '.lesscss';
         }))
         .pipe(gulp.dest('./src/css/'))
         ;
 });
 
-gulp.task('parsecss', ['less'], function() {
+gulp.task('parsecss', ['less'], function () {
     var base64 = require('gulp-base64');
 
     //del.sync('./src/css/**/*.lesscss');
@@ -192,11 +200,11 @@ gulp.task('parsecss', ['less'], function() {
             maxImageSize: 8 * 1024,
             debug: true
         }))
-        .pipe(rename(function(path) {
+        .pipe(rename(function (path) {
             path.extname = '.css';
         }))
         .pipe(gulp.dest('./dist/hapj/css/'))
-    ;
+        ;
 });
 
 // less任务

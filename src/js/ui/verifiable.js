@@ -1,9 +1,11 @@
 /**
- * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
+ *
+ * 使元素可验证
+ * @copyright Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
- * @date 2016-01-11
+ * @since 2016-01-11
  * @version 1.6.1
- * @brief 使元素可验证
+ * @namespace jQuery.fn.verifiable
  * @example
  *
  * ## html code
@@ -25,9 +27,7 @@
 </form>
  *
  * ## js code
-hapj(function(H){
-    H.ui.id('formAdd').verifiable();
- });
+$('#formAdd').verifiable();
  **/
 (function (H, $, undefined) {
     'use strict';
