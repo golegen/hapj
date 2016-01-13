@@ -15,7 +15,7 @@ $('#suggestable').suggestable({
 });
 
  **/
-!function($){
+(function($){
 	'use strict';
 	
 	var defaults = {
@@ -288,4 +288,4 @@ $('#suggestable').suggestable({
 			this._select(0);
 		}
 	};
-}(jQuery);
+})(jQuery);
