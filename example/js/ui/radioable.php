@@ -7,6 +7,7 @@
 <h3>1.css写法</h3>
 <p>根据现实的星星个数，来定位position位置</p>
 <pre>
+    <code class="html">
      .star,.star-1,.star-2,.star-3,.star-4,.star-5{
         cursor:pointer;
         width:115px;
@@ -22,17 +23,20 @@
     .star-3{background-position:0 -168px}
     .star-4{background-position:0 -224px}
     .star-5{background-position:0 -280px}
+    </code>
 </pre>
 <h3>2.html写法</h3>
 <pre>
-         &lt;p id="radio"&gt;
-     &lt;input type="radio" name="star" value="1" id="star-1"/&gt;&lt;label for="star-1"&gt;一星级&lt;/label&gt;
-     &lt;input type="radio" name="star" value="2" id="star-2"/&gt;&lt;label for="star-2"&gt;二星级&lt;/label&gt;
-     &lt;input type="radio" name="star" value="3" id="star-3"/&gt;&lt;label for="star-3"&gt;三星级&lt;/label&gt;
-     &lt;input type="radio" name="star" value="4" id="star-4"/&gt;&lt;label for="star-4"&gt;四星级&lt;/label&gt;
-     &lt;input type="radio" name="star" value="5" id="star-5"/&gt;&lt;label for="star-5"&gt;五星级&lt;/label&gt;
-     &lt;/p&gt;
+    <code class="html">
+        &lt;p id="radio"&gt;
+         &lt;input type="radio" name="star" value="1" id="star-1"/&gt;&lt;label for="star-1"&gt;一星级&lt;/label&gt;
+         &lt;input type="radio" name="star" value="2" id="star-2"/&gt;&lt;label for="star-2"&gt;二星级&lt;/label&gt;
+         &lt;input type="radio" name="star" value="3" id="star-3"/&gt;&lt;label for="star-3"&gt;三星级&lt;/label&gt;
+         &lt;input type="radio" name="star" value="4" id="star-4"/&gt;&lt;label for="star-4"&gt;四星级&lt;/label&gt;
+         &lt;input type="radio" name="star" value="5" id="star-5"/&gt;&lt;label for="star-5"&gt;五星级&lt;/label&gt;
+        &lt;/p&gt;
      &lt;span id="hint"&gt;&lt;/span&gt;
+    </code>
 </pre>
 <h3>3.js写法</h3>
 <h3>找到input的容器，执行radioable方法,radioable方法中穿入的参数option中有一下几种：</h3>
@@ -46,6 +50,7 @@
     <li><i>selectedClass:</i>点击时的类名，默认值为：'star-{value}'</li>
 </ol>
 <pre>
+    <code class="html">
     $('#radio').radioable({
         name:'star',                     <i>//input的name(必填参数)</i>
         width:115,                       <i>//宽度为背景图的容器的宽度(必填参数)</i>
@@ -56,6 +61,7 @@
             $('#hint').html(' &lt;span style="color:#F00"&gt' + t + '&ltspan&gt');
         }
     });
+    </code>
 </pre>
 <h3>4.效果展示</h3>
 <style>
@@ -95,9 +101,7 @@
         <input type="radio" name="star" value="5" id="star-5"/><label for="star-5">五星级</label>
     </p>
     <span id="hint"></span>
-
 <script>
-//    var hint = $('#hint');
     $('#radio').radioable({
         name:'star',
         width:115,

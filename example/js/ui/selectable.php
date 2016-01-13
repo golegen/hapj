@@ -39,6 +39,7 @@
 <h3>1.html写法</h3>
 <h3>主要用来将普通的下拉框组件(或ul)转化为可以自定义样式的下拉框组件。绑定到原有下拉框的事件也会起作用。原理是隐藏原生的下拉列表，用dt等元素模拟显示下拉效果</h3>
 <pre>
+    <code class="html">
     &lt;select&gt;
         &lt;option value="0"&gt;婚芭莎-婚纱照&lt;/option&gt;
         &lt;option value="1"&gt;婴芭莎-童车、奶粉&lt;/option&gt;
@@ -51,10 +52,12 @@
         &lt;li>家芭莎-沙发、彩电&lt;/li&gt;
         &lt;li>车芭莎-兰博基尼&lt;/li&gt;
     &lt;/ul
+        </code>
 </pre>
 <h3>2.css写法</h3>
 <p>css样式自定义，不做要求</p>
 <pre>
+    <code class="html">
     ul {
         list-style: none;
     }
@@ -68,9 +71,9 @@
         background:#0078d6;
         color:#fff;
     }
+        </code>
 </pre>
 <h3>3.js写法</h3>
-
      param options 配置参数，目前支持的有：
      <dl>
       <dt>selectedClassName:<em>string</em></dt>
@@ -89,12 +92,14 @@
       <dd>更改时调用的方法</dd>
      </dl>
 <pre>
+    <code class="html">
     $('select').selectable({
         showEvent:'mouseenter',
         pack:function(o) {
             return '搜索' + o.text;
         }
     });
+    </code>
 </pre>
 <h3>4.效果展示</h3>
     <select class="select2">

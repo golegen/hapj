@@ -6,10 +6,10 @@
  * @brief
  });
  **/
-(function(H, me, undefined){
+(function($, me, undefined){
     var _pl = 0, // 父级便宜左边距
         _pt = 0, // 父级便宜上边距
-        dlg,inited = false,_cb, _fl ,_mask,_maskClick=false, _sized = false,_d = H.ui.elem(document),_dlg, isIE6 = H.browser.type == 'msie' && H.browser.version < 7, _close = function(e) {
+        dlg,inited = false,_cb, _fl ,_mask,_maskClick=false, _sized = false,_d = $(document),_dlg, /*isIE6 = H.browser.type == 'msie' && H.browser.version < 7,*/ _close = function(e) {
             hide(true);
             return false;
         },_enableEnter = false,_lastFocus = null, body = document.compatMode == 'CSS1Compat' ? document.documentElement : document.body;
@@ -26,11 +26,10 @@
             return;
         }
         inited = true;
-        dlg = H.ui._node('div', {
-            'class':'dialog'
-        });
-        dlg.style.display = 'none';
-        dlg.style.position = 'absolute';
+        dlg = $('div.dialog');
+        dlg = css({position:'none',display:'none'});
+        //dlg.style.display = 'none';
+        //dlg.style.position = 'absolute';
         dlg.innerHTML = '<div class="hd"><p id="dialog_title"></p><a class="close" title="关闭"></a></div><div class="bd"></div><div class="ft"><input type="button" class="e-btn-light" value="确定"/><input type="button" value="取消"/></div><span class="icon"></span>';
         dlg.style.zIndex = 10005;
         document.body.appendChild(dlg);
@@ -640,4 +639,4 @@
         }
     };
     H.ui.dialog = me;
-})(hapj);
+})(jQuery);
