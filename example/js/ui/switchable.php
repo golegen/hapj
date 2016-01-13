@@ -2,7 +2,7 @@
 $showType = 'example';
 include '../../include/header.phtml';
 ?>
-<h1>浮动元素定位(floatable)</h1>
+<h1>轮播图(switchable)</h1>
 <script src="/src/js/ui/switchable.js"></script>
 
 <style>
