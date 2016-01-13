@@ -26,6 +26,7 @@ include '../../include/header.phtml';
 <h2>selectable使用方法</h2>
 <h3>1.html写法</h3>
 <h3>主要用来将普通的下拉框组件(或ul)转化为可以自定义样式的下拉框组件。绑定到原有下拉框的事件也会起作用。原理是隐藏原生的下拉列表，用dt等元素模拟显示下拉效果</h3>
+    <label class="label label-primary">html:</label>
 <pre>
     <code class="html">
         &lt;select&gt;
@@ -44,6 +45,7 @@ include '../../include/header.phtml';
 </pre>
 <h3>2.css写法</h3>
 <p>css样式自定义，不做要求</p>
+    <label class="label label-primary">css:</label>
 <pre>
     <code class="css">
         ul {
@@ -79,6 +81,7 @@ include '../../include/header.phtml';
       <dt>onChange:<em>function()</em></dt>
       <dd>更改时调用的方法</dd>
      </dl>
+    <label class="label label-primary">javascript:</label>
 <pre>
     <code class="html">
     $('select').selectable({

@@ -1,15 +1,15 @@
 /**
- * Copyright (c) 2012, Jiehun.com.cn Inc. All Rights Reserved
+ * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-01-12
  * @version 1.6.1
  * @brief
  });
  **/
-(function($, me, undefined){
+(function($,H, me, undefined){
     var _pl = 0, // 父级便宜左边距
         _pt = 0, // 父级便宜上边距
-        dlg,inited = false,_cb, _fl ,_mask,_maskClick=false, _sized = false,_d = $(document),_dlg, /*isIE6 = H.browser.type == 'msie' && H.browser.version < 7,*/ _close = function(e) {
+        dlg,inited = false,_cb, _fl ,_mask,_maskClick=false, _sized = false,_d = $(document),_dlg, isIE6 = H.browser.type == 'msie' && H.browser.version < 7, _close = function(e) {
             hide(true);
             return false;
         },_enableEnter = false,_lastFocus = null, body = document.compatMode == 'CSS1Compat' ? document.documentElement : document.body;
@@ -26,23 +26,21 @@
             return;
         }
         inited = true;
-        dlg = $('div.dialog');
-        dlg = css({position:'none',display:'none'});
-        //dlg.style.display = 'none';
-        //dlg.style.position = 'absolute';
+        //创建一个节点
+        dlg=$("<div class='dialog'></div>")[0];
+        dlg.style.display = 'none';
+        dlg.style.position = 'absolute';
         dlg.innerHTML = '<div class="hd"><p id="dialog_title"></p><a class="close" title="关闭"></a></div><div class="bd"></div><div class="ft"><input type="button" class="e-btn-light" value="确定"/><input type="button" value="取消"/></div><span class="icon"></span>';
         dlg.style.zIndex = 10005;
         document.body.appendChild(dlg);
-
-        H.each(dlg.childNodes[2].childNodes, function(){
+        $.each(dlg.childNodes[2].childNodes, function(){
             this.onclick = _close;
         });
         dlg.childNodes[0].childNodes[1].onclick = _close;
-        _dlg = H.ui.elem(dlg);
-
+        _dlg = $(dlg);
 
         // 全局快捷键
-        H.ui.elem(document).on('keydown', function (event) {
+        $(document).on('keydown', function (event) {
             var target = event.target,
                 nodeName = target.nodeName,
                 rinput = /^INPUT|TEXTAREA$/,
@@ -51,7 +49,7 @@
             if ( rinput.test(nodeName) ) return;
             if (keyCode === 27) {
                 _dlg.hide();
-                undefined != _mask && H.ui.elem(_mask).hide();
+                undefined != _mask && $(_mask).hide();
             } else if (keyCode == 13 && _enableEnter) {
                 _close();
                 _enableEnter = false;
@@ -60,12 +58,13 @@
 
     }
 
+    //创建dialog中的节点
     function getContentNode(name, attr) {
         attr = attr || {};
-        H.extend(attr, {'class': 'bd'});
+        $.extend(attr, {'class': 'bd'});
         switch (name) {
             case 'DIV':
-                node = H.ui._node(name, attr);
+                node = $("<div class="+attr.class+"></div>")[0];
                 break;
             case 'IFRAME':
                 var a = {
@@ -74,25 +73,26 @@
                     marginwidth:'0',
                     marginheight:'0'
                 };
-                H.extend(a, attr);
-                node = H.ui._node(name, a);
+                $.extend(a, attr);
+                node = $("<iframe frameBorder = 'no' scrolling = 'auto' marginwidth='0' marginheight='0'></iframe>")[0];
                 break;
             case 'FORM':
-                var a = {
-                    method:'POST'
-                };
-                node = H.ui._node(name, a);
+                //var a = {
+                //    method:'POST'
+                //};
+                node = $("<form method='post'></form>")[0];
                 break;
         }
         return node;
     }
 
+    //设置弹窗的题头
     function setTitle(title) {
         dlg.childNodes[0].childNodes[0].innerHTML = title;
     }
-
+    //设置弹窗的内容
     function setContent(content) {
-        H.ui.elem(dlg.childNodes[1]).html(content);
+        $(dlg.childNodes[1]).html(content);
     }
 
     function changeDlgNodeName(name) {
@@ -119,7 +119,7 @@
 
     function hideAllBtns(){
         dlg.childNodes[2].style.display = 'none';
-        H.each(dlg.childNodes[2].getElementsByTagName('input'), function() {
+        $.each(dlg.childNodes[2].getElementsByTagName('input'), function() {
             this.style.display = 'none';
         });
     }
@@ -131,8 +131,8 @@
 
             // 调整高度
             var height = 0;
-            H.each(dlg.childNodes, function() {
-                height += H.ui(this).height(true);
+            $.each(dlg.childNodes, function() {
+                height += $(this).outerHeight(true);
             });
             dlg.style.height = height + 'px';
         } else {
@@ -149,23 +149,22 @@
         window.onresize = function(){
             move();
         }
-        H.ui(window).on('scroll',function(){
+        $(window).on('scroll',function(){
             move();
         });
     }
 
     function move() {
         var w,h;
-        if((window.top==window.self)|| window.parent.hapj.ui('.dialog').length>0){
+        if((window.top==window.self)|| $('.dialog').length>0){
             w = $(window).width();
             h = $(window).height();
         }else{
             w = $(window.parent).width();
             h = $(window.parent).height();
         }
-        var os = _d.offset(),
-            left = (parseInt( os.left +  (w - _dlg.width(true))/2)),
-            top = (parseInt(os.top + (h - _dlg.height(true))/2));
+        var left = (parseInt( _d.scrollLeft() +  (w - _dlg.outerWidth(true))/2)),
+            top = (parseInt(_d.scrollTop() + (h - _dlg.outerWidth(true))/2));
         left += _pl;
         top += _pt;
         // 显示到屏幕正中央
@@ -175,7 +174,7 @@
 
     function resizeBody() {
         dlg.childNodes[1].style.width = '100%';
-        dlg.childNodes[1].style.height = (H.ui.elem(dlg).height(false) - H.ui.elem(dlg.childNodes[0]).height() - H.ui.elem(dlg.childNodes[2]).height()) + 'px';
+        dlg.childNodes[1].style.height = ($(dlg).innerHeight() - $(dlg.childNodes[0]).outerHeight() - $(dlg.childNodes[2]).outerHeight()) + 'px';
     }
 
     function hide(hideMask) {
@@ -191,7 +190,7 @@
 
             // 显示select控件
             if (isIE6) {
-                H.ui.tag('select').each(function(){
+                $('select').each(function(){
                     if (!this.getAttribute('ignoreHidden')) {
                         this.style.visibility = 'visible';
                     }
@@ -239,8 +238,8 @@
 
     // 拖拽事件
     var _dragEvent, _drag,
-        _window = H.ui.elem(window),
-        _document = H.ui.elem(document);
+        _window = $(window),
+        _document = $(document);
 
     var dragEvent = function () {
         var that = this,
@@ -279,15 +278,15 @@
         // 结束拖拽
         end: function (event) {
             _document
-                .un('mousemove', this.move)
-                .un('mouseup', this.end);
+                .off('mousemove', this.move)
+                .off('mouseup', this.end);
             return false;
         }
 
     };
     _drag = function (event) {
         var limit, startWidth, startHeight, startLeft, startTop,
-            wrap = H.ui.elem(event.target),
+            wrap = $(event.target),
             offset = wrap.offset();
         // 对话框准备拖动
         _dragEvent.onstart = function (x, y) {
@@ -307,12 +306,12 @@
 
         limit = (function () {
             var maxX, maxY,
-                ow = wrap.parent().width(),
-                oh = wrap.parent().height(),
+                ow = wrap.parent().outerWidth(),
+                oh = wrap.parent().outerHeight(),
                 ww = _window.width(),
                 wh = _window.height();
-            dl = _document.offset().left,
-                dt = _document.offset().top;
+            dl = _document.scrollLeft(),
+                dt = _document.scrollTop();
             // 坐标最大值限制
             maxX = ww - ow + dl;
             maxY = wh - oh + dt;
@@ -358,7 +357,7 @@
                 callback.call();
             }else{
                 registCallback(callback);
-                H.ui.dialog.callback();
+                $.dialog.callback();
             }
             return me;
         },
@@ -455,7 +454,7 @@
             show();
             resizeBody();
             dlg.childNodes[1].setAttribute('src', url);
-            H.ui.dialog.callback();
+            $.dialog.callback();
             me.mask();
             return me;
         },
@@ -470,7 +469,7 @@
             changeDlgNodeName('div');
             show();
             resizeBody();
-            H.lib.ajax({
+            $.ajax({
                 url: url,
                 type: 'get',
                 dataType: 'html',
@@ -482,13 +481,13 @@
             if (onClose) {
                 registCallback(onClose);
             }
-            H.ui.dialog.mask();
-            H.ui.dialog.callback();
+            $.dialog.mask();
+            $.dialog.callback();
             return me;
         },
         mask: function(isclick) {
             if (!_mask) {
-                _mask = H.ui._node('div');
+                _mask = $('<div></div>')[0];
                 var css = {
                     position:'fixed',
                     left:0,
@@ -501,18 +500,18 @@
                     filter: 'Alpha(Opacity=40)'
                 };
                 if (isIE6) {
-                    H.extend(css, {
+                    $.extend(css, {
                         position:'absolute',
-                        height:H.ui(document).height(true)
+                        height:$(document).height(true)
                     });
-                    H.ui.tag('select').each(function(){
+                    $('select').each(function(){
                         if (this.style.visibility == 'hidden' || this.style.display == 'none') {
                             this.setAttribute('ignoreHidden', 1);
                         }
                     });
                 }
-                H.ui(_mask).css(css);
-                H.ui.on(_mask, 'click', function(e) {
+                $(_mask).css(css);
+                $(_mask).on('click', function(e) {
                     if(isclick){
                         _maskClick = true;
                         _close();
@@ -522,14 +521,14 @@
                 });
                 if(isclick){
                     // 需要绑定点击隐藏dialog事件
-                    H.ui.on(_mask, 'click', _close);
+                    $(_mask).on('click', _close);
                     _maskClick = true;
                 }
                 document.body.appendChild(_mask);
             }
             // 隐藏select控件
             if (isIE6) {
-                H.ui.tag('select').each(function(){
+                $('select').each(function(){
                     if (!this.getAttribute('ignoreHidden')) {
                         this.style.visibility = 'hidden';
                     }
@@ -537,12 +536,12 @@
             }
             // 需要绑定点击隐藏dialog事件但是未绑定，则绑定
             if(isclick && _maskClick === false){
-                H.ui.on(_mask, 'click', _close);
+                $(_mask).on('click', _close);
                 _maskClick=true;
             }
             // 不需要绑定点击隐藏dialog事件，但已经绑定了，则解除绑定
             if(isclick==undefined && _maskClick===true){
-                H.ui.un(_mask,'click', _close);
+                $(_mask).off('click', _close);
                 _maskClick=false;
             }
             _mask.style.display = 'block';
@@ -551,8 +550,8 @@
         drag: function(){
             dlg.childNodes[0].childNodes[0].style.cursor = 'move';
             dlg.childNodes[0].childNodes[0].style.width = (parseInt(dlg.style.width)-40)+'px';
-            H.ui.elem(dlg.childNodes[0].childNodes[0]).on('mousedown', function (event) {
-                if(event.target.nodeName == 'A'){
+            $(dlg.childNodes[0].childNodes[0]).on('mousedown', function (event) {
+                    if(event.target.nodeName == 'A'){
                     return;
                 }
                 _dragEvent = _dragEvent || new dragEvent();
@@ -638,5 +637,5 @@
             return me;
         }
     };
-    H.ui.dialog = me;
-})(jQuery);
+    $.dialog = me;
+})(jQuery,hapj);
