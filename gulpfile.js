@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
+var rename = require('gulp-rename');
+var del = require('del');
 var jsSrc = [
     './src/js/**/*.js'
 ];
@@ -80,8 +82,6 @@ gulp.task('doc', function () {
 
 // 压缩代码
 gulp.task('min', function () {
-    var rename = require('gulp-rename');
-    var del = require('del');
     var cssmin = require('gulp-cssmin');
     var deleteLines = require('gulp-delete-lines');
 
@@ -166,21 +166,44 @@ gulp.task('watch', function () {
 
 });
 
-// less任务
-gulp.task('css', function () {
-    var del = require('del');
+gulp.task('less', function() {
     var less = require('gulp-less');
-    var rename = require('gulp-rename');
-    del.sync('/dist/hapj/css');
 
     return gulp.src(
         './src/css/**/*.less'
         )
         .pipe(less())
-        .pipe(rename({
-            suffix: '.min'
+        .pipe(rename(function(path) {
+            path.extname = '.lesscss';
         }))
-        .pipe(gulp.dest('./dist/hapj/css/'))
+        .pipe(gulp.dest('./src/css/'))
         ;
 });
+
+gulp.task('parsecss', function() {
+    var base64 = require('gulp-base64');
+
+    //del.sync('./src/css/**/*.lesscss');
+    del.sync('./dist/hapj/css');
+
+    gulp.src(['./src/css/**/*.lesscss', './src/css/**/*.css'])
+        .pipe(base64({
+            extensions: [/\.(jpg|png|gif)\?__INLINE__/],
+            maxImageSize: 8 * 1024,
+            debug: true
+        }))
+        .pipe(rename(function(path) {
+            path.extname = '.css';
+        }))
+        .pipe(gulp.dest('./dist/hapj/css/'))
+    ;
+});
+
+// less任务
+gulp.task('css', ['less', 'parsecss'], function () {
+    del.sync('./src/css/**/*.lesscss');
+});
+
+
+
 

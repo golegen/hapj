@@ -1,0 +1,361 @@
+/*
+ * dialog弹出框
+ */
+@yaheifont: "Microsoft Yahei", arial, "宋体";
+
+.dialog {
+  border: 4px solid #c8c8c8;
+  background-color: #fff;
+  font-family: @yaheifont;
+
+  .hd {
+    font-size: 16px;
+    height: 38px;
+    line-height: 38px;
+    position: relative;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #DFDFDF;
+    overflow: hidden;
+
+    p {
+      color: #999;
+      padding: 0 0 0 15px;
+      height: 38px;
+      line-height: 38px;
+
+      &.merchants_DMS {
+        height: 70px;
+        line-height: 22px;
+        padding-left: 60px;
+
+        img {
+          width: 40px;
+          height: 40px;
+          position: absolute;
+          margin-top: 15px;
+          left: 10px;
+        }
+
+        h3 {
+          padding-top: 12px;
+          font-size: 18px;
+          width: 380px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          a {
+            color: #666
+          }
+        }
+
+        span {
+          background: url("../img/store_sprite.gif") no-repeat -321px -664px;
+          padding-left: 20px;
+
+          a {
+            color: #333;
+            font-size: 12px;
+          }
+        }
+
+        span.on {
+          background-position: -321px -627px;
+        }
+      }
+    }
+
+
+    a.close {
+      position: absolute;
+      right: 9px;
+      top: 8px;
+      display: block;
+      zoom: 1;
+      width: 21px;
+      height: 21px;
+      background: url(./img/close.gif?__INLINE__) no-repeat 0 -195px;
+    }
+  }
+
+  .bd {
+    text-align: center;
+
+    span.err, span.ok {
+      color: #888;
+      background-image: none;
+      padding: 10px 10px 0;
+      font-size: 18px;
+      height: auto;
+      line-height: 34px;
+    }
+
+    span.err {
+      padding-left: 0;
+    }
+
+    form {
+      padding: 0;
+    }
+
+    table {
+      th {
+        text-align: right;
+        padding: 8px 0;
+        vertical-align: top;
+        font-weight: bold;
+        color: #666;
+      }
+
+      td {
+        padding-left: 10px;
+        color: #999;
+        padding: 8px 0;
+
+      }
+
+      .ok, .err {
+        font-size: 14px;
+        margin: 0 0 0 15px;
+      }
+    }
+
+    .appoint_msg {
+      text-align: center;
+      line-height: 25px;
+      color: #434343;
+      width: 420px;
+      height: 210px;
+      border: 5px solid #f85451;
+      position: relative;
+      font-family: @yaheifont;
+
+      h2 {
+        text-align: center;
+        height: 80px;
+        line-height: 80px;
+        font-weight: normal;
+        color: #666;
+        font-size: 24px;
+      }
+
+      p {
+        line-height: 24px;
+        color: #666;
+        font-size: 14px;
+        width: 380px;
+        padding-left: 25px;
+      }
+    }
+
+    .appoint_msg .con span,
+    .appoint_msg_ticket .con span,
+    .appoint_msg_tno .con span {
+      color: #f85451;
+    }
+
+    .appoint_msg a.e-btn-close,
+    .appoint_msg_ticket a.e-btn-close,
+    .appoint_msg_tno a.e-btn-close {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      background: url(img/appoint_close.png?__INLINE__) no-repeat;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+
+    .appoint_msg b,
+    .appoint_msg_ticket b {
+      color: #f00;
+    }
+
+    .appoint_msg .e-btn-light,
+    .appoint_msg_ticket .e-btn-light {
+      margin-top: 13px;
+    }
+
+    .appoint_msg .btn,
+    .appoint_msg_ticket .btn,
+    .appoint_msg_ticket .btn_ok,
+    .appoint_msg_tno .btn_ok {
+      display: block;
+      font-family: @yaheifont;
+      font-size: 16px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      width: 120px;
+      margin: 0 auto;
+      background: #f85451;
+      color: #fff;
+      border-radius: 4px;
+      margin-top: 5px;
+    }
+
+    .appoint_msg .btn:hover {
+      background: #e32b2b;
+      text-decoration: none;
+    }
+
+    .appoint_msg .btn:hover {
+      background: #e32b2b;
+      text-decoration: none;
+    }
+
+    .appoint_msg_ticket .btn:hover {
+      background: #e32b2b;
+      text-decoration: none;
+    }
+
+    .appoint_msg_ticket {
+      text-align: left;
+      line-height: 25px;
+      color: #434343;
+      background: #fff;
+      width: 420px;
+      padding: 0 10px 10px;
+      border: 5px solid #f85451;
+      position: relative;
+      font-family: @yaheifont;
+    }
+
+    .appoint_msg_tno {
+      text-align: left;
+      line-height: 25px;
+      color: #434343;
+      width: 420px;
+      height: 200px;
+      border: 5px solid #f85451;
+      position: relative;
+      font-family: @yaheifont;
+    }
+
+    .appoint_msg_ticket h2,
+    .appoint_msg_tno h2 {
+      height: 40px;
+      line-height: 40px;
+      font-weight: normal;
+      color: #666;
+      font-size: 20px;
+      padding-left: 25px;
+    }
+
+    .appoint_msg_ticket p,
+    .appoint_msg_tno p {
+      line-height: 25px;
+      color: #666;
+      font-size: 14px;
+      padding-left: 60px;
+    }
+
+    .appoint_msg_ticket .space,
+    .appoint_msg_tno .space {
+      height: 15px;
+    }
+
+    .appoint_msg_ticket .tit01,
+    .appoint_msg_tno .tit01 {
+      background: url("img/appoint_tit01.jpg?__INLINE__") no-repeat;
+      width: 26px;
+      height: 26px;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: -5px;
+      *vertical-align: -1px;
+    }
+
+    .appoint_msg_ticket .tit02 {
+      background: url("img/appoint_tit02.jpg?__INLINE__") no-repeat;
+      width: 26px;
+      height: 26px;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: -5px;
+      *vertical-align: -1px;
+    }
+
+    .appoint_msg_tno .tit03 {
+      background: url("img/appoint_tit03.jpg?__INLINE__") no-repeat;
+      width: 26px;
+      height: 26px;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: -5px;
+      *vertical-align: -1px;
+    }
+
+    .appoint_msg_tno div,
+    .appoint_msg_ticket div {
+      text-align: center;
+    }
+
+  }
+
+  .ft {
+    bottom: 0;
+    height: 60px;
+    left: 0;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    width: 300px;
+    display: table-cell;
+
+    input {
+      display: table-cell;
+      display: inline-block;
+      *display: table-cell;
+      width: 30%;
+      height: 35px;
+      line-height: 35px;
+      margin: 0 5%;
+      background: #d5d5d5;
+      border: none;
+    }
+
+    input.e-btn-light {
+      background: #f85451;
+      background-image: none;
+      color: #fff;
+      font-size: 16px;
+    }
+  }
+}
+
+
+/*
+ * dialog 弹出框(红色系列)
+ */
+.dialog_red {
+  border: none;
+  border-radius: 5px;
+  font-family: @yaheifont;
+
+  .hd {
+    background-color: #f85451;
+    height: 60px;
+    line-height: 60px;
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+
+    p {
+      color: #fff;
+      font-size: 24px;
+      height: 60px;
+      line-height: 60px;
+    }
+
+    a.close {
+      background: url(img/red_close.gif?__INLINE__) no-repeat;
+      height: 20px;
+      width: 20px;
+      top: 18px;
+    }
+
+    iframe {
+      border-radius: 5px;
+    }
+  }
+}

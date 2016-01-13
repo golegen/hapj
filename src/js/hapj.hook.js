@@ -78,25 +78,36 @@
 
     $(document).ajaxStart(function () {
         if (!loading) {
-            loading = $('<div style="background:#369;position:absolute;height:200px;width:200px;border-radius:20px;opacity:0.5;"><div class="load4"><div class="loader"></div></div></div> ').appendTo(document.body);
+            loading = $('<div style="background:#369;position:fixed;height:200px;width:200px;border-radius:20px;opacity:0.5;"><div class="load4"><div class="loader"></div></div></div> ').appendTo(document.body);
         }
         var w = $(document).width(), h = $(document).height();
         loading.css({
-            left: w/2 - 100,
-            top:h/2 - 100
+            left: w / 2 - 100,
+            top: h / 2 - 100
         });
 
         loading.show();
     });
 
     $(document).ajaxComplete(function () {
-        setTimeout(function() {
+        setTimeout(function () {
             loading.hide();
         }, 800);
     });
 
-    $(document).ajaxSuccess(function() {
-       console.log(arguments);
+    $(document).ajaxError(function (evt, xhr, settings, error) {
+        setTimeout(function () {
+            loading.hide();
+        }, 800);
+        if ($.dialog) {
+            $.dialog.error(error);
+        } else {
+            alert(error);
+        }
+    });
+
+    $(document).ajaxSuccess(function () {
+        console.log(arguments);
     });
 })(jQuery);
 

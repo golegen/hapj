@@ -3,45 +3,20 @@ $showType = 'example';
 include '../../include/header.phtml';
 ?>
 
-<script src="img/hapj.js"></script>
-
 <script src="/src/js/ui/dialog.js"></script>
+<link rel="stylesheet" href="/dist/hapj/css/ui/dialog.css"/>
 <h2>dialog插件使用方法</h2>
-    <style>
-        .dialog{
-            border-radius:5px;
-            /*overflow: hidden;*/
-        }
-        .hd{
-            text-align: center;
-            height:40px;
-            line-height: 40px;
-            background-color:#eee;
-            border-bottom: 1px dotted #999;
-            border-radius:5px 5px 0 0 ;
-        }
-        .bd{
-            text-align: center;
-            height:300px;
-            background-color:#fff;
-
-        }
-        .ft {
-            text-align: center;
-            border-radius: 0 0 5px 5px;
-            height: 40px;
-            background-color: #eee;
-            border-top: 1px dotted #999;
-        }
-    </style>
 <h3>1.css写法</h3>
 <p>样式自定义，无要求</p>
     <label class="label label-primary">css:</label>
-<pre><code class="css">
+<pre><code class="html">
+&lt;link rel="stylesheet" href="/dist/hapj/css/ui/dialog.css"/&gt;
+或者自定义
+&lt;style&gt;
 .dialog{
     border-radius:5px;
 }
-.hd{
+.dialog .hd{
     text-align: center;
     height:40px;
     line-height: 40px;
@@ -49,18 +24,19 @@ include '../../include/header.phtml';
     border-bottom: 1px dotted #999;
     border-radius:5px 5px 0 0 ;
 }
-.bd{
+.dialog .bd{
     text-align: center;
     height:300px;
     background-color:#fff;
 }
-.ft{
+.dialog .ft{
     text-align: center;
     border-radius:0 0 5px 5px;
     height:40px;
     background-color:#eee;
     border-top: 1px dotted #999;
 }
+&lt;/style&gt;
 </code>
 </pre>
 <h3>2.html写法</h3>

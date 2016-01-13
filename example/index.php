@@ -1,6 +1,7 @@
 <?php
 $showType = 'example';
 $examples = array(
+    array('name' => 'ajaxable', 'url' => './js/ui/ajaxable.php'),
     array('name' => 'dialog', 'url' => './js/ui/dialog.php'),
     array('name' => 'floatable', 'url' => './js/ui/floatable.php'),
     array('name' => 'Lazyload', 'url' => './js/ui/lazyload.php'),
@@ -23,6 +24,6 @@ $examples = array(
         <li><a href="<?= $ex['url'] ?>"><?= $ex['name']?></a></li>
         <?php endforeach; ?>
     </ul>
-
     <h3>Css例子</h3>
+
 <?php include 'include/footer.phtml'?>

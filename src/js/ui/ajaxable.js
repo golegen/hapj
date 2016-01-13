@@ -79,6 +79,7 @@
             });
         },
         successHandler = function (data, options) {
+            console.log(arguments);
             if (!data.err || data.err.indexOf('.ok') >= 0) {
                 if (options.ok) {
                     options.ok.call(this, data.data);
