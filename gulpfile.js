@@ -1,8 +1,11 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
+var gutil = require('gulp-util');
 var jsSrc = [
     './src/js/**/*.js'
 ];
+var args = process.argv.splice(2);
+
 var helps = [
     ['js', 'js生成、压缩'],
     ['css', 'css生成、压缩'],
@@ -10,17 +13,38 @@ var helps = [
     ['watch', '监控文件变化，并自动生成和压缩文件'],
     ['mardown', '生成markdown对应的html文件'],
     ['doc', '生成doc文档'],
+    ['server', '启动微型服务器'],
 ];
 
 gulp.task('default', function () {
-    var codes = [];
+    var codes = ["\n"];
     codes.push("帮助：");
-    helps.forEach(function(v, k) {
-        codes.push('  gulp ' + v[0]);
-        codes.push('    ' + v[1]);
-        codes.push("\n");
+    helps.forEach(function (v, k) {
+        if (k % 2 == 0) {
+            codes.push(gutil.colors.red('  gulp ' + v[0] + "\t" + v[1]));
+        } else {
+            codes.push(gutil.colors.magenta('  gulp ' + v[0] + "\t" + v[1]));
+        }
     });
-    console.log(codes.join("\n"));
+    codes.push("\n");
+    gutil.log(codes.join("\n"));
+});
+
+// 运行服务器
+gulp.task('server', function () {
+    args.shift();
+    var spawn = require('child_process').spawn;
+
+    args.unshift('start.php');
+    var process = spawn('php', args);
+    process.stdout.on('data', function (data) {
+        console.log(gutil.colors.green(data));
+    });
+
+    process.stderr.on('data', function (data) {
+        console.log(gutil.colors.red(data));
+    });
+
 });
 
 // js代码编译
@@ -59,59 +83,65 @@ gulp.task('min', function () {
     var rename = require('gulp-rename');
     var del = require('del');
     var cssmin = require('gulp-cssmin');
+    var deleteLines = require('gulp-delete-lines');
 
-    del.sync('./dist/js/');
+    del.sync('./dist/jquery');
+    del.sync('./dist/bootstrap');
+    del.sync('./dist/hightlightjs');
 
     // jquery
     gulp.src('./bower_components/jquery/dist/jquery.min.js')
-        .pipe(gulp.dest('./dist/js/jquery/'));
+        .pipe(gulp.dest('./dist/jquery/'));
 
     gulp.src('./bower_components/jquery.lazyload/jquery.lazyload.js')
         .pipe(uglify())
         .pipe(rename('jquery.lazyload.min.js'))
-        .pipe(gulp.dest('./dist/js/jquery/'));
+        .pipe(gulp.dest('./dist/jquery/'));
 
     // bootstrap
     gulp.src('./bower_components/bootstrap/dist/fonts/*')
-        .pipe(gulp.dest('./dist/js/bootstrap/fonts/'));
+        .pipe(gulp.dest('./dist/bootstrap/fonts/'));
 
     gulp.src('./bower_components/bootstrap/dist/js/bootstrap.min.js')
-        .pipe(gulp.dest('./dist/js/bootstrap/js/'));
+        .pipe(gulp.dest('./dist/bootstrap/js/'));
 
     gulp.src('./bower_components/bootstrap/dist/css/bootstrap.min.css')
-        .pipe(gulp.dest('./dist/js/bootstrap/css/'));
+        .pipe(deleteLines({
+            filters: [/\/\*# sourceMappingURL/i]
+        }))
+        .pipe(gulp.dest('./dist/bootstrap/css/'));
 
     // highlightjs
     gulp.src('./bower_components/highlightjs/highlight.pack.min.js')
         .pipe(rename('highlightjs.min.js'))
-        .pipe(gulp.dest('./dist/js/highlightjs/'));
+        .pipe(gulp.dest('./dist/highlightjs/'));
 
     gulp.src('./bower_components/highlightjs/styles/*.css')
         .pipe(cssmin())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('./dist/js/highlightjs/css/'));
+        .pipe(gulp.dest('./dist/highlightjs/css/'));
 
     gulp.src('./bower_components/highlightjs/styles/*.png')
-        .pipe(gulp.dest('./dist/js/highlightjs/css/'));
+        .pipe(gulp.dest('./dist/highlightjs/css/'));
 
     return gulp.src(jsSrc)
         .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(gulp.dest('./dist/js/hapj/'));
+        .pipe(gulp.dest('./dist/hapj/js/'));
 });
 
 gulp.task('js', ['min'], function () {
     var concat = require('gulp-concat');
     return gulp.src([
-            './dist/js/jquery/jquery.min.js',
-            './dist/js/hapj/hapj.min.js',
-            './dist/js/hapj/hapj.hook.min.js',
-            './dist/js/highlightjs/highlightjs.min.js'
+            './dist/jquery/jquery.min.js',
+            './dist/hapj/js/hapj.min.js',
+            './dist/hapj/js/hapj.hook.min.js',
+            './dist/highlightjs/highlightjs.min.js'
         ])
         .pipe(concat('hapj.example.js', {newLine: ';'}))
-        .pipe(gulp.dest('./dist/js/'));
+        .pipe(gulp.dest('./dist/hapj/js/'));
 });
 
 gulp.task('watch', function () {
@@ -120,10 +150,10 @@ gulp.task('watch', function () {
         './src/js/**/*.js',
         './src/css/**/*.css',
         './src/css/**/*.less'
-    ], function(evt) {
+    ], function (evt) {
         console.log(evt.type + ' ' + evt.path);
         var ext = path.extname(evt.path);
-        switch(ext) {
+        switch (ext) {
             case '.js':
                 gulp.run(['js']);
                 break;
@@ -141,17 +171,16 @@ gulp.task('css', function () {
     var del = require('del');
     var less = require('gulp-less');
     var rename = require('gulp-rename');
-    del.sync('/dist/css');
+    del.sync('/dist/hapj/css');
 
     return gulp.src(
         './src/css/**/*.less'
         )
         .pipe(less())
-        .pipe(uglify())
         .pipe(rename({
-            suffix:'.min'
+            suffix: '.min'
         }))
-        .pipe(gulp.dest('./dist/css/'))
-    ;
+        .pipe(gulp.dest('./dist/hapj/css/'))
+        ;
 });
 

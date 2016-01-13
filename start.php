@@ -19,7 +19,6 @@ $ip = system("ifconfig|grep '192.168.'|awk '{print $2}'|awk -F ':' '{print $2}'"
 ob_end_clean();
 
 
-
 $num = 0;
 while(true) {
     $url = "{$ip}:{$port}";
@@ -45,10 +44,12 @@ while(true) {
 function help()
 {
     echo <<<HELP
-php ./start.php
+gulp server
   -p 端口号，默认为10050
   -h 显示本帮助文档
   -d 后台运行，默认不
+
+或者直接运行 php start.php
 
 HELP;
     exit(0);
