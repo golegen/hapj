@@ -17,19 +17,19 @@ include '../../include/header.phtml';
 <div class="codewrap">
     <label class="label label-primary">Javascript:</label>
     <pre><code class="javascript">
-  $('#txtEmail').suggestable({
-	  items:['qq.com', 'hotmail.com', '163.com', '126.com','hotmail.com','foxmail.com','sina.com','sohu.com','gmail.com'],
-	  onSelect: function(text) {
-	      this.value = text;
-	  },
-	  autoSearch:true,
-	  searchPrefix: '@'
-  });
+$('#txtEmail').suggestable({
+  items:['qq.com', 'hotmail.com', '163.com', '126.com','hotmail.com','foxmail.com','sina.com','sohu.com','gmail.com'],
+  onSelect: function(text) {
+    this.value = text;
+  },
+  autoSearch:true,
+  searchPrefix: '@'
+});
     </code></pre>
     
     <label class="label label-primary">Html:</label>
     <pre><code class="html">
-    &lt;label&gt;请输入您的邮箱地址：&lt;/label&gt;&lt;input type="text" id="txtEmail"/&gt;
+&lt;label&gt;请输入您的邮箱地址：&lt;/label&gt;&lt;input type="text" id="txtEmail"/&gt;
     </code></pre>
 </div>
 <label>请输入您的邮箱地址：</label><input type="text" id="txtEmail"/>
