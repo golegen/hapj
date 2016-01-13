@@ -15,7 +15,7 @@ $('#suggestable').suggestable({
 });
 
  **/
-!function($){
+(function($){
 	'use strict';
 	
 	var defaults = {
@@ -178,7 +178,9 @@ $('#suggestable').suggestable({
 		}
 		
 		suggestion.onClick = function() {
-			conf.onSelect && conf.onSelect.call(self[0], conf.getItem ? suggestion.getItem() : suggestion.get());
+			if(conf.onSelect){
+				conf.onSelect.call(self[0], conf.getItem ? suggestion.getItem() : suggestion.get());
+			}
 			suggestion.hide();
 		};
 		this.attr('autocomplete', 'off')
@@ -226,7 +228,9 @@ $('#suggestable').suggestable({
 			self._index = index;
 			self._select(index);
 		}).on('li', 'click', function(e) {
-			self.onClick && self.onClick.call(null, self.get(true));
+			if(self.onClick){
+				self.onClick.call(null, self.get(true));
+			}
 		});
 		this._index = 0;
 		this._show = false;
@@ -284,4 +288,4 @@ $('#suggestable').suggestable({
 			this._select(0);
 		}
 	};
-}(jQuery);
+})(jQuery);
