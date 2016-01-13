@@ -11,6 +11,7 @@ $examples = array(
     array('name' => 'suggestable', 'url' => './js/ui/suggestable.php'),
     array('name' => 'switchable', 'url' => './js/ui/switchable.php'),
     array('name' => 'Verifiable', 'url' => './js/ui/verifiable.php'),
+    array('name' => 'calendar', 'url' => './js/ui/calendar.php'),
 );
 ?>
 <?php include 'include/header.phtml'?>
