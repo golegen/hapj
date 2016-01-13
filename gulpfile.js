@@ -84,6 +84,7 @@ gulp.task('doc', function () {
             inverseNav: true,
             navType: 'horizontal',
             linenums: true,
+            outputSourceFiles: true
         }))
         ;
 });
