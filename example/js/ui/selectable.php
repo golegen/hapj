@@ -26,7 +26,12 @@ include '../../include/header.phtml';
 <h2>selectable使用方法</h2>
 <h3>1.html写法</h3>
 <h3>主要用来将普通的下拉框组件(或ul)转化为可以自定义样式的下拉框组件。绑定到原有下拉框的事件也会起作用。原理是隐藏原生的下拉列表，用dt等元素模拟显示下拉效果</h3>
+<<<<<<< HEAD
+<pre>
+    <code class="html">
+=======
 <pre><code class="html">
+>>>>>>> 419252cd6969bdf67235f13392055fb3ac3bdef9
     &lt;select&gt;
         &lt;option value="0"&gt;婚芭莎-婚纱照&lt;/option&gt;
         &lt;option value="1"&gt;婴芭莎-童车、奶粉&lt;/option&gt;
@@ -39,10 +44,19 @@ include '../../include/header.phtml';
         &lt;li>家芭莎-沙发、彩电&lt;/li&gt;
         &lt;li>车芭莎-兰博基尼&lt;/li&gt;
     &lt;/ul
+<<<<<<< HEAD
+        </code>
+</pre>
+<h3>2.css写法</h3>
+<p>css样式自定义，不做要求</p>
+<pre>
+    <code class="html">
+=======
     </code></pre>
 <h3>2.css写法</h3>
 <p>css样式自定义，不做要求</p>
 <pre><code class="css">
+>>>>>>> 419252cd6969bdf67235f13392055fb3ac3bdef9
     ul {
         list-style: none;
     }
@@ -56,9 +70,13 @@ include '../../include/header.phtml';
         background:#0078d6;
         color:#fff;
     }
+<<<<<<< HEAD
+        </code>
+</pre>
+=======
     </code></pre>
+>>>>>>> 419252cd6969bdf67235f13392055fb3ac3bdef9
 <h3>3.js写法</h3>
-
      param options 配置参数，目前支持的有：
      <dl>
       <dt>selectedClassName:<em>string</em></dt>
@@ -76,14 +94,24 @@ include '../../include/header.phtml';
       <dt>onChange:<em>function()</em></dt>
       <dd>更改时调用的方法</dd>
      </dl>
+<<<<<<< HEAD
+<pre>
+    <code class="html">
+=======
 <pre><code class="javascript">
+>>>>>>> 419252cd6969bdf67235f13392055fb3ac3bdef9
     $('select').selectable({
         showEvent:'mouseenter',
         pack:function(o) {
             return '搜索' + o.text;
         }
     });
+<<<<<<< HEAD
+    </code>
+</pre>
+=======
     </code></pre>
+>>>>>>> 419252cd6969bdf67235f13392055fb3ac3bdef9
 <h3>4.效果展示</h3>
     <select class="select2">
         <option value="0">婚芭莎-婚纱照2</option>

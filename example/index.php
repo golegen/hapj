@@ -1,14 +1,16 @@
 <?php
 $showType = 'example';
 $examples = array(
-    array('name' => 'Lazyload', 'url' => './js/ui/lazyload.php'),
-    array('name' => 'Verifiable', 'url' => './js/ui/verifiable.php'),
+    array('name' => 'dialog', 'url' => './js/ui/dialog.php'),
     array('name' => 'floatable', 'url' => './js/ui/floatable.php'),
-    array('name' => 'switchable', 'url' => './js/ui/switchable.php'),
+    array('name' => 'Lazyload', 'url' => './js/ui/lazyload.php'),
+    array('name' => 'menuable', 'url' => './js/ui/menuable.php'),
     array('name' => 'progressable', 'url' => './js/ui/progressable.php'),
     array('name' => 'radioable', 'url' => './js/ui/radioable.php'),
     array('name' => 'selectable', 'url' => './js/ui/selectable.php'),
-    array('name' => 'dialog', 'url' => './js/ui/dialog.php'),
+    array('name' => 'suggestable', 'url' => './js/ui/suggestable.php'),
+    array('name' => 'switchable', 'url' => './js/ui/switchable.php'),
+    array('name' => 'Verifiable', 'url' => './js/ui/verifiable.php'),
 );
 ?>
 <?php include 'include/header.phtml'?>

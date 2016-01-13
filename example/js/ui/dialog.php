@@ -3,7 +3,10 @@ $showType = 'example';
 include '../../include/header.phtml';
 ?>
     <script src="http://s1.tthunbohui.cn/static/js/hapj.min.d4356b7d.js"></script>
-    <script src="../../../src/js/ui/dialog.js"></script>
+    <script src="http://s1.tthunbohui.cn/static/js/mod/address.fe161a8b.js"></script>
+
+
+    <script src="../../../src/js/ui/dialog2.js"></script>
     <h2>dialog插件使用方法发</h2>
 
     <pre>
@@ -14,7 +17,7 @@ include '../../include/header.phtml';
 
 </pre>
     <h3>3.js写法</h3>
-    <h3>找到input的容器，执行radioable方法,radioable方法中穿入的参数option中有一下几种：</h3>
+    <h3></h3>
 
     <pre>
 
