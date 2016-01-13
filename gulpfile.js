@@ -180,13 +180,13 @@ gulp.task('less', function() {
         ;
 });
 
-gulp.task('parsecss', function() {
+gulp.task('parsecss', ['less'], function() {
     var base64 = require('gulp-base64');
 
     //del.sync('./src/css/**/*.lesscss');
     del.sync('./dist/hapj/css');
 
-    gulp.src(['./src/css/**/*.lesscss', './src/css/**/*.css'])
+    return gulp.src(['./src/css/**/*.lesscss', './src/css/**/*.css'])
         .pipe(base64({
             extensions: [/\.(jpg|png|gif)\?__INLINE__/],
             maxImageSize: 8 * 1024,
@@ -200,7 +200,7 @@ gulp.task('parsecss', function() {
 });
 
 // less任务
-gulp.task('css', ['less', 'parsecss'], function () {
+gulp.task('css', ['parsecss'], function () {
     del.sync('./src/css/**/*.lesscss');
 });
 

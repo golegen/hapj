@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2012, Jiehun.com.cn Inc. All Rights Reserved
+ * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
- * @date 2012-02-16
- * @version 1.0
+ * @date 2016-01-13
+ * @version 1.6.1
  * @description 用来实现各种元素的异步化请求
  * @namespace jQuery.fn.ajaxable
+ * @example 详见：{@link __DOC_HOST__/example/js/ui/ajaxable.php|Ajaxable实例}
  **/
 (function ($) {
     "use strict";

@@ -1,41 +1,74 @@
 /**
- * hapj 1.6.1.7版本
- * 异步加载，提高页面渲染速度
- *
- */
-
+ * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
+ * @namespace hapj
+ * @author <ronnie>dengxiaolong@jiehun.com.cn
+ * @date 2016-01-07
+ * @version 1.6.1
+ * @description hapj 1.6.1版本，去掉基础ui功能，完全依赖jQuery作为UI底层。增加全新的hook机制
+ **/
 window.hapj = {
-    __version: '1.6.1.7',
+    __version: '1.6.1',
+    /**
+     * @descript 官方类库
+     */
     lib: {},
+    /**
+     * @description 第三方扩展
+     */
     ext: {}
 };
 
-/**
- * hook机制
- */
+
 (function (H) {
     'use strict';
 
     var hooks = {};
+    /**
+     * hook机制
+     * @namespace hapj.hook
+     */
     H.hook = {
-        set: function (name, h) {
+        /**
+         * 设置hook
+         * @function hapj.hook.set
+         * @param {string} name 名称
+         * @param {function} h 函数
+         */
+        'set': function (name, h) {
             if (!(name in hooks)) {
                 hooks[name] = [];
             }
             hooks[name].push(h);
         },
-        get: function (name) {
+        /**
+         * 获取hook
+         * @function hapj.hook.get
+         * @param name
+         * @returns {function}
+         */
+        'get': function (name) {
             if (!(name in hooks)) {
                 return null;
             }
             return hooks[name][0];
         },
+        /**
+         * 获取多个hook
+         * @function hapj.hook.gets
+         * @param {string} name 名称
+         * @returns {array}
+         */
         gets: function (name) {
             if (!(name in hooks)) {
                 return [];
             }
             return hooks[name];
         },
+        /**
+         * 删除hook
+         * @function hapj.hook.remove
+         * @param {string} name
+         */
         remove: function (name) {
             if (name in hooks) {
                 delete hooks[name];
@@ -630,45 +663,102 @@ window.hapj = {
 })(hapj);
 
 // 兼容性函数
-(function () {
+(function (H) {
     'use strict';
 
     var ts = Object.prototype.toString;
-    hapj.string = {
+    /**
+     * 字符串相关函数
+     * @namespace hapj.string
+     */
+    H.string = {
         /**
          * 返回去掉前后空格的字符串
-         * @
+         * @function hapj.string.trim
+         * @param {string} str
+         * @return {string}
          */
         trim: function (str) {
             return str ? str.replace(/(^[ \t\n\r]+)|([ \t\n\r]+$)/g, '') : '';
         },
+        /**
+         * 去掉字符串右边的空格
+         * @function hapj.string.rtrim
+         * @param {string} str
+         * @returns {string}
+         */
         rtrim: function (str) {
             return str ? str.replace(/[ \t\n\r]+$/, '') : '';
         },
+        /**
+         * 去掉字符串左边的空格
+         * @function hapj.string.ltrim
+         * @param {string} str
+         * @returns {string}
+         */
         ltrim: function (str) {
             return str ? str.replace(/^[ \t\n\r]+/, '') : '';
         },
+        /**
+         * 将字符串进行md5加密
+         * @function hapj.string.toMd5
+         * @param {string} str
+         * @returns {string}
+         */
         toMd5: function (str) {
             return hapj.lib.serial.toString(str, 'md5');
         },
+        /**
+         * 将json字符串成json对象
+         * @function hapj.string.toJson
+         * @param str
+         * @returns {*}
+         */
         toJson: function (str) {
             return hapj.lib.serial.toString(str, 'json');
         },
+        /**
+         * 将字符串转化成键值对对象
+         * @function hapj.string.toParam
+         * @param {string} str
+         * @returns {{}}
+         */
         toParam: function (str) {
             return hapj.lib.serial.getPair(str);
         },
         /**
          * 去掉html标志
-         * @param {Object} str
+         * @function hapj.string.stripTags
+         * @param {string} str
+         * @return {string}
          */
         stripTags: function (str) {
             return (str || '').replace(/<[^>]+>/g, '');
         }
     };
-    hapj.array = {
+
+    /**
+     * 数组相关函数
+     * @namespace hapj.array
+     */
+    H.array = {
+        /**
+         * 是否为数组
+         * @function hapj.array.isArray
+         * @param {*} arr
+         * @returns {boolean}
+         */
         isArray: function (arr) {
             return ts.call(arr) == '[object Array]';
         },
+        /**
+         * 循环数组
+         * @function hapj.array.each
+         * @param {array} obj
+         * @param {function} func 函数
+         *   function(obj, func)
+         * @param {*} me this指针
+         */
         each: function (obj, func, me) {
             for (var i = 0, l = obj.length; i < l; i++) {
                 if (obj[i] === null) continue;
@@ -679,8 +769,9 @@ window.hapj = {
         },
         /**
          * 合并两个数组，将arr2合并到arr1
-         * @param {Array} arr1
-         * @param {Array} arr2
+         * @function hapj.array.merge
+         * @param {array} arr1
+         * @param {array} arr2
          */
         merge: function (arr1, arr2) {
             for (var i = 0, l = arr2.length; i < l; i++) {
@@ -689,15 +780,28 @@ window.hapj = {
             return arr1;
         }
     };
-    hapj.object = {
+    /**
+     * 对象相关函数
+     * @namespace hapj.object
+     */
+    H.object = {
         /**
          * a是否包含属性b
+         * @function hapj.object.has
          * @param {Object} a
          * @param {Object} b
+         * @return {boolean}
          */
         has: function (a, b) {
             return a.hasOwnProperty(b);
         },
+        /**
+         * 对对象执行循环
+         * @function hapj.object.each
+         * @param {{}} obj
+         * @param {function} func
+         * @param {*} me this指针指向的对象
+         */
         each: function (obj, func, me) {
             for (var k in obj) {
                 if (!this.has(obj, k) || obj[k] === null) continue;
@@ -706,6 +810,13 @@ window.hapj = {
                 }
             }
         },
+        /**
+         * 继承属性, 将b的属性继承到a
+         * @function hapj.object.extend
+         * @param {{}} a
+         * @param {{}} b
+         * @returns {{}}
+         */
         extend: function (a, b) {
             if (typeof a == 'undefined') {
                 a = {};
@@ -717,13 +828,18 @@ window.hapj = {
         },
         /**
          * 转化为参数形式
-         * @param {Object}
+         * @function hapj.object.toString
+         * @param {object} from
+         * @return {string}
          */
         toString: function (from) {
             return hapj.lib.serial.toString(from, 'pair');
         },
         /**
          * 判断是否为空对象
+         * @function hapj.object.isEmpty
+         * @param {object} obj
+         * @return {boolean}
          */
         isEmpty: function (obj) {
             for (var k in obj) {
@@ -776,10 +892,28 @@ window.hapj = {
     };
 
     hapj.isArray = hapj.array.isArray;
-    hapj.extend = hapj.object.extend;
-    hapj.trim = hapj.string.trim;
+    /**
+     * @function hapj.extend
+     * @see hapj.object.extend
+     */
+    H.extend = hapj.object.extend;
+    /**
+     * @function hapj.trim
+     * @see hapj.string.trim
+     */
+    H.trim = hapj.string.trim;
 
-    hapj.each = function (obj, func, me) {
+    /**
+     * 对对象或数组执行循环
+     * @function hapj.each
+     * @param {array|object} obj
+     * @param {function} func
+     * @param {*} me this指针
+     * @example
+     * 如果是array类型，查看 {@link hapj.array.each}
+     * 如果是object类型，查看 {@link hapj.object.each}
+     */
+    H.each = function (obj, func, me) {
         if (!obj) return;
         if ('length' in obj) {
             return hapj.array.each(obj, func, me);
@@ -789,10 +923,16 @@ window.hapj = {
     };
 
     var ps, cs;
-    hapj.page = {
+    /**
+     * 页面相关事情的处理
+     * @namespace hapj.page
+     */
+    H.page = {
         /**
          * 获取页面url参数
-         * @param {String} key
+         * @function hapj.page.getParam
+         * @param {string} key
+         * @return {string}
          */
         getParam: function (key) {
             if (!ps) {
@@ -802,18 +942,21 @@ window.hapj = {
         },
         /**
          * 获取所有网页参数
+         * @function hapj.page.getParams
+         * @return {array}
          */
         getParams: function () {
             return ps ? ps : (ps = hapj.lib.serial.getPair(location.search ? location.search.substr(1) : ''));
         },
         /**
          * 设置cookie值
-         * @param {String} key
-         * @param {String} value
-         * @param {Date | Number} expire
-         * @param {String} path
-         * @param {String} domain
-         * @param {Boolean} secure
+         * @function hapj.page.setCookie
+         * @param {String} key 名称
+         * @param {String} value 值
+         * @param {Date | Number} expire 过期时间
+         * @param {String} path 路径
+         * @param {String} domain 域名
+         * @param {Boolean} secure 是否安全
          */
         setCookie: function (key, value, expire, path, domain, secure) {
             document.cookie = hapj.lib.serial.toString({
@@ -827,6 +970,7 @@ window.hapj = {
         },
         /**
          * 获取cookie值
+         * @function hapj.page.getCookie
          * @param {String} key
          */
         getCookie: function (key) {
@@ -835,11 +979,16 @@ window.hapj = {
             }
             return cs[key];
         },
+        /**
+         * 获取所有cookie对象
+         * @function hapj.page.getCookies
+         * @return {{}}
+         */
         getCookies: function () {
             return cs ? cs : (cs = hapj.lib.serial.getCookie(document.cookie));
         }
     };
-})();
+})(hapj);
 
 /**
  * 本地缓存 hapj.cache
@@ -962,24 +1111,26 @@ window.hapj = {
 })(hapj);
 
 // module 机制
-(function () {
+(function (H) {
     'use strict';
 
     var _modules = {};
     /**
      * 获取模块
+     * @function hapj.get
      * @param {String} moduleName
+     * @return {mixed}
      */
-    hapj.get = function (moduleName) {
+    H.get = function (moduleName) {
         return hapj.object.has(_modules, moduleName) ? _modules[moduleName] : null;
     };
     /**
      * 设置模块
+     * @function hapj.set
      * @param {String} moduleName 必须是以字母开头，后面是字母数字或者.、_。
      * @param {Function} module 必须是函数
-     * @return hapj
      */
-    hapj.set = function (moduleName, module) {
+    H.set = function (moduleName, module) {
         if (!moduleName || !/[a-z][a-z0-9\._]+/i.test(moduleName)) {
             throw new Error('hapj.u_wrongModuleNameFormat moduleName=' + moduleName);
         }
@@ -1002,7 +1153,7 @@ window.hapj = {
         ns = nss.shift();
         parent[ns] = module;
     };
-})();
+})(hapj);
 
 // 基本错误处理逻辑
 (function (H) {
@@ -1026,7 +1177,11 @@ window.hapj = {
 (function (H) {
     'use strict';
     /**
-     * 浏览器属性
+     * 浏览器的属性
+     * @namespace hapj.browser
+     * @property {string} hapj.browser.type 浏览器类型
+     * @property {string} hapj.browser.version 版本号
+     * @property {boolean} hapj.browser.mobile 是否为移动设备访问
      */
     H.browser = (function () {
         var ua = navigator.userAgent.toLowerCase(),
@@ -1059,15 +1214,12 @@ window.hapj = {
     if (H.browser.type == 'msie' && hapj.browser.version < 7) {
         try {
             document.execCommand('BackgroundImageCache', false, true);
-        }
-        catch (e) {
+        } catch (e) {
         }
     }
 })(hapj);
 
-/**
- * hapj 日志
- */
+// hapj 日志
 (function (H, _d) {
     'use strict';
     var _img,
@@ -1119,11 +1271,23 @@ window.hapj = {
             }
         }
         ;
-    H.log = {
-        DEVELOP_MODE: 1, // 开发模式
+    /**
+     * 日志相关的处理
+     * @namespace hapj.log
+     * @property {number} hapj.log.DEVELOP_MODE 开发模式
+     * @property {number} hapj.log.ONLINE_MODE 在线模式
+     * @property {number} hapj.log.mode 开发模式，默认为 1
+     * @property {string} hapj.log.url 日志访问网址
+     */
+    DEVELOP_MODE: 1, // 开发模式
+        H.log = {
         ONLINE_MODE: 2, // 在线模式
         mode: 1,
         url: '',
+        /**
+         * @function hapj.log.server
+         * @param msg 信息
+         */
         server: function (msg) {
             if (!this.url) {
                 return this.warn('hapj.log.server url is not defined');
@@ -1183,16 +1347,31 @@ window.hapj = {
             el.value += (getTime() + ' ' + type + ' ' + decodeURIComponent(msg) + "\n");
         };
         H.object.extend(hapj.log, {
+            /**
+             * 调试日志
+             * @function hapj.log.debug
+             * @param {string} msg
+             */
             debug: function (msg) {
                 if (this.mode != this.ONLINE_MODE) {
                     showMsg(toString(msg), 'DEBUG');
                 }
             },
+            /**
+             * 警告日志
+             * @function hapj.log.warn
+             * @param {string} msg
+             */
             warn: function (msg) {
                 if (this.mode != this.ONLINE_MODE) {
                     showMsg(toString(msg), 'WARN');
                 }
             },
+            /**
+             * 错误日志
+             * @function hapj.log.error
+             * @param {string} msg
+             */
             error: function (msg) {
                 var m = toString(msg, false);
                 if (typeof msg == 'string') {
@@ -1217,9 +1396,18 @@ window.hapj = {
     'use strict';
 
     var option = {};
-    hapj.conf = {
-        // 设置选项，如果有，则会覆盖
-        set: function (key, value) {
+    /**
+     * hapj的配置系统
+     * @namespace hapj.conf
+     */
+    H.conf = {
+        /**
+         * 设置选项，如果有，则会覆盖
+         * @function hapj.conf.set
+         * @param {string} key
+         * @param {*} value
+         */
+        'set': function (key, value) {
             if (undefined === value && typeof key == 'object') {
                 H.object.each(key, function (k, v) {
                     option[k] = v;
@@ -1228,8 +1416,14 @@ window.hapj = {
                 option[key] = value;
             }
         },
-        // 获取选项
-        get: function (key, def) {
+        /**
+         * 获取配置项
+         * @function hapj.conf.get
+         * @param {string} key
+         * @param {*} def
+         * @returns {*}
+         */
+        'get': function (key, def) {
             if (hapj.object.has(option, key)) {
                 return option[key];
             }
@@ -1240,9 +1434,10 @@ window.hapj = {
         },
         /**
          * 更新配置项中的值（慎用）
-         * @param {Object} key
-         * @param {Object} prefix
-         * @param {Object} value
+         * @function hapj.conf.update
+         * @param {string} key
+         * @param {string} prefix
+         * @param {*} value
          */
         update: function (key, prefix, value) {
             if (!(key in option)) {
@@ -1262,13 +1457,21 @@ window.hapj = {
                 /* jshint ignore:end */
             }
         },
-        // 删除指定选项
+        /**
+         * 删除指定选项
+         * @function hapj.conf.remove
+         * @param {string} key
+         */
         remove: function (key) {
             if (hapj.object.has(option, key)) {
                 delete option[key];
             }
         },
-        // 获取所有
+        /**
+         * 获取所有配置
+         * @function hapj.conf.all
+         * @returns {{}}
+         */
         all: function () {
             return option;
         }
