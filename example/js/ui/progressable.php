@@ -2,13 +2,10 @@
 $showType = 'example';
 include '../../include/header.phtml';
 ?>
-<h1>浮动元素定位(progressable)</h1>
+<h1>页面浏览进度条(progressable)</h1>
 <script src="/src/js/ui/progressable.js"></script>
 
 <style>
-body,h1,h2,h3,h4,h5,h6,hr,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0}
-li{list-style:none;}
-body{background:#FCFCFC;}
 #top_panel{position:fixed;left:0;top:0;width:1003px;margin:0 auto;}
 #top_panel .container{position:relative;width:1003px;}
 #top_panel .container .left{width:820px;padding:0 10px;position:absolute;left:0;top:0;}
