@@ -5,15 +5,9 @@ include '../../include/header.phtml';
 
 <script src="img/hapj.js"></script>
 
-<script src="../../../src/js/ui/dialog.js"></script>
+<script src="/src/js/ui/dialog.js"></script>
 <h2>dialog插件使用方法</h2>
     <style>
-        body{
-            font-size: 20px;
-        }
-        pre{
-            font-size: 18px;
-        }
         .dialog{
             border-radius:5px;
             /*overflow: hidden;*/
@@ -39,49 +33,43 @@ include '../../include/header.phtml';
             background-color: #eee;
             border-top: 1px dotted #999;
         }
-        li{
-            font-size: 20px;
-        }
     </style>
 <h3>1.css写法</h3>
 <p>样式自定义，无要求</p>
     <label class="label label-primary">css:</label>
-<pre>
-    <code class="html">
-        .dialog{
-        border-radius:5px;
-        }
-        .hd{
-        text-align: center;
-        height:40px;
-        line-height: 40px;
-        background-color:#eee;
-        border-bottom: 1px dotted #999;
-        border-radius:5px 5px 0 0 ;
-        }
-        .bd{
-        text-align: center;
-        height:300px;
-        background-color:#fff;
-
-        }
-        .ft{
-        text-align: center;
-        border-radius:0 0 5px 5px;
-        height:40px;
-        background-color:#eee;
-        border-top: 1px dotted #999;
-        }
-    </code>
+<pre><code class="css">
+.dialog{
+    border-radius:5px;
+}
+.hd{
+    text-align: center;
+    height:40px;
+    line-height: 40px;
+    background-color:#eee;
+    border-bottom: 1px dotted #999;
+    border-radius:5px 5px 0 0 ;
+}
+.bd{
+    text-align: center;
+    height:300px;
+    background-color:#fff;
+}
+.ft{
+    text-align: center;
+    border-radius:0 0 5px 5px;
+    height:40px;
+    background-color:#eee;
+    border-top: 1px dotted #999;
+}
+</code>
 </pre>
 <h3>2.html写法</h3>
     <label class="label label-primary">html:</label>
-<pre>
-    <code class="html">
-        &lt;button id="uploadLink1"&gt;iframe弹窗&lt;/button&gt;
-        &lt;button id="uploadLink2"&gt;ok弹窗&lt;/button&gt;
-        &lt;button id="uploadLink3"&gt;error弹窗&lt;/button&gt;
-        &lt;button id="uploadLink4"&gt;ajax弹窗&lt;/button&gt;
+<pre><code class="html">
+&lt;button id="uploadLink1"&gt;iframe弹窗&lt;/button&gt;
+&lt;button id="uploadLink2"&gt;ok弹窗&lt;/button&gt;
+&lt;button id="uploadLink3"&gt;error弹窗&lt;/button&gt;
+&lt;button id="uploadLink4"&gt;ajax弹窗&lt;/button&gt;
     </code>
 </pre>
     <h3>3.js写法</h3>
@@ -127,29 +115,28 @@ include '../../include/header.phtml';
     </ul>
   </div>
   <label class="label label-primary">javascript:</label>
-<pre>
-    <code class="html">
-        $("#uploadLink").css("z-index",999);
-        var dlg =$.dialog;
-        $('.uploadLink4').on('click', function(){
-            dlg.size(500,500).ajax('/',function(data){
-            console.log(data)
-        });
-        })
-        $('.uploadLink3').on('click', function(){
-            dlg.size(500,500).error('错误信息', function() {
-             alert("执行错误的函数");
-        }).title("错误的提示信息")
-        })
-        $('#uploadLink2').on('click', function(){
-             dlg.size(500,500).ok('添加成功', function() {
-             alert("执行添加成功的函数");
-        })
-        })
-        $('#uploadLink1').on('click', function(){
-            dlg.size(500, 600).iframe('/image/multi').title('上传文件').drag();
-            return false;
-        });
+<pre><code class="js">
+$("#uploadLink").css("z-index",999);
+var dlg =$.dialog;
+$('.uploadLink4').on('click', function(){
+    dlg.size(500,500).ajax('/',function(data){
+    console.log(data)
+});
+})
+$('.uploadLink3').on('click', function(){
+    dlg.size(500,500).error('错误信息', function() {
+     alert("执行错误的函数");
+}).title("错误的提示信息")
+})
+$('#uploadLink2').on('click', function(){
+     dlg.size(500,500).ok('添加成功', function() {
+     alert("执行添加成功的函数");
+})
+})
+$('#uploadLink1').on('click', function(){
+    dlg.size(500, 600).iframe('/image/multi').title('上传文件').drag();
+    return false;
+});
     </code>
 </pre>
     <h3>4.效果展示</h3>
