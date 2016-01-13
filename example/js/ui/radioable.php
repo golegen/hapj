@@ -8,6 +8,7 @@ include '../../include/header.phtml';
     判断事件触发的坐标在哪个对应的input中，将外层容器的类名改成对应的class，切换背景图的定位。从而展现出不同的星星</p>
 <h3>1.css写法</h3>
 <p>根据星星个数，来定位position位置</p>
+    <label class="label label-primary">css:</label>
 <pre>
     <code class="html">
      .star,.star-1,.star-2,.star-3,.star-4,.star-5{
@@ -28,6 +29,7 @@ include '../../include/header.phtml';
     </code>
 </pre>
 <h3>2.html写法</h3>
+    <label class="label label-primary">html:</label>
 <pre>
     <code class="html">
         &lt;p id="radio"&gt;
@@ -51,6 +53,7 @@ include '../../include/header.phtml';
     <li><i>hoverClass:</i>鼠标移入时的类名，默认值为：'star-{value}'</li>
     <li><i>selectedClass:</i>点击时的类名，默认值为：'star-{value}'</li>
 </ol>
+    <label class="label label-primary">javascript:</label>
 <pre>
     <code class="html">
     $('#radio').radioable({
