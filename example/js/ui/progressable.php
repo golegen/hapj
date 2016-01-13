@@ -1,6 +1,9 @@
-<?php include dirname(__DIR__) . '/include/header.phtml'?>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
 <h1>浮动元素定位(floatable)</h1>
-<script src="/src/ui/progressable.js"></script>
+<script src="/src/js/ui/progressable.js"></script>
 
 <style>
 body,h1,h2,h3,h4,h5,h6,hr,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0}
@@ -11,7 +14,7 @@ li{list-style:none;}
 		#top_panel .container .left{width:820px;padding:0 10px;position:absolute;left:0;top:0;}
 		#top_panel .container .right{width:150px;position:absolute;right:0;top:0;}
 		
-		.progressbar{width:800px;margin:0 auto;background:#0CF;padding:0 10px;}
+		.progressbar{width:800px;margin:0 auto;background:#0CF;padding:0 10px; position:fixed; top:0px;}
 		.progressbar ul{position:relative;list-style:none;padding:0;margin:0;opacity:0.85;height:40px;width:100%}
 		.progressbar li{position:absolute;list-style:none;padding:0;}
 		.progressbar li a{display:block;width:20px;height:20px;}
@@ -71,6 +74,7 @@ li{list-style:none;}
 				
 			}
 		});
+		
 </script>
 
-<?php include dirname(__DIR__) . '/include/footer.phtml' ?>
+<?php include '../../include/footer.phtml' ?>

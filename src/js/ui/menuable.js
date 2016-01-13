@@ -16,7 +16,7 @@
  });
  **/
 !function($, Me, undefined){
-	'use strict',
+	'use strict';
 	
 	var elemQueue = [],
 	_d = document, 
@@ -41,7 +41,7 @@
 			if (t === _from) {
 				return _initClicks();
 			}
-			for(var e in elemQueue) {
+			for(e in elemQueue) {
 				if (!(e in _clicks)) {
 					elemQueue[e].hide();
 				}
@@ -84,7 +84,7 @@
 		return me;
 	};
 	
-	var Me = function(){};
+	Me = function(){};
 	Me.prototype = {
 		/**
 		 * 显示元素

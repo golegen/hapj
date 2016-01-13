@@ -1,7 +1,9 @@
-<?php include '../../include/header.phtml' ?>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
 <script src="/src/js/ui/verifiable.js"></script>
 <script src="/src/js/ui/ajaxable.js"></script>
-<link rel="stylesheet" href="/src/css/loading.css"/>
 <h1>表单校验(verifiable)</h1>
 
 <form method="post" action="./_form.php" class="form-horizontal" data-hook="verifiable">
@@ -16,7 +18,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">身份证</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" name="username" placeholder="请输入身份证" verify-rule="{
+            <input type="text" class="form-control" name="id" placeholder="请输入身份证" verify-rule="{
                 required: '不能为空',
                 ID: {
                     msg: '身份证格式不正确'

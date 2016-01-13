@@ -1,4 +1,7 @@
-<?php include '../../include/header.phtml' ?>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
 <script src="/src/js/ui/menuable.js"></script>
 <style>
 body{font-family:"微软雅黑";}

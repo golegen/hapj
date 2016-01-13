@@ -5,7 +5,7 @@
  * @version 1.6.1.7
  * @description 使元素可排序
  **/
-!function ($) {
+(function ($) {
     'use strict';
 
     var inited = false, dragElem,
@@ -256,4 +256,4 @@
             ec.getChildCordinates();
         }
     }
-}(jQuery);
+})(jQuery);

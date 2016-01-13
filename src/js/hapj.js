@@ -47,12 +47,9 @@ window.hapj = {
 /**
  * Copyright (c) 2012, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
- * @date 2012-01-09
+ * @since 2012-01-09
  * @version 1.0
  * @brief md5算法
- * @example
- *
-
  **/
 /* jshint ignore:start */
 (function (H) {
@@ -760,8 +757,7 @@ window.hapj = {
          * s 秒钟
          * @param Date date 必须是日期，不提供则使用当前时间
          * @return string
-         * @example
-         * hapj.date.format('Y-m-d')  // rutrn 2014-06-15
+         * @example hapj.date.format('Y-m-d')  // rutrn 2014-06-15
          */
         format: function (format, date) {
             date = date || new Date();

@@ -1,4 +1,7 @@
-<?php include '../../include/header.phtml' ?>
+<?php
+$showType = 'example';
+include '../../include/header.phtml';
+?>
     <script src="http://s1.tthunbohui.cn/static/js/hapj.min.d4356b7d.js"></script>
     <script src="http://s1.tthunbohui.cn/static/js/mod/address.fe161a8b.js"></script>
 
@@ -31,4 +34,4 @@
 
     </script>
 
-<?php include dirname(__DIR__) . '/include/footer.phtml' ?>
+<?php include '../../include/footer.phtml' ?>

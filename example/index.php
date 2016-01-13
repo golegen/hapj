@@ -1,27 +1,17 @@
 <?php
+$showType = 'example';
 $examples = array(
     array('name' => 'Lazyload', 'url' => './js/ui/lazyload.php'),
     array('name' => 'Verifiable', 'url' => './js/ui/verifiable.php'),
-    array('name' => 'Lazyload', 'url' => './ui/lazyload.php'),
-    array('name' => 'floatable', 'url' => './ui/floatable.php'),
-    array('name' => 'switchable', 'url' => './ui/switchable.php'),
-    array('name' => 'progressable', 'url' => './ui/progressable.php'),
+    array('name' => 'floatable', 'url' => './js/ui/floatable.php'),
+    array('name' => 'switchable', 'url' => './js/ui/switchable.php'),
+    array('name' => 'progressable', 'url' => './js/ui/progressable.php'),
     array('name' => 'radioable', 'url' => './js/ui/radioable.php'),
     array('name' => 'selectable', 'url' => './js/ui/selectable.php'),
     array('name' => 'dialog', 'url' => './js/ui/dialog.php'),
 );
 ?>
-<!doctype html>
-<html lang="zh-cn">
-<head>
-    <meta charset="UTF-8">
-    <title>hapj example</title>
-    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../src/hapj.js"></script>
-</head>
-<body>
-<div class="container">
+<?php include 'include/header.phtml'?>
     <h1>Hapj Example List</h1>
 
     <h3>Js例子</h3>
@@ -32,6 +22,4 @@ $examples = array(
     </ul>
 
     <h3>Css例子</h3>
-</div>
-</body>
-</html>
+<?php include 'include/footer.phtml'?>

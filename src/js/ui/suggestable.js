@@ -16,7 +16,7 @@ $('#suggestable').suggestable({
 
  **/
 !function($){
-	'use strict',
+	'use strict';
 	
 	var defaults = {
 		width:'auto',
@@ -135,7 +135,7 @@ $('#suggestable').suggestable({
 						callback.call(null, suggestion.items);
 					}
 				});
-			}
+			};
 		} else if ($.isArray(conf.items)) {			
 			items = conf.items;
 			conf.items = function(callback){
@@ -168,19 +168,19 @@ $('#suggestable').suggestable({
 				}
 				suggestion.items = ret;
 				callback.call(null, ret);
-			}
+			};
 		} else if (typeof conf.items == 'function') {
 			var items = conf.items;
 			conf.items = function(callback) {
 				suggestion.items = items.call(self[0], self[0].value);
 				callback.call(null, suggestion.items);
-			}
+			};
 		}
 		
 		suggestion.onClick = function() {
 			conf.onSelect && conf.onSelect.call(self[0], conf.getItem ? suggestion.getItem() : suggestion.get());
 			suggestion.hide();
-		}
+		};
 		this.attr('autocomplete', 'off')
 		.on('keydown', function(e) {
 			switch(e.keyCode) {
@@ -216,7 +216,7 @@ $('#suggestable').suggestable({
 				});
 			}
 		});
-	}
+	};
 	
 	function Suggestion(elem) {
 		this.elem = elem;
@@ -284,4 +284,4 @@ $('#suggestable').suggestable({
 			this._select(0);
 		}
 	};
-}(jQuery)
+}(jQuery);
