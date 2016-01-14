@@ -4,19 +4,25 @@ include '../../include/header.phtml';
 ?>
     <script src="/src/js/ui/selectable.js"></script>
 <style>
-
-    label{
+    .selectable ul{
+        list-style: none;
+    }
+   .selectable label{
         cursor: pointer;
         border:1px solid transparent;
         padding:3px;
         border-radius: 5px;
     }
-    label:hover{
+    .selectable label:hover{
         color:#0078d6;
         border:1px solid #aaa;
     }
-    
-    .on{
+    .selectable li{
+        width:200px;
+        padding:5px 10px;
+        border-radius: 5px;
+    }
+    .selectable .on{
         cursor: pointer;
         background:#0078d6;
         color:#fff;
@@ -42,20 +48,29 @@ include '../../include/header.phtml';
 <h3>2.css写法</h3>
 <p>css样式自定义，不做要求</p>
     <label class="label label-primary">css:</label>
-<pre><code class="css">
-ul {
-    list-style: none;
-}
-li{
-    width:200px;
-    padding:5px 10px;
-    border-radius: 5px;
-}
-.on{
-    cursor: pointer;
-    background:#0078d6;
-    color:#fff;
-}</code>
+<pre>
+    <code class="css">
+        .selectable label{
+            cursor: pointer;
+            border:1px solid transparent;
+            padding:3px;
+            border-radius: 5px;
+        }
+        .selectable label:hover{
+            color:#0078d6;
+            border:1px solid #aaa;
+        }
+        .selectable li{
+            width:200px;
+            padding:5px 10px;
+            border-radius: 5px;
+        }
+        .selectable .on{
+            cursor: pointer;
+            background:#0078d6;
+            color:#fff;
+        }
+    </code>
 </pre>
 <h3>3.js写法</h3>
      param options 配置参数，目前支持的有：
@@ -86,14 +101,27 @@ $('select').selectable({
 </code>
 </pre>
 <h3>4.效果展示</h3>
-    <select class="select2">
+<div class="selectable">
+   展示1（click）： <select class="select1">
+        <option value="0">婚芭莎-婚纱照</option>
+        <option value="1">婴芭莎-童车、奶粉</option>
+        <option value="2">家芭莎-沙发、彩电</option>
+        <option value="3">车芭莎-兰博基尼</option>
+    </select>
+    展示2(mouseenter)：<select class="select2">
         <option value="0">婚芭莎-婚纱照2</option>
         <option value="1">婴芭莎-童车、奶粉2</option>
         <option value="2">家芭莎-沙发、彩电2</option>
         <option value="3">车芭莎-兰博基尼2</option>
     </select>
+</div>
 <script>
-    $('select').selectable({
+    $('.select1').selectable({
+        pack:function(o) {
+            return '搜索' + o.text;
+        }
+    });
+    $('.select2').selectable({
         showEvent:'mouseenter',
         pack:function(o) {
             return '搜索' + o.text;

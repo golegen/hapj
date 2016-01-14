@@ -41,7 +41,7 @@ include '../../include/header.phtml';
     </code>
 </pre>
 <h3>3.js写法</h3>
-<h3>找到input的容器，执行radioable方法,radioable方法中穿入的参数option中有一下几种：</h3>
+<h3>找到input的容器，执行radioable方法,radioable方法中传入的参数option中有一下几种：</h3>
 <ol>
     <li><i>name:</i>input的name(必填参数)</li>
     <li><i>width:</i>宽度为背景图的容器的宽度(必填参数)</li>

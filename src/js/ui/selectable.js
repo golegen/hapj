@@ -67,7 +67,6 @@
             $.extend(o, defaults);
             s.options = $.extend(o, options || {});
             //此时s为：Select {type: "ul", options: Object}  options//整合穿入参数和默认参数整合后的对象
-            //console.log(v)
             s.init(v);
         });
         return this;
@@ -119,7 +118,6 @@
             return ret.join('');
         },
         bindEvents: function(){
-            console.log(this.options.showEvent)
             var self = this, sevent = this.options.showEvent, inMe = false;
             // 绑定dt事件
             this.dom.find('dt').on(sevent, function(e) {
