@@ -12,75 +12,66 @@
 
     var _fd = function(date, format) {
         if(date.month < 10){
-            date.month = '0' + date.month;
-        }else{
-            date.month = '';
+            (date.month = '0' + date.month);
         }
         if(date.day < 10){
             date.day = '0' + date.day;
-        }else{
-            date.day = '';
-        }
-        if (date.hour >= 0) {
-            if(date.hour < 10){
-                date.hour = '0' + date.hour;
-            }else{
-                date.hour = '';
-            }
-        } else {
-            date.hour = 0;
-        }
-        if (date.minute >= 0) {
-            if(date.minute < 10){
-                date.minute = '0' + date.minute;
-            }else{
-                date.minute = '';
-            }
-        } else {
-            date.minute = 0;
-        }
-        if (date.second >= 0) {
-            if(date.second < 10){
-                date.second = '0' + date.second;
-            }else{
-                date.second = '';
-            }
-        } else {
-            date.second = 0;
         }
 
-        var dates = {
-            Y:date.year,
-            m:date.month,
-            d:date.day,
-            H:date.hour,
-            i:date.minute,
-            s:date.second
+            if (date.hour >= 0) {
+                if(date.hour < 10){
+                    date.hour = '0' + date.hour;
+                }
+            } else {
+                date.hour = 0;
+            }
+            if (date.minute >= 0) {
+                if(date.minute < 10){
+                    date.minute = '0' + date.minute;
+                }
+            } else {
+                date.minute = 0;
+            }
+            if (date.second >= 0) {
+                if(date.second < 10){
+                    date.second = '0' + date.second;
+                }
+            } else {
+                date.second = 0;
+            }
+
+            var dates = {
+                Y:date.year,
+                m:date.month,
+                d:date.day,
+                H:date.hour,
+                i:date.minute,
+                s:date.second
+            };
+            return format.replace(/(([YmdHis]))/g, function(m, i, k){
+                return dates[k];
+            });
+        },
+        /**
+         * @memberof jQuery.fn.calendar
+         * @typedef options
+         * @private
+         * @property {jQuery} [input] 日历绑定的input控件，指定此对象后日历对象会和input控件形成交互
+         * @property {string} [className=cal] 日历控件的样式名称
+         * @peoperty {string} [format=Y-m-d] 日期格式，用Y、m、d、H、i、s分别代表年、月、日、时、分、秒。
+         * @property {String} [startDate] 选择时间区间-开始日期 格式：Y-m-d
+         * @property {String} [endDate] 选择时间区间-结束日期 格式：Y-m-d
+         * @property {jQuery.fn.calendar~onSelect} onSelect 当选择日期后调用的回调函数
+         *
+         */
+        defaults = {
+            input:null,
+            className:'cal',
+            format:'Y-m-d',
+            timeType: 0, // 时间格式，0表示不获取时间；1表示获取时钟；2表示获取时钟+分钟；3表示获取时钟+分钟+秒钟，默认为不获取时间
+            startDate:null,
+            endDate:null
         };
-        return format.replace(/(([YmdHis]))/g, function(m, i, k){
-            return dates[k];
-        });
-     },
-    /**
-     * @memberof jQuery.fn.calendar
-     * @typedef options
-     * @private
-     * @property {jQuery} [input] 日历绑定的input控件，指定此对象后日历对象会和input控件形成交互
-     * @property {string} [className=cal] 日历控件的样式名称
-     * @peoperty {string} [format=Y-m-d] 日期格式，用Y、m、d、H、i、s分别代表年、月、日、时、分、秒。
-     * @property {String} [startDate] 选择时间区间-开始日期 格式：Y-m-d
-     * @property {String} [endDate] 选择时间区间-结束日期 格式：Y-m-d
-     * @property {jQuery.fn.calendar~onSelect} onSelect 当选择日期后调用的回调函数
-     *
-     */
-    defaults = {
-        input:null,
-        className:'cal',
-        format:'Y-m-d',
-        timeType: 0, // 时间格式，0表示不获取时间；1表示获取时钟；2表示获取时钟+分钟；3表示获取时钟+分钟+秒钟，默认为不获取时间
-        startDate:null,
-        endDate:null
-    };
 
     /**
      * @memberof jQuery.fn.calendar
@@ -167,14 +158,14 @@
         // 设置默认值
         if (defDate) {
             var reg = new RegExp('^' + format
-                .replace(/\-/g, '\\-')
-                .replace(/\//g, '\\/')
-                .replace('Y', '([12][0-9]{3})')
-                .replace('m', '((?:1[012])|(?:0?[1-9]))')
-                .replace('d', '((?:[1-2][0-9])|(?:0?[1-9])|(?:3[01]))')
-                .replace('H', '((?:2[0-3])|(?:[01]?[1-9]))')
-                .replace('i', '([0-5]?[0-9])')
-                .replace('s', '([0-5]?[0-9])') + '$'), ms;
+                    .replace(/\-/g, '\\-')
+                    .replace(/\//g, '\\/')
+                    .replace('Y', '([12][0-9]{3})')
+                    .replace('m', '((?:1[012])|(?:0?[1-9]))')
+                    .replace('d', '((?:[1-2][0-9])|(?:0?[1-9])|(?:3[01]))')
+                    .replace('H', '((?:2[0-3])|(?:[01]?[1-9]))')
+                    .replace('i', '([0-5]?[0-9])')
+                    .replace('s', '([0-5]?[0-9])')+ '$'), ms;
             if ( (ms = reg.exec(defDate)) ) {
                 var y = ms[1],m = parseInt(ms[2], 10) - 1,d = parseInt(ms[3], 10), H = parseInt(ms[4], 10), i = parseInt(ms[5], 10), s = parseInt(ms[6], 10);
                 try {
