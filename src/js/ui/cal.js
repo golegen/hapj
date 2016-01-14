@@ -7,24 +7,35 @@
  * @description 日历控件
  */
 
-!function($, undefined){
+(function($, undefined){
     'use strict';
 
     var _fd = function(date, format) {
-            date.month < 10 ? (date.month = '0' + date.month) : '';
-            date.day < 10 ? (date.day = '0' + date.day) : '';
+        if(date.month < 10){
+            (date.month = '0' + date.month);
+        }
+        if(date.day < 10){
+            date.day = '0' + date.day;
+        }
+
             if (date.hour >= 0) {
-                date.hour < 10 ? (date.hour = '0' + date.hour) : '';
+                if(date.hour < 10){
+                    date.hour = '0' + date.hour;
+                }
             } else {
                 date.hour = 0;
             }
             if (date.minute >= 0) {
-                date.minute < 10 ? (date.minute = '0' + date.minute) : '';
+                if(date.minute < 10){
+                    date.minute = '0' + date.minute;
+                }
             } else {
                 date.minute = 0;
             }
             if (date.second >= 0) {
-                date.second < 10 ? (date.second = '0' + date.second) : '';
+                if(date.second < 10){
+                    date.second = '0' + date.second;
+                }
             } else {
                 date.second = 0;
             }
@@ -154,8 +165,7 @@
                     .replace('d', '((?:[1-2][0-9])|(?:0?[1-9])|(?:3[01]))')
                     .replace('H', '((?:2[0-3])|(?:[01]?[1-9]))')
                     .replace('i', '([0-5]?[0-9])')
-                    .replace('s', '([0-5]?[0-9])')
-                + '$'), ms;
+                    .replace('s', '([0-5]?[0-9])')+ '$'), ms;
             if ( (ms = reg.exec(defDate)) ) {
                 var y = ms[1],m = parseInt(ms[2], 10) - 1,d = parseInt(ms[3], 10), H = parseInt(ms[4], 10), i = parseInt(ms[5], 10), s = parseInt(ms[6], 10);
                 try {
@@ -609,7 +619,9 @@
                     if (tt > 2) {
                         ret.push(self.second);
                     }
-                    self.options.onSelect && self.options.onSelect.apply(e.target, ret);
+                    if(self.options.onSelect){
+                        self.options.onSelect.apply(e.target, ret);
+                    }
                 }
             };
 
@@ -672,4 +684,4 @@
             this.elem.show();
         }
     };
-}(jQuery);
+})(jQuery);
