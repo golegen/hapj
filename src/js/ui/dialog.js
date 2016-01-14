@@ -6,14 +6,16 @@
  * @brief
  });
  **/
-(function($,H, me, undefined){
+(function ($, H, me, undefined) {
+    'use strict';
     var _pl = 0, // 父级便宜左边距
         _pt = 0, // 父级便宜上边距
-        dlg,inited = false,_cb, _fl ,_mask,_maskClick=false, _sized = false,_d = $(document),_dlg, isIE6 = H.browser.type == 'msie' && H.browser.version < 7, _close = function(e) {
+        dlg, inited = false, _cb, _fl, _mask, _maskClick = false, _sized = false, _d = $(document), _dlg, isIE6 = H.browser.type == 'msie' && H.browser.version < 7, _close = function (e) {
             hide(true);
             return false;
-        },_enableEnter = false,_lastFocus = null, body = document.compatMode == 'CSS1Compat' ? document.documentElement : document.body;
-    function init(){
+        }, _enableEnter = false, _lastFocus = null, body = document.compatMode == 'CSS1Compat' ? document.documentElement : document.body;
+
+    function init() {
         if (document.activeElement !== document.body) {
             _lastFocus = document.activeElement;
             _lastFocus.blur();
@@ -27,13 +29,13 @@
         }
         inited = true;
         //创建一个节点
-        dlg=$("<div class='dialog'></div>")[0];
+        dlg = $("<div class='dialog'></div>")[0];
         dlg.style.display = 'none';
         dlg.style.position = 'absolute';
         dlg.innerHTML = '<div class="hd"><p id="dialog_title"></p><a class="close" title="关闭"></a></div><div class="bd"></div><div class="ft"><input type="button" class="e-btn-light" value="确定"/><input type="button" value="取消"/></div><span class="icon"></span>';
         dlg.style.zIndex = 10005;
         document.body.appendChild(dlg);
-        $.each(dlg.childNodes[2].childNodes, function(){
+        $.each(dlg.childNodes[2].childNodes, function () {
             this.onclick = _close;
         });
         dlg.childNodes[0].childNodes[1].onclick = _close;
@@ -46,10 +48,13 @@
                 rinput = /^INPUT|TEXTAREA$/,
                 keyCode = event.keyCode;
 
-            if ( rinput.test(nodeName) ) return;
+            if (rinput.test(nodeName)) return;
             if (keyCode === 27) {
                 _dlg.hide();
-                undefined != _mask && $(_mask).hide();
+                if (undefined !== _mask) {
+                    $(_mask).hide();
+                }
+
             } else if (keyCode == 13 && _enableEnter) {
                 _close();
                 _enableEnter = false;
@@ -64,14 +69,14 @@
         $.extend(attr, {'class': 'bd'});
         switch (name) {
             case 'DIV':
-                node = $("<div class="+attr.class+"></div>")[0];
+                node = $("<div class=" + attr.class + "></div>")[0];
                 break;
             case 'IFRAME':
                 var a = {
-                    frameBorder:'no',
-                    scrolling:'auto',
-                    marginwidth:'0',
-                    marginheight:'0'
+                    frameBorder: 'no',
+                    scrolling: 'auto',
+                    marginwidth: '0',
+                    marginheight: '0'
                 };
                 $.extend(a, attr);
                 node = $("<iframe frameBorder = 'no' scrolling = 'auto' marginwidth='0' marginheight='0'></iframe>")[0];
@@ -90,6 +95,7 @@
     function setTitle(title) {
         dlg.childNodes[0].childNodes[0].innerHTML = title;
     }
+
     //设置弹窗的内容
     function setContent(content) {
         $(dlg.childNodes[1]).html(content);
@@ -99,27 +105,27 @@
         name = name || 'div';
         name = name.toUpperCase();
         if (dlg.childNodes[1].tagName != name) {
-            if( dlg.childNodes[1].tagName == 'div'){
-                dlg.replaceChild(getContentNode(name,{'class':'bd'}), dlg.childNodes[1]);
-            }else{
+            if (dlg.childNodes[1].tagName == 'div') {
+                dlg.replaceChild(getContentNode(name, {'class': 'bd'}), dlg.childNodes[1]);
+            } else {
                 dlg.replaceChild(getContentNode(name), dlg.childNodes[1]);
             }
         }
     }
 
-    function enableOkBtn(){
+    function enableOkBtn() {
         dlg.childNodes[2].style.display = '';
         dlg.childNodes[2].childNodes[0].style.display = '';
     }
 
-    function enableCancelBtn(){
+    function enableCancelBtn() {
         dlg.childNodes[2].style.display = '';
         dlg.childNodes[2].childNodes[1].style.display = '';
     }
 
-    function hideAllBtns(){
+    function hideAllBtns() {
         dlg.childNodes[2].style.display = 'none';
-        $.each(dlg.childNodes[2].getElementsByTagName('input'), function() {
+        $.each(dlg.childNodes[2].getElementsByTagName('input'), function () {
             this.style.display = 'none';
         });
     }
@@ -131,7 +137,7 @@
 
             // 调整高度
             var height = 0;
-            $.each(dlg.childNodes, function() {
+            $.each(dlg.childNodes, function () {
                 height += $(this).outerHeight(true);
             });
             dlg.style.height = height + 'px';
@@ -139,32 +145,32 @@
             _sized = false;
         }
         move();
-        window.onresize = function(){
+        window.onresize = function () {
             move();
-        }
+        };
     }
 
-    function staymiddle(){
+    function staymiddle() {
         // 总是显示在屏幕正中央
-        window.onresize = function(){
+        window.onresize = function () {
             move();
-        }
-        $(window).on('scroll',function(){
+        };
+        $(window).on('scroll', function () {
             move();
         });
     }
 
     function move() {
-        var w,h;
-        if((window.top==window.self)|| $('.dialog').length>0){
+        var w, h;
+        if ((window.top == window.self) || $('.dialog').length > 0) {
             w = $(window).width();
             h = $(window).height();
-        }else{
+        } else {
             w = $(window.parent).width();
             h = $(window.parent).height();
         }
-        var left = (parseInt( _d.scrollLeft() +  (w - _dlg.outerWidth(true))/2)),
-            top = (parseInt(_d.scrollTop() + (h - _dlg.outerWidth(true))/2));
+        var left = (parseInt(_d.scrollLeft() + (w - _dlg.outerWidth(true)) / 2)),
+            top = (parseInt(_d.scrollTop() + (h - _dlg.outerWidth(true)) / 2));
         left += _pl;
         top += _pt;
         // 显示到屏幕正中央
@@ -190,15 +196,15 @@
 
             // 显示select控件
             if (isIE6) {
-                $('select').each(function(){
+                $('select').each(function () {
                     if (!this.getAttribute('ignoreHidden')) {
                         this.style.visibility = 'visible';
                     }
                 });
             }
         }
-        if (_lastFocus != null) {
-            setTimeout(function(){
+        if (_lastFocus !== null) {
+            setTimeout(function () {
                 _lastFocus.focus();
                 _lastFocus = null;
             }, 0);
@@ -210,28 +216,28 @@
         if (undefined === callback) {
             _cb = null;
         }
-        switch(typeof callback) {
+        switch (typeof callback) {
             case 'string':
-                _cb = function(){
+                _cb = function () {
                     window.location = callback;
                     _cb = null;
                 };
                 break;
             case 'function':
-                _cb = function(){
+                _cb = function () {
                     callback.call();
                     _cb = null;
-                }
+                };
                 break;
         }
     }
 
-    function addDlgCls(cls){
-        if(cls){
-            if(dlg.className.indexOf(cls)==-1){
-                dlg.className+=' '+cls;
+    function addDlgCls(cls) {
+        if (cls) {
+            if (dlg.className.indexOf(cls) == -1) {
+                dlg.className += ' ' + cls;
             }
-        }else{
+        } else {
             dlg.className = 'dialog';
         }
     }
@@ -241,7 +247,7 @@
         _window = $(window),
         _document = $(document);
 
-    var dragEvent = function () {
+    var DragEvent = function () {
         var that = this,
             proxy = function (name) {
                 var fn = that[name];
@@ -254,7 +260,7 @@
         proxy('end');
     };
 
-    dragEvent.prototype = {
+    DragEvent.prototype = {
         // 开始拖拽
         start: function (event) {
             _document
@@ -300,7 +306,7 @@
                 left = Math.max(limit.minX, Math.min(limit.maxX, x + startLeft)),
                 top = Math.max(limit.minY, Math.min(limit.maxY, y + startTop));
 
-            style.left = left  + 'px';
+            style.left = left + 'px';
             style.top = top + 'px';
         };
 
@@ -309,8 +315,8 @@
                 ow = wrap.parent().outerWidth(),
                 oh = wrap.parent().outerHeight(),
                 ww = _window.width(),
-                wh = _window.height();
-            dl = _document.scrollLeft(),
+                wh = _window.height(),
+                dl = _document.scrollLeft(),
                 dt = _document.scrollTop();
             // 坐标最大值限制
             maxX = ww - ow + dl;
@@ -326,7 +332,7 @@
     };
 
     me = {
-        offset: function(left, top) {
+        offset: function (left, top) {
             _pl = left;
             _pt = top;
             return me;
@@ -335,7 +341,7 @@
          * 设置标题
          * @param {Object} title
          */
-        title:function(title){
+        title: function (title) {
             if (!dlg) {
                 return;
             }
@@ -347,15 +353,15 @@
          * @param {Object} ctx
          * @param {Function} callback
          */
-        content: function(ctx, callback ,runCallBack) {
+        content: function (ctx, callback, runCallBack) {
             init(false);
             changeDlgNodeName('div');
             setContent(ctx);
             resizeBody();
             show();
-            if(runCallBack){
+            if (runCallBack) {
                 callback.call();
-            }else{
+            } else {
                 registCallback(callback);
                 $.dialog.callback();
             }
@@ -366,12 +372,12 @@
          * @param {Object} w
          * @param {Object} h
          */
-        size: function(w, h) {
+        size: function (w, h) {
             _sized = true;
             init();
             dlg.childNodes[0].style.width = dlg.childNodes[2].style.width = '100%';
             dlg.childNodes[1].style.width = parseInt(w) + 'px';
-            dlg.childNodes[0].childNodes[0].style.width = parseInt(w-40)+'px';
+            dlg.childNodes[0].childNodes[0].style.width = parseInt(w - 40) + 'px';
             dlg.style.height = h + 'px';
             dlg.style.width = w + 'px';
             move();
@@ -382,13 +388,13 @@
          * @param {Object} msg
          * @param {Object} callback
          */
-        ok:function(msg, callback, resize){
+        ok: function (msg, callback, resize) {
             _enableEnter = true;
             init();
-            if ( (undefined === resize || resize) && !_sized ) {
-                if(hapj.browser.mobile){
+            if ((undefined === resize || resize) && !_sized) {
+                if (hapj.browser.mobile) {
                     me.size(280, 216);
-                }else{
+                } else {
                     me.size(340, 216);
                 }
             }
@@ -407,7 +413,7 @@
          * 隐藏对话框
          * @param {Boolean} hideMask 是否隐藏mask
          */
-        hide: function(hideMask) {
+        hide: function (hideMask) {
             if (undefined === hideMask) {
                 hideMask = true;
             }
@@ -419,13 +425,13 @@
          * @param {Object} msg
          * @param {Object} callback
          */
-        error:function(msg, callback, resize){
+        error: function (msg, callback, resize) {
             _enableEnter = true;
             init();
-            if ((undefined === resize || resize) && !_sized ){
-                if(hapj.browser.mobile){
+            if ((undefined === resize || resize) && !_sized) {
+                if (hapj.browser.mobile) {
                     me.size(280, 216);
-                }else{
+                } else {
                     me.size(340, 216);
                 }
             }
@@ -444,7 +450,7 @@
          * 显示框架对话框
          * @param {Object} url
          */
-        iframe: function(url) {
+        iframe: function (url) {
             url = url ? url : '';
             if (!url) {
                 H.log.error('hapj.lib.dialog url is not supplied');
@@ -464,7 +470,7 @@
          * @param {Function} onSuccess
          * @param {Function} onClose
          */
-        ajax: function(url, onSuccess, onClose) {
+        ajax: function (url, onSuccess, onClose) {
             init();
             changeDlgNodeName('div');
             show();
@@ -473,9 +479,11 @@
                 url: url,
                 type: 'get',
                 dataType: 'html',
-                success: function(html) {
+                success: function (html) {
                     setContent(html);
-                    onSuccess && onSuccess();
+                    if (onSuccess) {
+                        onSuccess();
+                    }
                 }
             });
             if (onClose) {
@@ -485,41 +493,41 @@
             $.dialog.callback();
             return me;
         },
-        mask: function(isclick) {
+        mask: function (isclick) {
             if (!_mask) {
                 _mask = $('<div></div>')[0];
                 var css = {
-                    position:'fixed',
-                    left:0,
-                    top:0,
-                    zIndex:10004,
-                    width:'100%',
-                    height:'100%',
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
+                    zIndex: 10004,
+                    width: '100%',
+                    height: '100%',
                     backgroundColor: '#4c4c4c',
                     opacity: 0.4,
                     filter: 'Alpha(Opacity=40)'
                 };
                 if (isIE6) {
                     $.extend(css, {
-                        position:'absolute',
-                        height:$(document).height(true)
+                        position: 'absolute',
+                        height: $(document).height(true)
                     });
-                    $('select').each(function(){
+                    $('select').each(function () {
                         if (this.style.visibility == 'hidden' || this.style.display == 'none') {
                             this.setAttribute('ignoreHidden', 1);
                         }
                     });
                 }
                 $(_mask).css(css);
-                $(_mask).on('click', function(e) {
-                    if(isclick){
+                $(_mask).on('click', function (e) {
+                    if (isclick) {
                         _maskClick = true;
                         _close();
                     }
                     e.stopPropagation();
                     return false;
                 });
-                if(isclick){
+                if (isclick) {
                     // 需要绑定点击隐藏dialog事件
                     $(_mask).on('click', _close);
                     _maskClick = true;
@@ -528,50 +536,50 @@
             }
             // 隐藏select控件
             if (isIE6) {
-                $('select').each(function(){
+                $('select').each(function () {
                     if (!this.getAttribute('ignoreHidden')) {
                         this.style.visibility = 'hidden';
                     }
                 });
             }
             // 需要绑定点击隐藏dialog事件但是未绑定，则绑定
-            if(isclick && _maskClick === false){
+            if (isclick && _maskClick === false) {
                 $(_mask).on('click', _close);
-                _maskClick=true;
+                _maskClick = true;
             }
             // 不需要绑定点击隐藏dialog事件，但已经绑定了，则解除绑定
-            if(isclick==undefined && _maskClick===true){
+            if (isclick === undefined && _maskClick === true) {
                 $(_mask).off('click', _close);
-                _maskClick=false;
+                _maskClick = false;
             }
             _mask.style.display = 'block';
             return me;
         },
-        drag: function(){
+        drag: function () {
             dlg.childNodes[0].childNodes[0].style.cursor = 'move';
-            dlg.childNodes[0].childNodes[0].style.width = (parseInt(dlg.style.width)-40)+'px';
+            dlg.childNodes[0].childNodes[0].style.width = (parseInt(dlg.style.width) - 40) + 'px';
             $(dlg.childNodes[0].childNodes[0]).on('mousedown', function (event) {
-                    if(event.target.nodeName == 'A'){
+                if (event.target.nodeName == 'A') {
                     return;
                 }
-                _dragEvent = _dragEvent || new dragEvent();
+                _dragEvent = _dragEvent || new DragEvent();
                 _drag(event);
                 return false;
             });
         },
-        middle: function(){
+        middle: function () {
             staymiddle();
             return me;
         },
-        callback: function(){
-            if(!!arguments[0]){
+        callback: function () {
+            if (!!arguments[0]) {
                 arguments[0].call(dlg);
             }
         },
-        time:function(time){
-            window.setTimeout(function(){
+        time: function (time) {
+            window.setTimeout(function () {
                 hide(true);
-            },time)
+            }, time);
         },
         /**
          * 显示确认和取消对话框
@@ -579,15 +587,15 @@
          * @param {Object} okCallBack 点确定回调函数，不传入则表示不显示确定按钮
          * @param {Object} cancelCallBack 点击取消的回调函数，不传入则表示不显示取消按钮
          */
-        confirm:function(msg, okCallBack, cancelCallBack){
+        confirm: function (msg, okCallBack, cancelCallBack) {
             _enableEnter = true;
             init();
             changeDlgNodeName('div');
             hideAllBtns();
-            if(cancelCallBack != undefined){
+            if (cancelCallBack !== undefined) {
                 me.cancelBtn(cancelCallBack);
             }
-            if(okCallBack != undefined){
+            if (okCallBack !== undefined) {
                 me.okBtn(okCallBack);
             }
             show();
@@ -596,40 +604,40 @@
             me.title('提示');
             return me;
         },
-        cancelBtn:function(callback){
+        cancelBtn: function (callback) {
             dlg.childNodes[2].style.display = '';
             dlg.childNodes[2].childNodes[1].style.display = '';
-            dlg.childNodes[2].childNodes[1].onclick = function(){
-                if(typeof callback == 'function'){
-                    if(callback() !== false){
+            dlg.childNodes[2].childNodes[1].onclick = function () {
+                if (typeof callback == 'function') {
+                    if (callback() !== false) {
                         _close();
                     }
-                }else{
+                } else {
                     _close();
                 }
-            }
+            };
             return me;
         },
-        okBtn:function(callback){
+        okBtn: function (callback) {
             dlg.childNodes[2].style.display = '';
             dlg.childNodes[2].childNodes[0].style.display = '';
-            dlg.childNodes[2].childNodes[0].onclick = function(){
-                if(typeof callback == 'function'){
-                    if(callback() !== false){
+            dlg.childNodes[2].childNodes[0].onclick = function () {
+                if (typeof callback == 'function') {
+                    if (callback() !== false) {
                         _close();
                     }
-                }else{
+                } else {
                     _close();
                 }
-            }
+            };
             return me;
         },
-        addCls:function(cls){
+        addCls: function (cls) {
             addDlgCls(cls);
             resizeBody();
             return me;
         },
-        skin:function(skin){
+        skin: function (skin) {
             // 皮肤的可选项 有添加的 在这个位置 注释一下，以便后来者使用
             // skins : skin1 ....
             addDlgCls(skin);
@@ -638,4 +646,4 @@
         }
     };
     $.dialog = me;
-})(jQuery,hapj);
+})(jQuery, hapj);

@@ -5,7 +5,7 @@
  * @version 1.6.1
  * @brief 映射下拉框到可定制的下拉组件
  **/
-!function($, Me, undefined){
+(function($, Me, undefined){
     'use strict';
     var defaults = {
         selectedClassName:'on',
@@ -124,11 +124,15 @@
                 if(inMe===false){
                     inMe = true;
                     self.dom.find('dd').fadeIn('fast');
-                    self.options.onShow && self.options.onShow();
+                    if (self.options.onShow) {
+                        self.options.onShow();
+                    }
                 }else{
                     inMe = false;
                     self.dom.find('dd').fadeOut('fast');
-                    self.options.onHide && self.options.onHide();
+                    if (self.options.onHide) {
+                        self.options.onHide();
+                    }
                 }
 
                 e.stopPropagation();
@@ -145,7 +149,9 @@
                     setTimeout(function() {
                         if (!inMe) {
                             self.dom.find('dd').fadeOut('fast');
-                            self.options.onHide && self.options.onHide();
+                            if (self.options.onHide) {
+                                self.options.onHide();
+                            }
                         }
                     }, self.options.hideDelayTime);
                 });
@@ -153,7 +159,9 @@
             $(document).click(function() {//点击document隐藏列表
                 inMe = false;
                 self.dom.find('dd').fadeOut('fast');
-                self.options.onHide && self.options.onHide();
+                if (self.options.onHide) {
+                    self.options.onHide();
+                }
             });
 
             // 绑定dd事件
@@ -194,8 +202,10 @@
             if (this.type == 'select') {  //如果是下拉列表则让其触发change事件
                 $(this.elem).trigger('change');
             } else {
-                this.options.onChange && this.options.onChange(txt);
+                if (this.options.onChange) {
+                    this.options.onChange(txt);
+                }
             }
         }
     };
-}(jQuery);
+})(jQuery);

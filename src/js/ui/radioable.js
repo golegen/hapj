@@ -6,7 +6,7 @@
  * @description 映射单选按钮到界面良好的显示方式主要用于评分等场合
  * @namespace jQuery.fn.radioable
  **/
-!function($, undefined){
+(function($, undefined) {
     'use strict';
 
     /**
@@ -22,10 +22,10 @@
      * @property {jQuery.fn.radioable~onHover} onHover 当鼠标经过时的事件
      */
     var defaults = {
-        name:'',
-        defaultClass:'star',
-        hoverClass:'star-{value}',
-        selectedClass:'star-{value}',
+        name: '',
+        defaultClass: 'star',
+        hoverClass: 'star-{value}',
+        selectedClass: 'star-{value}',
         /**
          * 当选择值发生变化时的事件
          * this指针为被选择的radiobox
@@ -34,7 +34,7 @@
          * @param {Int}index被选择的radio的次序
          * @param {String}text提示文字此文字是和radio关联的label的文字
          */
-        onChange:null,
+        onChange: null,
         /**
          * 当鼠标经过时的事件
          * this指针为经过的radiobox
@@ -43,7 +43,7 @@
          * @param {number} index 经过的radio的次序
          * @param {string} text 提示文字 此文字是和radio关联的label的文字
          */
-        onHover:null
+        onHover: null
     };
 
     //如果cls传入的是字符创则将字符串中的{value}替换成radio的value值并返回，如果是函数则将input带入执行函数
@@ -110,7 +110,7 @@
 	});
      &lt;/script&gt;
      */
-    $.fn.radioable = function(options){
+    $.fn.radioable = function (options) {
         var self = this[0];
         var opt = $.extend($.extend({}, defaults), options || {});
         //如果未填写name参数直接报错
@@ -120,7 +120,7 @@
         //设置一个空的jQuer对象
         var radios = $('');
         //如果容器内的单选框的name符合参数中的name则添加到radios中
-        this.find('input').each(function(){
+        this.find('input').each(function () {
             if (this.type == 'radio' && this.name && this.name == opt.name) {
                 radios = radios.add(this);
             }
@@ -128,7 +128,7 @@
         if (radios.length <= 0) {
             return;
         }
-        radios.each(function(i, r){
+        radios.each(function (i, r) {
             r.setAttribute('hoverClass', getRadioClass(r, opt.hoverClass));
             r.setAttribute('selectedClass', getRadioClass(r, opt.selectedClass));
             var label = $(r).next('label');
@@ -155,7 +155,9 @@
             if (index === 0 && delta < 2) {
                 currentIndex = -1;
                 currentCls = self.className = opt.defaultClass;
-                opt.onHover && opt.onHover.call(null, index, '');
+                if (opt.onHover) {
+                    opt.onHover.call(null, index, '');
+                }
                 return;
             }
 
@@ -165,17 +167,22 @@
                     currentIndex = index;
                     self.className = clsName;
                     currentCls = clsName;
-                    opt.onHover && opt.onHover.call(radios[index], index, radios[index].getAttribute('hintText'));
+                    if (opt.onHover) {
+                        opt.onHover.call(radios[index], index, radios[index].getAttribute('hintText'));
+                    }
                 }
             }
         }
+
         //选中的时候根据index判断点击的是那个块，则让对应的单选框选中
         function selectRadio() {
             if (currentIndex == -1) {
                 radios[selectedIndex].checked = false;
                 selectedIndex = currentIndex;
                 selected = false;
-                opt.onChange && opt.onChange.call(null, selectedIndex, '');
+                if (opt.onChange) {
+                    opt.onChange.call(null, selectedIndex, '');
+                }
                 return;
             }
             if (currentIndex > -1 && currentIndex < radios.length) {
@@ -183,26 +190,31 @@
                 selectedIndex = currentIndex;
                 radios[currentIndex].checked = true;
                 self.className = radios[currentIndex].getAttribute('selectedClass');
-                opt.onChange && opt.onChange.call(radios[currentIndex], currentIndex, radios[currentIndex].getAttribute('hintText'));
+                if (opt.onChange) {
+                    opt.onChange.call(radios[currentIndex], currentIndex, radios[currentIndex].getAttribute('hintText'));
+                }
             }
         }
-        this.on('mousemove', function(e){
-            hoverRadio(e.clientX - left);
-        })
-            .on('touchmove', function(e) {
+
+        this.on('mousemove', function (e) {
+                hoverRadio(e.clientX - left);
+            })
+            .on('touchmove', function (e) {
                 e.preventDefault();
                 var touch = e.targetTouches[0];
                 hoverRadio(touch.pageX - left);
             })
-            .on('click', function(e) {
+            .on('click', function (e) {
                 hoverRadio(e.clientX - left);
                 selectRadio();
             })
             .on('touchend', selectRadio)
-            .on('mouseleave', function() {
+            .on('mouseleave', function () {
                 if (!selected) {
                     self.className = opt.defaultClass;
-                    opt.onChange && opt.onChange.call(null, -1, '');
+                    if (opt.onChange) {
+                        opt.onChange.call(null, -1, '');
+                    }
                 } else {
                     self.className = radios[selectedIndex].getAttribute('selectedClass');
                 }
@@ -212,4 +224,4 @@
         this.addClass(opt.defaultClass);
         return this;
     };
-}(jQuery);
+})(jQuery);
