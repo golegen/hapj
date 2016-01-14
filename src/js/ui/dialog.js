@@ -369,7 +369,7 @@
         size: function(w, h) {
             _sized = true;
             init();
-            dlg.childNodes[0].style.width = dlg.childNodes[2].style.width = w + 'px';
+            dlg.childNodes[0].style.width = dlg.childNodes[2].style.width = '100%';
             dlg.childNodes[1].style.width = parseInt(w) + 'px';
             dlg.childNodes[0].childNodes[0].style.width = parseInt(w-40)+'px';
             dlg.style.height = h + 'px';

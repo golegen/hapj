@@ -9,7 +9,7 @@ include '../../include/header.phtml';
 <h3>1.css写法</h3>
 <p>样式自定义，无要求</p>
     <label class="label label-primary">css:</label>
-<pre><code class="html">
+<pre><code class="css">
 &lt;link rel="stylesheet" href="/dist/hapj/css/ui/dialog.css"/&gt;
 或者自定义
 &lt;style&gt;
@@ -92,7 +92,6 @@ include '../../include/header.phtml';
   </div>
   <label class="label label-primary">javascript:</label>
 <pre><code class="js">
-$("#uploadLink").css("z-index",999);
 var dlg =$.dialog;
 $('.uploadLink4').on('click', function(){
     dlg.size(500,500).ajax('/',function(data){
@@ -122,7 +121,6 @@ $('#uploadLink1').on('click', function(){
     <button  class="uploadLink3">error弹窗 </button>
     <button class="uploadLink4">ajax弹窗  </button>
     <script>
-        $("#uploadLink").css("z-index",999);
             var dlg =$.dialog;
         $('.uploadLink4').on('click', function(){
             dlg.size(500,500).ajax('/',function(data){
@@ -141,14 +139,6 @@ $('#uploadLink1').on('click', function(){
         })
         $('#uploadLink1').on('click', function(){
             dlg.size(500, 600).iframe('/image/multi').title('上传文件').drag();
-            setTimeout(function(){
-                console.log("time")
-                $(document).click(function(){
-                    console.log(123)
-                    dlg.hide();
-                })
-            },500)
-
         });
 
     </script>
