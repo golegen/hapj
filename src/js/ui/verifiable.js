@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @since 2016-01-11
- * @version 1.6.1
+ * @version ${VERSION}
  * @namespace jQuery.fn.verifiable
  * @example
  *
@@ -358,8 +358,8 @@ $('#formAdd').verifiable();
                  * @param {String} val
                  * @param {Object} rule 具有如下参数
                  * {
-         *         mobile:['mobile','home','400','both'] 手机类型，mobile 移动电话 home 座机 400电话 both 移动、座机、400都行
-         * }
+                 *  mobile:['mobile','home','400','both'] 手机类型，mobile 移动电话 home 座机 400电话 both 移动、座机、400都行
+                 * }
                  */
                 phone: function (val, rule) {
                     if (undefined === rule.mobile) {
@@ -666,6 +666,13 @@ $('#formAdd').verifiable();
         }
         ;
 
+    /**
+     * jQuery.fn.verifiable的构造函数
+     * @function jQuery.fn.verifiable#__constructor
+     * @param options
+     * @param {function} options.ok 成功完成的相应函数
+     * @returns {{redo: redo, error: error}}
+     */
     $.fn.verifiable = function (options) {
         if (this.length < 1) {
             return;
@@ -690,6 +697,7 @@ $('#formAdd').verifiable();
         return {
             /**
              * 重做验证。当加入了新的验证规则时需要进行此项
+             * @function jQuery.fn.verifiable#redo
              */
             redo: function () {
                 $.each(self, function () {
@@ -701,6 +709,7 @@ $('#formAdd').verifiable();
             },
             /**
              * 显示错误信息。
+             * @function jQuery.fn.verifiable#error
              * @param {Object} name 对应的表单元素的name
              * @param {Object} msg  显示的内容
              */
@@ -722,6 +731,7 @@ $('#formAdd').verifiable();
 
     /**
      * 表单验证的主要逻辑
+     * @constructor
      * @param {Object} form
      * @param {Object} options
      */

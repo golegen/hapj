@@ -2,7 +2,7 @@
  * Copyright (c) 2014, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2014-09-25
- * @version 2.0
+ * @version ${VERSION}
  * @namespace jQuery.fn.calendar
  * @description 日历控件
  */

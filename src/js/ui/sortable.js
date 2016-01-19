@@ -2,7 +2,7 @@
  * Copyright (c) 2012, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-1-7
- * @version 1.6.1.7
+ * @version ${VERSION}
  * @description 使元素可排序
  **/
 (function ($) {

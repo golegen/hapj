@@ -1,6 +1,6 @@
 {
   "name": "hapj",
-  "version": "2.0.0",
+  "version": "1.6.1",
   "description": "hapj-a simple js framework based on jquery",
   "main": "index.js",
   "scripts": {
@@ -29,6 +29,8 @@
     "gulp-jshint": "^2.0.0",
     "gulp-less": "^3.0.5",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "markdown": "^0.5.0"

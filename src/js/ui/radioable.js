@@ -2,7 +2,7 @@
  * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-1-11
- * @version1.6.1
+ * @version ${VERSION}
  * @description 映射单选按钮到界面良好的显示方式主要用于评分等场合
  * @namespace jQuery.fn.radioable
  **/

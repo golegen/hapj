@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2014, Jiehun.com.cn Inc. All Rights Reserved
+ * 使节点能够根据所在屏幕位置变成一个进度条的节点，根据屏幕位置来提示进度
+ * @copyright Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
- * @date 2014-08-03
- * @version 1.0
- * @module hapj/ui/progressbar
- * @brief 使节点能够根据所在屏幕位置变成一个进度条的节点，根据屏幕位置来提示进度
+ * @date 2016-01-15
+ * @version {$VERSION}
+ * @namespace jQuery.fn.progressbar
  * @example
  hapj(function(H){
 	H.ui('#list1').tag('li')
@@ -18,7 +18,9 @@
 	});
 });
  **/
-!function($, d){
+(function($, d){
+	'use strict';
+
 	var defaults = {
 		minOffset:20,  // 进度条两点最短距离
 		maxWidth:1000, // 进度条最长宽度
@@ -30,20 +32,27 @@
 	};
 
 	/**
-	 * @constructor
+	 * 构造函数
+	 * @memberof jQuery.fn.progressbar
+	 * @function #constructor
 	 * @param {object} options 配置参数
+	 * @param {int} options.minOffset 进度条两点最短距离，默认为20px
+	 * @param {int} options.maxWidth 进度条最长宽度，默认为1000px
+	 * @param {int} options.dotWidth 每个点的宽度，默认为10px
+	 * @param {int} options.offsetTop 距离顶部多远开始计算，默认为20px
+	 * @param {HTMLElement} options.parent  进度条放置到哪个容器，默认放到body
+	 * @param {function} options.onHide 隐藏时的回调函数
+	 * @param {function} options.onShow 显示时的回调函数
 	 *
 	 */
 	$.fn.progressable = function(options) {
-		var offset = this.offset();
-		var height = this.height(true);
 		var o = $.extend({}, defaults);
 		$.extend(o, options);
 		var offsets = [];
 
 		// 计算好各个节点的位置
-		var len = this.length;
-		for(var i = len - 1; i >= 0; i--) {
+		var len = this.length, i;
+		for(i = len - 1; i >= 0; i--) {
 			var el = $(this[i]);
 			offsets[i] = [el.offset().top, el.height(true)];
 		}
@@ -60,17 +69,17 @@
 		// 计算好进度条的左边距及宽度
 		offsets[0][2] = 0;
 		var startLeft = offsets[0][0] * ratio;
-		for (var i = 1; i < len; i++) {
+		for (i = 1; i < len; i++) {
 			var left = ratio * offsets[i][0] - startLeft;
-			var offset = left - offsets[i - 1][2];
-			if (offset < o.minOffset) {
+			var _os = left - offsets[i - 1][2];
+			if (_os < o.minOffset) {
 				left = offsets[i - 1][2] + o.minOffset;
 				//console.log(offset, left);
 			}
 			left = parseInt(left);
 			offsets[i][2] = left;
 		}
-		for(var i = 0; i < len; i++) {
+		for(i = 0; i < len; i++) {
 			if (i == len - 1) {
 				offsets[i][3] = o.maxWidth - offsets[i][2];
 			} else {
@@ -79,7 +88,7 @@
 		}
 		//console.log(offsets);
 		// 调整好每个进度的宽度
-		for(var i = 0; i < len; i++) {
+		for(i = 0; i < len; i++) {
 			var html = '<li style="left:' + offsets[i][2] + 'px;width:' + offsets[i][3] + 'px;"><a><em index="' + i + '"></em><i><b></b><span></span></i><h4>';
 			if (options.getTitle) {
 				var title = options.getTitle.call(this[i], i);
@@ -139,12 +148,13 @@
 	var lastTop = null;
 	function onResize(div, self, lis, offsets, height, options)
 	{
-		var startY = options.offsetTop
-			, top = $(window).scrollTop() + startY
-			, min = null
-			, len = offsets.length;
+		var startY = options.offsetTop,
+			top = $(window).scrollTop() + startY,
+			min = null,
+			len = offsets.length,
+			i;
 
-		for(var i = 0; i < len; i++) {
+		for(i = 0; i < len; i++) {
 			var delta = top - offsets[i][0];
 			if (min === null) {
 				min = [delta, i];
@@ -161,7 +171,9 @@
 			if (min[0] > offsets[min[1]][1]) {
 				min[0] = offsets[min[1]][1];
 				if (min[1] == len - 1) {
-					options.onHide && options.onHide.call(null, div);
+					if (options.onHide) {
+						options.onHide.call(null, div);
+					}
 					return;
 				}
 			}
@@ -171,14 +183,18 @@
 				lis[min[1]].className = 'on';
 			}
 
-			if (lastTop != null) {
+			if (lastTop !== null) {
 				var _delta = min[0];
 				var index = min[1];
-				if (index < 0 || $(window).scrollTop() == 0) {
-					options.onHide && options.onHide.call(null, div);
+				if (index < 0 || $(window).scrollTop() === 0) {
+					if (options.onHide) {
+						options.onHide.call(null, div);
+					}
 					return;
 				}
-				options.onShow && options.onShow.call(null, div);
+				if (options.onShow) {
+					options.onShow.call(null, div);
+				}
 				var ratio = offsets[index][3]/offsets[index][1];
 				var width = _delta * ratio;
 				if (width < options.minOffset) {
@@ -195,10 +211,10 @@
 				if (index in lis) {
 					lis[index].getElementsByTagName('div')[1].style.width = width + 'px';
 				}
-				for(var i = 0; i < index; i++) {
+				for(i = 0; i < index; i++) {
 					lis[i].getElementsByTagName('div')[1].style.width = offsets[i][3] + 'px';
 				}
-				for(var i = index + 1; i < len; i++) {
+				for(i = index + 1; i < len; i++) {
 					lis[i].getElementsByTagName('div')[1].style.width = '0px';
 				}
 			}
@@ -207,4 +223,4 @@
 		// 调整进度条位置
 		lastTop = top;
 	}
-}(jQuery, document);
+})(jQuery, document);

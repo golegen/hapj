@@ -2,7 +2,7 @@
  * Copyright (c) 2015, Jiehun.com.cn Inc. All Rights Reserved
  * @author zhangyuemei@jiehun.com.cn
  * @date 2016-1-12
- * @version 2.0 
+ * @version ${VERSION}
  * @brief 使元素可以自动提供建议
  * @example 
 $('#suggestable').suggestable({

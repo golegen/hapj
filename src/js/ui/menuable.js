@@ -2,7 +2,7 @@
  * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2011-12-30
- * @version 1.0
+ * @version ${VERSION}
  * @brief 使元素能像菜单一样，通过点击或者按键显示出来以后，当鼠标点击在该元素上时，元素不会消失，但当鼠标点击在该元素以外时，元素会消失；
  * 当按esc键时，最上层的元素会消失
  * @example

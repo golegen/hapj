@@ -3,6 +3,7 @@ var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
 var rename = require('gulp-rename');
 var del = require('del');
+var concat = require('gulp-concat');
 var jsSrc = [
     './src/js/**/*.js'
 ];
@@ -74,13 +75,15 @@ gulp.task('markdown', function (fb) {
 gulp.task('doc', function () {
     var jsdoc = require('gulp-jsdoc');
 
+    del.sync('./doc/');
+
     return gulp.src(jsSrc)
         .pipe(jsdoc.parser())
         .pipe(jsdoc.generator('./doc/', {
-            path:'ink-docstrap',
+            path: 'ink-docstrap',
             systemName: 'HapJ前端框架文档',
             copyright: '@hunbasha.com',
-            theme:'united',
+            theme: 'united',
             inverseNav: true,
             navType: 'horizontal',
             linenums: true,
@@ -90,7 +93,7 @@ gulp.task('doc', function () {
 });
 
 // 压缩代码
-gulp.task('min', function () {
+gulp.task('min', ['move'], function () {
     var cssmin = require('gulp-cssmin');
     var deleteLines = require('gulp-delete-lines');
 
@@ -133,23 +136,21 @@ gulp.task('min', function () {
     gulp.src('./bower_components/highlightjs/styles/*.png')
         .pipe(gulp.dest('./dist/highlightjs/css/'));
 
-    return gulp.src(jsSrc)
+    return gulp.src(['/dist/hapj/js/**/*.js'])
+        .pipe(gulp.dest('./dist/hapj/js/'))
         .pipe(uglify())
-        .pipe(rename({
-            suffix: '.min'
-        }))
+        .pipe(rename({suffix:'.min'}))
         .pipe(gulp.dest('./dist/hapj/js/'));
 });
 
 gulp.task('js', ['min'], function () {
-    var concat = require('gulp-concat');
     return gulp.src([
             './dist/jquery/jquery.min.js',
             './dist/hapj/js/hapj.min.js',
             './dist/hapj/js/hapj.hook.min.js',
             './dist/highlightjs/highlightjs.min.js'
         ])
-        .pipe(concat('hapj.example.js', {newLine: ';'}))
+        .pipe(concat('hapj.example.js'))
         .pipe(gulp.dest('./dist/hapj/js/'));
 });
 
@@ -183,19 +184,23 @@ gulp.task('less', function () {
         )
         .pipe(less())
         .pipe(rename(function (path) {
-            path.extname = '.lesscss';
+            path.extname = '.css';
         }))
-        .pipe(gulp.dest('./src/css/'))
+        .pipe(gulp.dest('./tmp/css/'))
         ;
 });
 
-gulp.task('parsecss', ['less'], function () {
+gulp.task('css', ['less'], function () {
     var base64 = require('gulp-base64');
+    var sourcemap = require('gulp-sourcemaps');
 
-    //del.sync('./src/css/**/*.lesscss');
+    del.sync('./tmp/css/**/*.css');
     del.sync('./dist/hapj/css');
 
-    return gulp.src(['./src/css/**/*.lesscss', './src/css/**/*.css'])
+    return gulp.src(['./tmp/css/**/*.css', './src/css/**/*.css'])
+        .pipe(sourcemap.init({
+            sourceRoot:'./src'
+        }))
         .pipe(base64({
             extensions: [/\.(jpg|png|gif)\?__INLINE__/],
             maxImageSize: 8 * 1024,
@@ -204,13 +209,52 @@ gulp.task('parsecss', ['less'], function () {
         .pipe(rename(function (path) {
             path.extname = '.css';
         }))
+        .pipe(sourcemap.write('./'))
         .pipe(gulp.dest('./dist/hapj/css/'))
         ;
 });
 
-// less任务
-gulp.task('css', ['parsecss'], function () {
-    del.sync('./src/css/**/*.lesscss');
+gulp.task('replace', function () {
+    var fs = require('fs');
+    var content = fs.readFileSync('./package.json');
+    var config = JSON.parse(content);
+
+    var replace = require('gulp-replace');
+    return gulp.src(['./src/js/**/*.js'])
+        .pipe(replace(/\$\{(VERSION)\}/g, function () {
+            return config.version;
+        }))
+        .pipe(gulp.dest('./tmp/js/'));
+});
+
+gulp.task('move', ['replace'], function () {
+    var sourcemap = require('gulp-sourcemaps');
+    gulp.src(['./tmp/js/ui/*.js'])
+        .pipe(gulp.dest('./dist/hapj/js/ui/'));
+
+    return gulp.src([
+            './tmp/js/hapj.js',
+            './tmp/js/lib/md5.js',
+            './tmp/js/lib/serial.js',
+            './tmp/js/core/hook.js',
+            './tmp/js/core/conf.js',
+            './tmp/js/core/browser.js',
+            './tmp/js/core/string.js',
+            './tmp/js/core/array.js',
+            './tmp/js/core/object.js',
+            './tmp/js/core/date.js',
+            './tmp/js/core/json.js',
+            './tmp/js/core/log.js',
+            './tmp/js/core/page.js',
+            './tmp/js/core/cache.js',
+            './tmp/js/core/hook.js',
+            './tmp/js/hapj.hook.js',
+        ])
+        .pipe(sourcemap.init())
+        .pipe(uglify())
+        .pipe(concat('hapj.js'))
+        .pipe(sourcemap.write('./'))
+        .pipe(gulp.dest('./dist/hapj/js/'));
 });
 
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-01-12
- * @version 1.6.1
+ * @version ${VERSION}
  * @brief
  });
  **/
