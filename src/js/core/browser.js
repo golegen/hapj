@@ -4,9 +4,10 @@
     /**
      * 用户浏览器的属性
      * @namespace hapj.browser
-     * @property {string} hapj.browser.type 浏览器类型
-     * @property {string} hapj.browser.version 版本号
-     * @property {boolean} hapj.browser.mobile 是否为移动设备访问
+     *
+     * @property {string} type 浏览器类型
+     * @property {string} version 版本号
+     * @property {boolean} mobile 是否为移动设备访问
      */
     H.browser = (function () {
         var ua = navigator.userAgent.toLowerCase(),

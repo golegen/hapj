@@ -298,7 +298,7 @@
         return me;
     };
 
-    Me = function () {
+    var Me = function () {
     };
     Me.prototype = {
         // 元素总数

@@ -4,7 +4,11 @@
  * @author <ronnie>dengxiaolong@jiehun.com.cn
  * @date 2016-01-07
  * @version ${VERSION}
- * @description hapj 1.6.1版本，去掉基础ui功能，完全依赖jQuery作为UI底层。增加全新的hook机制
+ * @description hapj 1.6.1版本，力争用最简单的办法解决前端的交互问题、以及响应式设计问题。
+ * <br/>本版本主要特性：
+ * <br/>* 去掉基础ui功能，完全依赖jQuery作为UI底层。
+ * <br/>* 增加全新的hook机制
+ * <br/>* 所有的ui组件都实现为jQuery的基础组件，查看 {@link jQuery.fn}
  **/
 window.hapj = {
     __version: '${VERSION}',

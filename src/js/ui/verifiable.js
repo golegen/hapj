@@ -1,6 +1,8 @@
 /**
  *
  * 使元素可验证
+ * * 校验规则，请参考{@link jQuery.verifiable}
+ * * 详细例子，请参考{@link ${DOCHOST}/example/js/ui/verifiable.php|example}
  * @copyright Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @since 2016-01-11
@@ -32,51 +34,64 @@ $('#formAdd').verifiable();
 (function (H, $, undefined) {
     'use strict';
 
-    var verifyRules = {
-            addRule: function (type, verify) {
-                if (type in _vRules) {
-                    return H.log.warn('hapj.ui.verifiable the rule named ' + type + ' is exited');
-                }
-                _vRules[type] = verify;
-            },
-            addRules: function (verifies) {
-                var self = this;
-                H.each(verifies, function (type) {
-                    self.addRule(type, this);
-                });
-            },
-            /**
-             * 验证规则
-             * @param {Mixed} value
-             * @param {String} type
-             * @param {Object} rule
-             * @return Boolean
-             */
-            verify: function (value, type, rule) {
-                if (type in _vRules) {
-                    if (H.isArray(value)) {
-                        var pass = true;
-                        if (type == 'selectRange') {
-                            if (!_vRules[type](value, rule)) {
-                                pass = false;
-                                return false;
-                            }
-                        }
-                        $.each(value, function (i) {
-                            if (!_vRules[type](value[i], rule)) {
-                                pass = false;
-                                return false;
-                            }
-                        });
-                        return pass;
-                    }
-                    return _vRules[type](value, rule);
-                } else {
-                    H.log.warn('hapj.ui.verifiable the verify type named ' + type + ' is not supported');
-                }
+    /**
+     * 校验规则支持类
+     * @namespace jQuery.verifiable
+     */
+    $.verifiable = {
+        /**
+         * 添加校验规则
+         * @param {string} type 校验类型
+         * @param {{}} verify 校验规则
+         */
+        addRule: function (type, verify) {
+            if (type in _vRules) {
+                return H.log.warn('hapj.ui.verifiable the rule named ' + type + ' is exited');
             }
+            _vRules[type] = verify;
         },
-        _vRules = {},
+        /**
+         * 添加多个校验规则
+         * @param [array] verifies
+         */
+        addRules: function (verifies) {
+            var self = this;
+            H.each(verifies, function (type) {
+                self.addRule(type, this);
+            });
+        },
+        /**
+         * 验证规则
+         * @param {Mixed} value
+         * @param {String} type
+         * @param {Object} rule
+         * @return Boolean
+         */
+        verify: function (value, type, rule) {
+            if (type in _vRules) {
+                if (H.isArray(value)) {
+                    var pass = true;
+                    if (type == 'selectRange') {
+                        if (!_vRules[type](value, rule)) {
+                            pass = false;
+                            return false;
+                        }
+                    }
+                    $.each(value, function (i) {
+                        if (!_vRules[type](value[i], rule)) {
+                            pass = false;
+                            return false;
+                        }
+                    });
+                    return pass;
+                }
+                return _vRules[type](value, rule);
+            } else {
+                H.log.warn('hapj.ui.verifiable the verify type named ' + type + ' is not supported');
+            }
+        }
+    };
+    var _vRules = {},
         _rules = {},
         _hints = {},
         _inited = false,
@@ -151,9 +166,11 @@ $('#formAdd').verifiable();
     // 简单url地址
         sUrlRegex = /^(((https?|ciw):\/\/)|\/)[0-9a-zA-Z\_\!~\*\'\(\)\.;\?:@&=\+$,%#\-\/]*$/,
         _addRules = function () {
-            verifyRules.addRules({
+            $.verifiable.addRules({
                 /**
                  * 验证是否为空
+                 * @memberof jQuery.verifiable
+                 * @function ~required
                  * @param {Object} val
                  */
                 required: function (val) {
@@ -161,20 +178,26 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 验证是否为数字
+                 * @memberof jQuery.verifiable
+                 * @function ~number
                  * @param {Object} val
                  */
-                number: function (val, rule) {
+                number: function (val) {
                     return !isNaN(val);
                 },
                 /**
                  * 验证是否为正整数
+                 * @memberof jQuery.verifiable
+                 * @function ~point
                  * @param {Object} val
                  */
-                posint: function (val, rule) {
+                posint: function (val) {
                     return /^[1-9](\d+)?$/.test(val);
                 },
                 /**
                  * 验证是否为金钱,保留两位小数
+                 * @memberof jQuery.verifiable
+                 * @function ~price
                  * @param {Object} val
                  */
                 price: function (val) {
@@ -182,6 +205,8 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 验证是否为email地址
+                 * @memberof jQuery.verifiable
+                 * @function ~email
                  * @param {Object} val
                  */
                 email: function (val) {
@@ -189,18 +214,25 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 验证是否符合正则表达式
+                 * @memberof jQuery.verifiable
+                 * @function ~regexp
+                 * @param {string} val
+                 * @param {{}} rule 规则
+                 * @param {RegExp} rule.exp 验证的正则表达式
+                 * @return {boolean}
                  */
                 regexp: function (val, rule) {
                     return new RegExp(rule.exp).test(val);
                 },
                 /**
                  * 验证是否中文
+                 * @memberof jQuery.verifiable
+                 * @function ~chinese
                  * @param {String} val
                  * @param {Object} rule
-                 * {
-                 *  min:最小长度
-                 *  max:最大长度
-                 * }
+                 * @param {int} rule.min 最小长度
+                 * @param {int} rule.max 最大长度
+                 * @return {boolean}
                  */
                 chinese: function (val, rule) {
                     if (undefined === rule.min) {
@@ -213,14 +245,16 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 身份证验证
+                 * @memberof jQuery.verifiable
+                 * @function ~chinese
                  * @param {String} val
                  * @param {Object} rule
-                 * {
-                 *  minAge: 最小年龄
-                 *  maxAge: 最大年龄
-                 *  sex: ['male', 'female'] male 男性 female 女性
-                 *  province: 省份名称，如北京、天津等
-                 * }
+                 * @param {int} rule.minAge 最小年龄
+                 * @param {int} rule.maxAge 最大年龄
+                 * @param {string} rule.sex
+                 * * `male` 男性
+                 * * `female` 女性
+                 * @param {string} rule.province 省份名称，如北京、天津等
                  */
                 ID: function (val, rule) {
                     if (!val) return false;
@@ -339,15 +373,20 @@ $('#formAdd').verifiable();
                     return true;
                 },
                 /**
-                 * 验证是否为url链接
-                 * @param {Object} val
+                 * 验证是否为url链接，该验证会很严格，简单验证参见{@link jQuery.verifiable~surl}
+                 * @memberof jQuery.verifiable
+                 * @function ~url
+                 * @param {string} val
+                 * @return {boolean}
                  */
                 url: function (val) {
                     return urlRegex.test(val);
                 },
                 /**
                  * 验证是否为简单的url链接
-                 * @param val
+                 * @memberof jQuery.verifiable
+                 * @function ~surl
+                 * @param {string} val
                  * @returns {boolean}
                  */
                 surl: function (val) {
@@ -355,11 +394,16 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 手机号码规则验证
+                 * @memberof jQuery.verifiable
+                 * @function ~phone
                  * @param {String} val
                  * @param {Object} rule 具有如下参数
-                 * {
-                 *  mobile:['mobile','home','400','both'] 手机类型，mobile 移动电话 home 座机 400电话 both 移动、座机、400都行
-                 * }
+                 * @param {string} rule.mobile 电话类型。
+                 * * `mobile` 移动电话
+                 * * `home` 座机
+                 * * `400` 电话
+                 * * `both` 移动、座机、400都行
+                 * @return {boolean}
                  */
                 phone: function (val, rule) {
                     if (undefined === rule.mobile) {
@@ -382,12 +426,19 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 比较两个对象的值
+                 * @memberof jQuery.verifiable
+                 * @function ~compare
                  * @param {String} val
                  * @param {Object} rule
-                 * {
-                 *      to: 要比较对象的id
-                 *      type: ['elem', 'value']
-                 * }
+                 * @param {string} rule.to 要比较对象的id
+                 * @param {string} rule.condition 比较关系式
+                 * * `=`、`equal` 等于
+                 * * `!=`、`<>` 不等于
+                 * * `>`、`great` 大于
+                 * * '<'、`less` 小于
+                 * `>=`、`notLess` 大于等于
+                 * `<=`、`notGreat` 小于等于
+                 * @return {boolean}
                  */
                 compare: function (val, rule) {
                     var cVal = $(rule.to).val();
@@ -409,10 +460,10 @@ $('#formAdd').verifiable();
                         case 'less':
                             return val < cVal;
                         case '>=':
-                        case 'notGreat':
+                        case 'notLess':
                             return val >= cVal;
                         case '<=':
-                        case 'notLess':
+                        case 'notGreat':
                             return val <= cVal;
                         default:
                             return H.log.error('hapj.ui.verifiable the condition(' + rule.condition + ') is not defined');
@@ -420,13 +471,16 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 范围比较
+                 * @memberof jQuery.verifiable
+                 * @function ~range
                  * @param {String} val
                  * @param {Object} rule
-                 * {
-         *         type: ['length','number', 'integer'] length 长度比较 number 数值比较 integer 整数数值比较(包含0)
-         *         min: 最小值
-         *         max: 最大值
-         * }
+                 * @param {string} rule.type 范围类型
+                 * * `length` 长度比较
+                 * * `number` 数值比较
+                 * * `integer` 整数数值比较(包含0)
+                 * @param {int} rule.min 最小值
+                 * @param {int} rule.max: 最大值
                  */
                 range: function (val, rule) {
                     if (undefined === rule.min) {
@@ -453,15 +507,15 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 远程校验
-                 * @param {Object} val
-                 * @param {Object} rule
-                 * {
-                 *  url:  // 远程校验的网址
-                 *  type:['POST','GET'] 方法，默认为post
-                 *  data:提交给服务器端的数据，可以是key1=value1&key2=value2、{key1:value1}、function(){return {key1:value1}}等形式
-                 *  dataType:['text','json', 'html']等
-                 *  verify:函数，用来校验返回数据，如果返回true，说明校验成功，如果返回false，说明校验失败。如果没有这个函数，则返回的数据为true或者'true'时认为成功，其他都为失败
-                 * }
+                 * @memberof jQuery.verifiable
+                 * @function ~remote
+                 * @param {string|function} val 用来比较的值，如果是function，则会将返回的值作为比较的值
+                 * @param {{}} rule
+                 * @param {string} rule.url 远程校验的网址
+                 * @param {string} rule.type 可以是POST或者GET，默认为post
+                 * @param {mixed} rule.data 提交给服务器端的数据，可以是key1=value1&key2=value2、{key1:value1}、function(){return {key1:value1}}等形式
+                 * @param {string} rule.dataType 返回的类型，可以是'text','json', 'html'等
+                 * @param {function} rule.verify 函数，用来校验返回数据，如果返回true，说明校验成功，如果返回false，说明校验失败。如果没有这个函数，则返回的数据为true或者'true'时认为成功，其他都为失败
                  */
                 remote: function (val, rule) {
                     if (undefined === this.cache) {
@@ -526,12 +580,12 @@ $('#formAdd').verifiable();
                 },
                 /**
                  * 日期验证
-                 * @param {Object} val
+                 * @memberof jQuery.verifiable
+                 * @function ~date
+                 * @param {string} val
                  * @param {Object} rule
-                 * {
-         *     min:最小日期。可以是多少s、或者具体的日期，如 6*3600*24，表示离现在至少6天，或者2012-02-24,表示选择的日期不能在这个日期之前
-         *  max:最大日期。和min的格式一样
-         * }
+                 * @param {int|string} rule.min 最小日期。可以是多少s、或者具体的日期，如 6*3600*24，表示离现在至少6天，或者2012-02-24,表示选择的日期不能在这个日期之前
+                 * @param {int|string} rule.max 最大日期。和min的格式一样
                  */
                 date: function (val, rule) {
                     var date = _str2date(val);
@@ -576,29 +630,11 @@ $('#formAdd').verifiable();
                 },
                 successMsg: function () {
                     return true;
-                },
-                textLong: function (val, rule) {
-                    if (val.length > rule.length) {
-                        return false;
-                    }
-                    return true;
-                },
-                selectRange: function (vals, rule) {
-                    if (undefined === rule.min) {
-                        rule.min = Number.MIN_VALUE;
-                    }
-                    if (undefined === rule.max) {
-                        rule.max = Number.MAX_VALUE;
-                    }
-                    if (!$.isArray(vals)) {
-                        vals = [vals];
-                    }
-                    return vals.length <= rule.max && vals.length >= rule.min;
                 }
             });
         },
         VERIFY_KEY = 'verify-rule',
-// 设置提示元素
+    // 设置提示元素
         createHinter = function (elem) {
             var last;
             if (elem.nodeName == 'INPUT' && (elem.type == 'radio' || elem.type == 'checkbox') && elem.form[elem.name].length) {
@@ -668,10 +704,10 @@ $('#formAdd').verifiable();
 
     /**
      * jQuery.fn.verifiable的构造函数
-     * @function jQuery.fn.verifiable#__constructor
+     * @function jQuery.fn.verifiable~constructor
      * @param options
      * @param {function} options.ok 成功完成的相应函数
-     * @returns {{redo: redo, error: error}}
+     * @return {jQuery.fn.verifiable#returnObject}
      */
     $.fn.verifiable = function (options) {
         if (this.length < 1) {
@@ -696,8 +732,17 @@ $('#formAdd').verifiable();
         var self = this;
         return {
             /**
+             *
+             * @memberof jQuery.fn.verifiable
+             * @typedef #returnObject
+             * @property {jQuery.fn.verifiable~redoCallback} redo 重做验证
+             * @property {jQuery.fn.verifiable~errorCallback} error 显示错误信息
+             */
+
+            /**
              * 重做验证。当加入了新的验证规则时需要进行此项
-             * @function jQuery.fn.verifiable#redo
+             * @memberof jQuery.fn.verifiable
+             * @callback ~redoCallback
              */
             redo: function () {
                 $.each(self, function () {
@@ -709,9 +754,10 @@ $('#formAdd').verifiable();
             },
             /**
              * 显示错误信息。
-             * @function jQuery.fn.verifiable#error
-             * @param {Object} name 对应的表单元素的name
-             * @param {Object} msg  显示的内容
+             * @memberof jQuery.fn.verifiable
+             * @callback ~errorCallback
+             * @param {string} error.name 对应的表单元素的name
+             * @param {string} error.msg  显示的内容
              */
             error: function (name, msg) {
                 $.each(self, function () {
@@ -935,7 +981,7 @@ $('#formAdd').verifiable();
         initElements: function () {
             // 必须有name才予以验证
             for (var i = 0, l = this.form.elements.length, el, ruleStr; i < l; i++) {
-                if (!(el = this.form.elements[i]).name  || // 必须要有name属性
+                if (!(el = this.form.elements[i]).name || // 必须要有name属性
                     !(ruleStr = el.getAttribute(VERIFY_KEY)) || //必须要有验证规则
                     !$.trim(ruleStr) || // 验证规则不为空
 //            || el.name in this.elemAttrs // 如果已经有过，就不再继续验证

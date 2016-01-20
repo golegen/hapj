@@ -6,7 +6,6 @@
  * @author dengxiaolong@jiehun.com.cn,liuxiaoyan@hunbasha.com
  * @date 2016-01-11
  * @version ${VERSION}
- * @description
  * @example
  // 设置divMenu元素处于linkMenu元素的左上角
  $('#divMenu').floatable($('#linkMenu')).left().top();

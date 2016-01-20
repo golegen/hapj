@@ -10,7 +10,6 @@
 
     /**
      * hook机制详解
-     * @example
      */
     $(function () {
         $('*[data-hook]').each(function () {

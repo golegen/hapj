@@ -1,62 +1,39 @@
 /**
- * Copyright (c) 2012, Jiehun.com.cn Inc. All Rights Reserved
+ * 使元素可排序
+ * 注意，如果数据较少，在一页就能显示完毕，可以使用这个拖拽排序来执行相关的动作。如果数据较多，则最好使用其他方法对数据进行排序。
+ * @copyright Copyright (c) 2012, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-1-7
  * @version ${VERSION}
- * @description 使元素可排序
+ * @namespace jQuery.fn.sortable
  **/
 (function ($) {
     'use strict';
 
     var inited = false, dragElem,
-        /**
-         * @class jQuery.fn.sortable.options
-         * @private
-         * @description 传入的配置项，实际上此类不存在 {@link jQuery.fn.sortable|返回}
-         */
-        defaults = /**@lends jQuery.fn.sortable.options */{
-            /**
-             * 拖动时元素自动追加的样式名
-             * @type {String}
-             * @defaultvalue
-             */
+        defaults = {
             dragClass: 'sort_drag',
-            /**
-             * 不需要拖动的元素的样式名
-             * @type {String}
-             * @defaultvalue
-             */
             noDragClass: '',
-            /**
-             * 调整排序后的事件响应函数
-             * @function
-             * @param {HTMLElement} root 拖动的根元素
-             * @param {HTMLElement} dragger 拖动的元素
-             * @param {HTMLElement} replacer 被替换的元素
-             */
             onDrop: null,
-            /**
-             * 与拖动元素匹配的关联对象，拖动时关联对象将做相同的移动
-             * @type {jQuery}
-             * @defaultvalue
-             */
             relate: null,
-            /**
-             * 鼠标的样式
-             * @type {String}
-             * @defaultvalue
-             */
             cssCursor: 'move'
         }, isIE = /(msie) ([\w.]+)/.test(window.navigator.userAgent);
 
     /**
-     * @class jQuery.fn.sortable
-     * @author dengxiaolong@jiehun.com.cn
-     * @date 2014-09-26
-     * @version 2.0
-     * @description 使表格或者ul支持拖拽。
-     * 注意，如果数据较少，在一页就能显示完毕，可以使用这个拖拽排序来执行相关的动作。如果数据较多，则最好使用其他方法对数据进行排序。
-     * @param {Object} options 参数，具体参考：{@link jQuery.fn.sortable.options}
+     * @memberof jQuery.fn.sortable
+     * @function ~constructor
+     * @param {{}} options 参数
+     * @param {string} options.dragClass 拖动时元素自动追加的样式名 默认为sort_drag
+     * @param {string} options.noDragClass 不需要拖动的元素的样式名
+     * @param {function} options.onDrag 调整排序后的事件响应函数
+     * @param {HTMLElement} options.onDrag.root 拖动的根元素
+     * @param {HTMLElement} options.onDrag.dragger 拖动的元素
+     * @param {HTMLElement} options.onDrag.replacer 被替换的元素
+     * @param {HTMLElement} options.relate 与拖动元素匹配的关联对象，拖动时关联对象将做相同的移动
+     * @param {string} options.cssCursor 鼠标的样式
+     *
+     * @description 构造函数
+     * @param {Object} options 参数
      * @example
      详见<a href="../examples/sortable.html" target="_blank">具体例子</a>
      $('ul').sortable({

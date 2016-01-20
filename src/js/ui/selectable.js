@@ -1,63 +1,57 @@
 /**
- * Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
+ * 映射下拉框到可定制的下拉组件
+ * 主要用来将普通的下拉框组件(或ul)转化为可以自定义样式的下拉框组件。绑定到原有下拉框的事件也会起作用。
+ * @copyright Copyright (c) 2016, Jiehun.com.cn Inc. All Rights Reserved
  * @author dengxiaolong@jiehun.com.cn
  * @date 2016-1-11
  * @version ${VERSION}
- * @brief 映射下拉框到可定制的下拉组件
+ * @namespace jQuery.fn.selectable
  **/
-(function($, Me, undefined){
+(function ($, Me, undefined) {
     'use strict';
     var defaults = {
-        selectedClassName:'on',
-        showEvent:'click',
-        pack:null,
-        hideDelayTime:1000,  // 隐藏延迟的时间，只有showEvent为mouseover或mouseenter才有效，如果该值小于0，则不会自动掩藏
-        onHide:null,
-        onShow:null,
-        onChange:null
+        selectedClassName: 'on',
+        showEvent: 'click',
+        pack: null,
+        hideDelayTime: 1000,  // 隐藏延迟的时间，只有showEvent为mouseover或mouseenter才有效，如果该值小于0，则不会自动掩藏
+        onHide: null,
+        onShow: null,
+        onChange: null
     };
     /**
-     * @class jQuery.fn.selectable
-     * @description 主要用来将普通的下拉框组件(或ul)转化为可以自定义样式的下拉框组件。绑定到原有下拉框的事件也会起作用。
-     * @param options 配置参数，目前支持的有：
-     * <dl>
-     *  <dt>selectedClassName:<em>string</em></dt>
-     *  <dd>表示选中时的样式名称，默认为on</dd>
-     *  <dt>showEvent:<em>string</em></dt>
-     *  <dd>用来显示菜单的事件，可选值为mouseover、mouseenter、click，默认为click。</dd>
-     *  <dt>pack:<em>function(o)</em></dt>
-     *  <dd>用来设定选择选项后显示的文字<br/><label>o</label>被选中的option或被选中的li</dd>
-     *  <dt>hideDelayTime:<em>Int</em></dt>
-     *  <dd>隐藏延迟的时间，只有showEvent为mouseover或mouseenter才有效，如果该值小于0，则不会自动掩藏</dd>
-     *  <dt>onShow:<em>function()</em></dt>
-     *  <dd>显示时调用的事件</dd>
-     *  <dt>onHide:<em>function()</em></dt>
-     *  <dd>隐藏时调用的方法</dd>
-     *  <dt>onChange:<em>function()</em></dt>
-     *  <dd>更改时调用的方法</dd>
-     * </dl>
+     * @memberof jQuery.fn.selectable
+     * @function ~constructor
+     * @param {{}} options 配置参数
+     * @param {string} options.selectedClassName 表示选中时的样式名称，默认为on
+     * @param {string} options.showEvent 用来显示菜单的事件，可选值为mouseover、mouseenter、click，默认为click。
+     * @param {function} options.pack  用来设定选择选项后显示的文字
+     * @param {HTMLElement} options.pack.elem 被选中的option或被选中的li
+     * @param {int} options.hideDelayTime 隐藏延迟的时间，只有showEvent为mouseover或mouseenter才有效，如果该值小于0，则不会自动掩藏
+     * @param {function} options.onShow 显示时调用的事件
+     * @param {function} options.onHide 隐藏时调用的方法
+     * @param {function} options.onChange 更改时调用的方法
      * @example
      * 详细的例子参考<a href="../examples/selectable.html" target="_blank">例子</a>
-     &lt;select&gt;
-     &lt;option&gt;条目1&lt;/option&gt;
-     &lt;option&gt;条目2&lt;/option&gt;
-     &lt;option&gt;条目3&lt;/option&gt;
-     &lt;/select&gt;
+<select>
+    <option>条目1</option>
+    <option>条目2</option>
+    <option>条目3</option>
+</select>
 
-     &lt;script&gt;
-     $('select').on('change', function(){
-	alert('change');
-}).selectable({
-	pack:function(o) {
-		return '搜索' + o.text;
-	}
-});
-     &lt/script&gt;
+<script>
+    $('select').on('change', function(){
+        alert('change');
+    }).selectable({
+        pack:function(o) {
+            return '搜索' + o.text;
+        }
+    });
+</script>
 
      */
-    $.fn.selectable = function(options){
+    $.fn.selectable = function (options) {
         //判断如果调用的标签不是select或者ul这不支持
-        this.each(function(k, v){//支持多个同时调用
+        this.each(function (k, v) {//支持多个同时调用
             if (v.tagName != 'UL' && v.tagName != 'SELECT') {
                 return;
             }
@@ -72,9 +66,10 @@
         return this;
     };
 
-    var Select = function() {};
+    var Select = function () {
+    };
     Select.prototype = {
-        init: function(elem) { //初始化函数
+        init: function (elem) { //初始化函数
             /*this:Select {type: "select", options: Object}
              elem:select
              */
@@ -96,38 +91,38 @@
                 }
             } else {
                 var self = this;
-                this._options.each(function(i){  //遍历li的class等于被选中的class则让此li执行被选中的函数
+                this._options.each(function (i) {  //遍历li的class等于被选中的class则让此li执行被选中的函数
                     if (this.className == self.options.selectedClassName) {
                         self.select(i);
                     }
                 });
             }
         },
-        length:0,
-        buildHtml: function() { //获取下拉列表中的文字，将标签替掉
+        length: 0,
+        buildHtml: function () { //获取下拉列表中的文字，将标签替掉
             var ret = [], lh = '';
             if (this.length > 8) {
                 lh = ' style="height:150px;overflow:auto;overflow-x:hidden;"';
             }
             ret.push('<dt><label></label><a></a></dt>');
             ret.push('<dd style="display:none"><ul' + lh + '>');
-            for(var i = 0; i < this.length; i++) {
+            for (var i = 0; i < this.length; i++) {
                 ret.push('<li index="' + i + '">' + (this._options[i].text || this._options[i].innerHTML) + '</li>');
             }
             ret.push('</ul></dd>');
             return ret.join('');
         },
-        bindEvents: function(){
+        bindEvents: function () {
             var self = this, sevent = this.options.showEvent, inMe = false;
             // 绑定dt事件
-            this.dom.find('dt').on(sevent, function(e) {
-                if(inMe===false){
+            this.dom.find('dt').on(sevent, function (e) {
+                if (inMe === false) {
                     inMe = true;
                     self.dom.find('dd').fadeIn('fast');
                     if (self.options.onShow) {
                         self.options.onShow();
                     }
-                }else{
+                } else {
                     inMe = false;
                     self.dom.find('dd').fadeOut('fast');
                     if (self.options.onHide) {
@@ -138,15 +133,15 @@
                 e.stopPropagation();
             });
             if (sevent != 'click') {
-                this.dom.find('dt').click(function(){
+                this.dom.find('dt').click(function () {
                     return false;
                 });
             }
 
             if (self.options.hideDelayTime >= 0 && (sevent == 'mouseover' || sevent == 'mouseenter')) {
-                this.dom.on('mouseleave', function() {
+                this.dom.on('mouseleave', function () {
                     inMe = false;
-                    setTimeout(function() {
+                    setTimeout(function () {
                         if (!inMe) {
                             self.dom.find('dd').fadeOut('fast');
                             if (self.options.onHide) {
@@ -156,7 +151,7 @@
                     }, self.options.hideDelayTime);
                 });
             }
-            $(document).click(function() {//点击document隐藏列表
+            $(document).click(function () {//点击document隐藏列表
                 inMe = false;
                 self.dom.find('dd').fadeOut('fast');
                 if (self.options.onHide) {
@@ -165,7 +160,7 @@
             });
 
             // 绑定dd事件
-            this.dom.on('click', 'li', function(e) {
+            this.dom.on('click', 'li', function (e) {
                 inMe = false;
                 self.select(e.target.getAttribute('index'));
                 e.stopPropagation();
@@ -173,21 +168,21 @@
             });
 
             if (this.type == 'ul' && this._options.find('a').length) {
-                this.dom.on('mouseover', 'a', function(e) {
+                this.dom.on('mouseover', 'a', function (e) {
                     e.target.parentNode.className = self.options.selectedClassName;
                 });
-                this.dom.on('mouseout', 'a', function(e) {
+                this.dom.on('mouseout', 'a', function (e) {
                     e.target.parentNode.className = '';
                 });
             }
-            this.dom.on('mouseover', 'li', function(e) {
+            this.dom.on('mouseover', 'li', function (e) {
                 e.target.className = self.options.selectedClassName;
             });
-            this.dom.on('mouseout', 'li', function(e) {
+            this.dom.on('mouseout', 'li', function (e) {
                 e.target.className = '';
             });
         },
-        select: function(i) { //选择事件
+        select: function (i) { //选择事件
             var option = this._options[i], txt;
             if (this.type == 'select') {
                 this.elem.selectedIndex = i;

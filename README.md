@@ -1,7 +1,10 @@
 # hapj项目使用教程
 
+## 源代码地址
 
-# 如何初始化项目
+[http://gitlab.hapn.cc/static/hapj.git](http://gitlab.hapn.cc/static/hapj.git)
+
+## 如何初始化项目
 
 本项目依赖于npm、gulp组件
 
