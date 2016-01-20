@@ -1,4 +1,4 @@
-# hapj项目使用教程
+# HapJ前端项目使用教程
 
 ## 源代码地址
 
@@ -8,7 +8,7 @@
 
 ## 如何初始化项目
 
-本项目依赖于npm、gulp组件
+本项目依赖于`npm`、`gulp`、`bower`组件
 
 由于npm网址被墙，需要改成使用国内镜像：
 
@@ -18,6 +18,7 @@ npm config set registry http://registry.npm.taobao.org
 
 初始化
 ```
+git clone http://gitlab.hapn.cc/static/hapj.git
 # 安装gulp依赖工具
 npm install
 # 安装基础前端库
@@ -27,7 +28,7 @@ bower install
 运行后会将依赖项放到node_modules目录和bower_modules目录
 
 ## gulp任务
-
+ 
 ```
 gulp [taskname]
 ```
@@ -44,7 +45,7 @@ gulp [taskname]
 ## 简单服务器
 
 ```
-php ./start.php
+gulp server
   -p 端口号，默认为10050
   -h 显示本帮助文档
   -d 后台运行，默认不
