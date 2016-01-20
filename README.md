@@ -2,7 +2,9 @@
 
 ## 源代码地址
 
-[http://gitlab.hapn.cc/static/hapj.git](http://gitlab.hapn.cc/static/hapj.git)
+* GIT仓库：[http://gitlab.hapn.cc/static/hapj.git](http://gitlab.hapn.cc/static/hapj.git)
+* [反馈问题](http://gitlab.hapn.cc/static/hapj/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
+
 
 ## 如何初始化项目
 
