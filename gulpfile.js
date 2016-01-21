@@ -8,6 +8,7 @@ var jsSrc = [
     'src/js/**/*.js'
 ];
 var args = process.argv.splice(2);
+var replace = require('gulp-replace');
 
 var helps = [
     ['js', 'js生成、压缩'],
@@ -72,32 +73,31 @@ gulp.task('markdown', function (fb) {
 });
 
 // 文档
-gulp.task('doc', ['js'], function () {
+gulp.task('doc', ['js'], function (cb) {
     var jsdoc = require('gulp-jsdoc3');
 
     del.sync('doc/');
 
     // @see https://github.com/mlucool/gulp-jsdoc3/blob/master/src/jsdocConfig.json
     // @see http://usejsdoc.org/about-configuring-jsdoc.html
-    /*
-     + [Cerulean](http://docstrap.github.io/docstrap/themes/cerulean)
-     + [Cosmo](http://docstrap.github.io/docstrap/themes/cosmo)
-     + [Cyborg](http://docstrap.github.io/docstrap/themes/cyborg)
-     + [Flatly](http://docstrap.github.io/docstrap/themes/flatly)
-     + [Journal](http://docstrap.github.io/docstrap/themes/journal)
-     + [Lumen](http://docstrap.github.io/docstrap/themes/lumen)
-     + [Paper](http://docstrap.github.io/docstrap/themes/paper)
-     + [Readable](http://docstrap.github.io/docstrap/themes/readable)
-     + [Sandstone](http://docstrap.github.io/docstrap/themes/sandstone)
-     + [Simplex](http://docstrap.github.io/docstrap/themes/simplex)
-     + [Slate](http://docstrap.github.io/docstrap/themes/slate)
-     + [Spacelab](http://docstrap.github.io/docstrap/themes/spacelab)
-     + [Superhero](http://docstrap.github.io/docstrap/themes/superhero)
-     + [United](http://docstrap.github.io/docstrap/themes/united)
-     + [Yeti](http://docstrap.github.io/docstrap/themes/yeti)
-    */
+    // @see http://docstrap.github.io/
 
-    return gulp.src(['tmp/js/**/*.js', './README.md'])
+    gulp.src('bower_components/artDialog/doc/index.html')
+        .pipe(replace('../lib/jquery-1.10.2.js', '/dist/jquery/jquery.min.js'))
+        .pipe(replace('lib/jquery-1.10.2.js', '/dist/jquery/jquery.min.js'))
+        .pipe(replace('max-width: 620px;', ''))
+        .pipe(replace('../dist/dialog-min.js', '/dist/artDialog/dialog-min.js'))
+        .pipe(replace('dist/dialog-min.js', '/dist/artDialog/dialog-min.js'))
+        .pipe(replace('../dist/dialog-plus.js', '/dist/artDialog/dialog-plus.js'))
+        .pipe(replace('dist/dialog-plus.js', '/dist/artDialog/dialog-plus.js'))
+        .pipe(replace('../css/ui-dialog.css', '/dist/artDialog/ui-dialog.css'))
+        .pipe(replace('css/ui-dialog.css', '/dist/artDialog/ui-dialog.css'))
+        .pipe(replace('./js/doc.js', '/dist/artDialog/doc/doc.js'))
+        .pipe(replace('./css/doc.css', '/dist/artDialog/doc/doc.css'))
+        .pipe(rename('artDialog.html'))
+        .pipe(gulp.dest('tutoria/js'));
+
+    gulp.src(['tmp/js/**/*.js', 'README.md', 'bower_components/'])
         .pipe(jsdoc({
             tags: {
                 "allowUnknownTags": true
@@ -124,8 +124,22 @@ gulp.task('doc', ['js'], function () {
                 "linenums": true,
                 "dateFormat": "YYYY/mm/dd hh:mm:ss",
             }
+        }, function () {
+            gulp.src('doc/tutorial-artDialog.html')
+                .pipe(replace(/\$\( "\.tutorial\-section/mg, '$( ".__tutoria-section'))
+                .pipe(gulp.dest('doc'))
+            ;
+
+            gulp.src('doc/*.html')
+                .pipe(replace('<meta charset="utf-8">', '<meta charset="utf-8">'
+                    + "\t\n" + '<meta name="viewport" content="width=device-width, initial-scale=1.0">'))
+                .pipe(gulp.dest('doc'))
+            ;
+            if (typeof cb == 'function') {
+                cb.call();
+            }
         }))
-        ;
+    ;
 });
 
 // 压缩代码
@@ -135,6 +149,7 @@ gulp.task('min', ['move'], function () {
     del.sync('dist/jquery');
     del.sync('dist/bootstrap');
     del.sync('dist/hightlightjs');
+    del.sync('dist/artDialog');
 
     // jquery
     gulp.src('bower_components/jquery/dist/jquery.min.*')
@@ -167,6 +182,18 @@ gulp.task('min', ['move'], function () {
 
     gulp.src('bower_components/highlightjs/styles/*.png')
         .pipe(gulp.dest('dist/highlightjs/css/'));
+
+    // artDialog
+    gulp.src('bower_components/artDialog/dist/*')
+        .pipe(gulp.dest('dist/artDialog/'));
+    gulp.src('bower_components/artDialog/doc/js/doc.js')
+        .pipe(gulp.dest('dist/artDialog/doc/'));
+    gulp.src('bower_components/artDialog/css/ui-dialog.css')
+        .pipe(gulp.dest('dist/artDialog/'));
+    gulp.src('bower_components/artDialog/doc/css/doc.css')
+        .pipe(gulp.dest('dist/artDialog/doc/'));
+
+    gulp.src('bower_components/artDialog/')
 
     return gulp.src(['/dist/hapj/js/**/*.js'])
         .pipe(gulp.dest('dist/hapj/js/'))
@@ -231,7 +258,7 @@ gulp.task('css', ['less'], function () {
 
     return gulp.src(['tmp/css/**/*.css', 'src/css/**/*.css'])
         .pipe(sourcemap.init({
-            charset:'utf8'
+            charset: 'utf8'
         }))
         .pipe(base64({
             extensions: [/\.(jpg|png|gif)\?__INLINE__/],
@@ -252,7 +279,6 @@ gulp.task('replace', function () {
     var config = JSON.parse(content);
 
     del.sync('tmp/js');
-    var replace = require('gulp-replace');
 
     return gulp.src(['src/js/**/*.js'])
         .pipe(replace(/\$\{(VERSION|DOCHOST)\}/g, function (args, arg) {
@@ -268,7 +294,7 @@ gulp.task('move', ['replace'], function () {
 
     gulp.src(['tmp/js/ui/*.js'])
         .pipe(sourcemap.init({
-            charset:'utf8'
+            charset: 'utf8'
         }))
         .pipe(uglify())
         .pipe(concat('hapj.ui.min.js'))
@@ -294,7 +320,7 @@ gulp.task('move', ['replace'], function () {
             'tmp/js/hapj.hook.js',
         ])
         .pipe(sourcemap.init({
-            charset:'utf8'
+            charset: 'utf8'
         }))
         .pipe(uglify())
         .pipe(concat('hapj.min.js'))
@@ -303,7 +329,6 @@ gulp.task('move', ['replace'], function () {
 
 
 });
-
 
 
 gulp.task('font', function () {

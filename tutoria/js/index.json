@@ -1,8 +1,8 @@
 {
-  "index": {
-    "title": "Tutorial One"
-  },
   "jQuery.fn.ajaxable": {
     "title": "Ajaxable异步化组件"
+  },
+  "artDialog": {
+    "title": "artDialog对话框组件"
   }
 }
